@@ -18,7 +18,7 @@ Start by designing the platform, that includes the database schema and possible 
 Few mockups or if not too time consuming, we will build the "mockups" with HTML/CSS. The plan is to have a good picture on how the platform should look like.
 
 Phase 2 Basic features:
-Start to implement features based on the models. Basic player and developer features (CRUD create, create, read, delete).
+Start to implement features based on the models. Basic player and developer features (CRUD create, read, update, delete).
 Basic UI for those features.
 From basic CRUD features on, implement more advanced.
 This phase includes user registration and possibly authentication.
