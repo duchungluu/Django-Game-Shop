@@ -25,9 +25,9 @@ This phase includes user registration and possibly authentication.
 
 Phase 3 continuing to more features:
 Features include:
-** Authentication
-** Payment functionality
-** Game/service interaction
+* Authentication
+* Payment functionality
+* Game/service interaction
 
 Phase 4 optional features (if time):
 Optional features in prioritized order:
@@ -62,16 +62,16 @@ We will try to arrange at least one face to face meeting per week.
 * 04.01 - 14.01: Iiro is on holiday (partying) at Majorca.
 * 04.01 - 10.01: Initial project setup
 * 11.01 - 17.01: Design and environment setup
-** Database schema
-** Possible architecture/domain modeling
+    * Database schema
+    * Possible architecture/domain modeling
 * 18.01 - 31.01: Basic player and developer features
-** User registration (possible authentication)
-** Player: Buy, play games, see high scores, record scores
-** Developer: Add games, see list of game sales
+    * User registration (possible authentication)
+    * Player: Buy, play games, see high scores, record scores
+    * Developer: Add games, see list of game sales
 * 01.02 - 07.02: Mandatory features contd.
-** Authentication
-** Payment functionality
-** Game/service interaction
+    * Authentication
+    * Payment functionality
+    * Game/service interaction
 * 07.02 - 20.02: Optional functionalities and testing
 
 ### 5. Testing
@@ -83,16 +83,16 @@ Acceptance testing will be performed in Heroku.
 ### 6. Risk Analysis
 
 * Unforeseen, longer absences (sicknesses etc).
-** Only three group members so losing even one group member for a week is detrimental.
+    * Only three group members so losing even one group member for a week is detrimental.
 
 * Falling behind in schedule
-** Other courses, design refactoring
+    * Other courses, design refactoring
 
 * Not dividing the project to tasks well enough
-** Lacking expertise produces development and design overhead
+    * Lacking expertise produces development and design overhead
 
 * Design failures
-** Not taking all features into consideration during design
+    * Not taking all features into consideration during design
 
 * Teemu getting a job
-** Minor risk with a big impact to group member availability
+    * Minor risk with a big impact to group member availability
