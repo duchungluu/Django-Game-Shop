@@ -13,7 +13,23 @@ Dreamer Team Project Plan
 Our goal is the highest grade. We start by working with the mandatory features, and add as many optional features as we can.
 
 ### 3. Plans
+Phase 1 planning and design:
+Start by designing the platform, that includes the database schema and possible architecture/domain modeling.
+Few mockups or if not too time consuming, we will build the "mockups" with HTML/CSS. The plan is to have a good picture on how the platfor should look like.
 
+Phase 2 Basic features:
+Start to implement features based on the models. Basic player and developer features (CRUD create, create, read, delete). 
+Basic UI for those features.
+From basic CRUD features on, implement more andvanched.
+This phase includes user registeration and possibly authentication.
+
+Phase 3 continuing to more features:
+Features include: 
+** Authentication
+** Payment functionality
+** Game/service interaction
+
+Phase 4 optional features (if time):
 Optional features in prioritized order:
 
 * 3rd party login
@@ -21,6 +37,9 @@ Optional features in prioritized order:
 * Mobile friendly (which we will keep in mind from the start)
 * Save-load and resolution feature
 * Social media sharing
+
+Phase 5 testing and polishing:
+The phase 5 includes a lot of testing and then on fixing and enhancing the platform.
 
 
 
@@ -36,6 +55,7 @@ Optional features in prioritized order:
 #### 4.2. Communication
 
 Telegram is used for chat-type communication. Trello will be used for tracking of the progress of features.
+We will try to arrange at least one face to face meeting per week.
 
 #### 4.3. Initial schedule
 
