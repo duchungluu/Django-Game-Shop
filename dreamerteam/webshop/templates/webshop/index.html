@@ -1,0 +1,26 @@
+{% load staticfiles %}
+
+{% block title %}List of games{% endblock %}
+
+{% block header %}
+
+    <link rel="stylesheet" type="text/css"
+        href="{% static 'webshop/bootstrap.min.css' %}">
+
+    <script type="text/javascript"
+        src="{% static 'webshop/jquery-1.11.1.min.js' %}"></script>
+
+    <script type="text/javascript"
+        src="{% static 'webshop/bootstrap.min.js' %}"></script>
+
+
+
+{% endblock %}
+
+{% block content %}
+
+    <div id="tableContainer">
+        {% include "webshop/gametable.html" %}
+    </div>
+
+{% endblock %}

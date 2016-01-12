@@ -1,8 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
-# Create your views here.
-
+from webshop.models import Game
 
 def index(request):
-    return HttpResponse("Hello, world. This is webshop's index.")
+
+    context = {
+        "all_games": Game.objects.all()
+    }
+
+    target = "webshop/index.html"
+    if request.is_ajax():
+        target = "webshop/gametable.html"
+
+    return render(request, target, context)

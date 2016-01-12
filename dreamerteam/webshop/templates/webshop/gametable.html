@@ -1,0 +1,21 @@
+<table id="gameTable">
+
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Published</th>
+            <th>Price</th>
+            <th>url</th>
+        </tr>
+    </thead>
+
+    {% for game in all_games %}
+        <tr>
+            <td>{{game.name}}</td>
+            <td>{{game.published}}</td>
+            <td>{{game.price}}</td>
+            <td>{{game.url}}</td>
+        </tr>
+    {% endfor %}
+
+</table>
