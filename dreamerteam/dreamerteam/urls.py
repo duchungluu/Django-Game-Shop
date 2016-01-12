@@ -17,6 +17,6 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^webshop/', include('webshop.urls')),
+    url(r'^$', include('webshop.urls')),
     url(r'^admin/', admin.site.urls),
 ]
