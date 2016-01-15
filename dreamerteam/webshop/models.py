@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import Group, User
 
 
 class Game(models.Model):
@@ -9,3 +10,7 @@ class Game(models.Model):
 
     def __str__(self):
         return "{} ({})".format(self.name, self.price)
+
+
+class Developer(Group):
+    ourownname = models.CharField(max_length=50)
