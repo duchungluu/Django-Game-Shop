@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import User
 
 
 class Game(models.Model):
@@ -8,9 +8,14 @@ class Game(models.Model):
     url = models.URLField()
     published = models.DateTimeField('date published')
 
+    class Meta:
+        permissions = (
+            ("buy_game", "Can buy games"),
+        )
+
     def __str__(self):
         return "{} ({})".format(self.name, self.price)
 
-
-class Developer(Group):
-    ourownname = models.CharField(max_length=50)
+class Developer(User):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    games = models.ManyToManyField(Game, related_name='developers')
