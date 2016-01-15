@@ -1,20 +1,9 @@
-{% load staticfiles %}
+{% extends "base.html" %}
 
 {% block title %}List of games{% endblock %}
 
 {% block header %}
-
-    <link rel="stylesheet" type="text/css"
-        href="{% static 'webshop/bootstrap.min.css' %}">
-
-    <script type="text/javascript"
-        src="{% static 'webshop/jquery-1.11.1.min.js' %}"></script>
-
-    <script type="text/javascript"
-        src="{% static 'webshop/bootstrap.min.js' %}"></script>
-
-
-
+{{ block.super }}
 {% endblock %}
 
 {% block content %}

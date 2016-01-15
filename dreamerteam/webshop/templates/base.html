@@ -1,0 +1,27 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Base title{% endblock %}</title>
+
+    {% block header %}
+
+        <script type="text/javascript"
+            src="{% static 'webshop/jquery-1.11.1.min.js' %}"></script>
+
+        <link rel="stylesheet" type="text/css"
+            href="{% static 'webshop/bootstrap.min.css' %}">
+
+
+        <script type="text/javascript"
+            src="{% static 'webshop/bootstrap.min.js' %}"></script>
+
+    {% endblock %}
+</head>
+<body>
+    {% block content %}
+    You must use the template tag <code>block</code> with a block name
+    <code>content</code> in your own templates to put content to this area.
+    {% endblock %}
+</body>
+</html>
