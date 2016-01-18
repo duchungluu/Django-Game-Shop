@@ -7,6 +7,7 @@ class Game(models.Model):
     price = models.FloatField()
     url = models.URLField()
     published = models.DateTimeField('date published')
+    description = models.TextField()
 
     class Meta:
         permissions = (
