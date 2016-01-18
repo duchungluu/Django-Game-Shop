@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from webshop.models import Game
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
@@ -12,8 +12,16 @@ def index(request):
     }
 
     target = "webshop/index.html"
-    if request.is_ajax():
-        target = "webshop/gametable.html"
+
+    return render(request, target, context)
+
+def games(request):
+
+    context = {
+        "all_games": Game.objects.all()
+    }
+
+    target = "webshop/gamelist.html"
 
     return render(request, target, context)
 

@@ -6,10 +6,19 @@
 {{ block.super }}
 {% endblock %}
 
+{% block navigation %}
+
+    <div id="navContainer">
+        {% include "webshop/navigation.html" %}
+    </div>
+
+{% endblock %}
+
+
 {% block content %}
 
     <div id="tableContainer">
-        {% include "webshop/gametable.html" %}
+        {% include "webshop/gamelist.html" %}
     </div>
 
 {% endblock %}

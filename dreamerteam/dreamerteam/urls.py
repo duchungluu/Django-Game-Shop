@@ -19,9 +19,9 @@ from django.contrib.auth.views import login, logout
 
 
 urlpatterns = [
-    url(r'^$', include('webshop.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/login/$',  login),
     url(r'^accounts/logout/$', logout),
     url(r'^account/', include('registration.backends.default.urls') ),
+    url(r'^', include('webshop.urls')),
 ]
