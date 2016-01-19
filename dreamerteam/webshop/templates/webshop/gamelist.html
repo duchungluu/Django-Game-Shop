@@ -29,25 +29,20 @@
         margin-right: 10px;
     }
 </style>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-12">
 
-            {% for game in all_games %}
 
-                <div class="list-product-wrapper">
-                    <img class="product-icon" src="https://humblebundle-a.akamaihd.net/misc/files/hashed/4446a7cfe27c1b8aae7c3b17342c4b5e6d38739d.jpg" alt="">
-                    <div class="product-title-description">
-                        <h3>{{game.name}}</h3>
-                        <div>{{game.description}}</div>
-                    </div>
-                    <div class="list-product-buy-wrapper">
-                        <div class="text-warning price">{{game.price}}</div>
-                        <button class="btn btn-success ">Buy</button>
-                    </div>
-                </div>
-
-            {% endfor %}
+{% for game in all_games %}
+    <div class="list-product-wrapper">
+        <img class="product-icon" src="http://humblebundle-a.akamaihd.net/misc/files/hashed/4446a7cfe27c1b8aae7c3b17342c4b5e6d38739d.jpg" alt="">
+        <div class="product-title-description">
+            <h3>{{game.name}}</h3>
+            <div>{{game.description}}</div>
+        </div>
+        <div class="list-product-buy-wrapper">
+            <div class="text-warning price">{{game.price}}</div>
+            <button class="btn btn-success ">Buy</button>
         </div>
     </div>
-</div>
+{% endfor %}
+
+

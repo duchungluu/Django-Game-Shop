@@ -21,7 +21,7 @@ def games(request):
         "all_games": Game.objects.all()
     }
 
-    target = "webshop/gamelist.html"
+    target = "webshop/games.html"
 
     return render(request, target, context)
 
