@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/login/$',  login),
     url(r'^accounts/logout/$', logout),
-    url(r'^account/', include('registration.backends.default.urls') ),
+    url(r'^accounts/register/$', 'webshop.views.register_user'),
+    url(r'^accounts/register_success/$', 'webshop.views.register_success'),
     url(r'^', include('webshop.urls')),
 ]
