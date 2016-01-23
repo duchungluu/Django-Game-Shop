@@ -3,6 +3,32 @@ nav.no-radius {
 	border-radius: 0px;
 }
 
+/* search component */
+.filter-control h4, .filter-control select {
+	display: inline-block;
+}
+.filter-control h4 {
+	margin-right: 5px;
+}
+.filter-control select {
+	width: 200px;
+}
+
+
+/* Navigation login dropdown */
+.navbar-nav > li > .login-dropdown {
+	padding: 15px 15px 5px;
+	color: #FFF;
+}
+/* targeted for not mobile */ 
+@media (min-width: 768px) {
+	.navbar-nav > li > .login-dropdown {
+		color: #2C3E50;
+		/* add more width in larger devices */
+	    min-width: 255px;
+	}
+}
+
 /* GAME LIST ELEMENT */
 .list-product-wrapper {
     border:1px solid #eee;
