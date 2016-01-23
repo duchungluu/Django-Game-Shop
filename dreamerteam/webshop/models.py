@@ -20,3 +20,7 @@ class Game(models.Model):
 class Developer(User):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     games = models.ManyToManyField(Game, related_name='developers')
+
+class Customer(User):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    games = models.ManyToManyField(Game, related_name='customers')
