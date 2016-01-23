@@ -1,9 +1,9 @@
 <div class="row">
 	<div class="col-xs-12 col-md-4">
 		<div class="input-group">
-	      	<input type="text" class="form-control" placeholder="Search by game name">
+	      	<input type="text" class="form-control" name="search-term" value="" id="search-input" placeholder="Search by game name">
 	      	<span class="input-group-btn">
-	        	<button class="btn btn-success" type="button"><span class="glyphicon glyphicon-search"></span></button>
+	        	<button class="btn btn-success" type="button" id="search-button"><span class="glyphicon glyphicon-search"></span></button>
 	      	</span>
     	</div><!-- /input-group -->
     </div>
@@ -17,3 +17,17 @@
     	</div>
     </div>
 </div>
+<script type="text/javascript">
+	$('#search-button').click(function() {
+      
+		console.log('search ',  $("#search-input"));
+		$.ajax({
+	        type: "GET",
+	        url: "/games", 
+	        data: {"search_term" :$("#search-input").val()},
+	        success : function(data) {
+	            $('#game-list').html(data);
+         	}
+		});
+	});
+</script>

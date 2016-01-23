@@ -1,4 +1,5 @@
-from django.shortcuts import render, render_to_response
+from django.template.loader import render_to_string
+from django.shortcuts import render, render_to_response 
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from webshop.models import Game
 from django import forms
@@ -16,7 +17,16 @@ def index(request):
     return render(request, target, context)
 
 def games(request):
+    # iiro ajax call for search functionality - not very stylish here, but 1 version! :) 
+    if request.is_ajax(): 
+        if request.method == 'GET':
+            search_term = request.GET['search_term']
+            searched_games = Game.objects.filter(name__icontains=search_term)
+            
+            html = render_to_string( 'webshop/gamelist.html', {'all_games': searched_games})
 
+            return HttpResponse(html)
+    
     context = {
         "all_games": Game.objects.all()
     }
@@ -41,3 +51,4 @@ def register_user(request):
 
 def register_success(request):
     return render_to_response('registration/register_success.html')
+
