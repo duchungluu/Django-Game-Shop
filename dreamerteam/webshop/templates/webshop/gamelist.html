@@ -7,9 +7,7 @@
         </div>
         <div class="list-product-buy-wrapper">
             <div class="text-warning price">{{game.price}}</div>
-            <button class="btn btn-success">Buy</button>
+            <button onclick="location.href='{% url 'buy' game.id %}';" class="btn btn-success">Buy</button>
         </div>
     </div>
 {% endfor %}
-
-
