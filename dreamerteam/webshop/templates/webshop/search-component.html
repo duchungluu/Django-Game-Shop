@@ -10,24 +10,38 @@
     <div class="col-xs-12 col-md-6">
     	<div class="filter-control">	
 			<h4>Sort by</h4> 
-			<select class="form-control">
-	    		<option value="1">Alphabetical</option>
-	    		<option value="2">Top Seller</option>
+			<select class="form-control" id="order-by">
+	    		<option value="name">Alphabetical</option>
+	    		<option value="price">Price</option>
 	    	</select>
     	</div>
     </div>
 </div>
 <script type="text/javascript">
 $(document).ready(function(){
+	var searchService = SearchService(); 
+
 	$('#search-button').click(function() {
-		$.ajax({
-	        type: "GET",
-	        url: "/games", 
-	        data: {"search_term" :$("#search-input").val()},
-	        success : function(data) {
-	            $('#game-list').html(data);
-         	}
+		searchService.searchGames($("#search-input").val(), $("#order-by").val(), function(data){
+			$('#game-list').html(data);
 		});
 	});
+
+	function SearchService(){
+		var searchGames = function(input, orderBy, callback){
+			orderBy = orderBy ? orderBy : 'name'; /* order by name by default */
+			$.ajax({
+		        type: "GET",
+		        url: "/games", 
+		        data: {"search_term": input, order: orderBy},
+		        success : function(data) {
+		            callback(data);
+	         	}
+			});
+		}
+		return {
+			searchGames: searchGames
+		}
+	}
 });
 </script>

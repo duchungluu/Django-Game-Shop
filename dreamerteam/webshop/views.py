@@ -22,6 +22,8 @@ def games(request):
         if request.method == 'GET':
             search_term = request.GET['search_term']
             searched_games = Game.objects.filter(name__icontains=search_term)
+            if request.GET['order']:
+                searched_games = searched_games.extra(order_by = [request.GET['order']])
             
             html = render_to_string( 'webshop/gamelist.html', {'all_games': searched_games})
 
