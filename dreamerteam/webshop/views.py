@@ -1,12 +1,18 @@
 from django.template.loader import render_to_string
 from django.shortcuts import render, render_to_response, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
-from webshop.models import Game
+from webshop.models import *
+from webshop.forms import RegistrationForm
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.context_processors import csrf
+from django.contrib.auth.models import Group
 from hashlib import md5
 import urllib
+from django.contrib.auth.models import User
+from django.core.mail import send_mail
+import hashlib, datetime, random
+from django.utils import timezone
 
 def index(request):
 
@@ -27,7 +33,7 @@ def games(request):
 
             if request.GET['order']:
                 searched_games = searched_games.extra(order_by = [request.GET['order']])
-            
+
             html = render_to_string( 'webshop/gamelist.html', {'all_games': searched_games})
 
             return HttpResponse(html)
@@ -41,21 +47,73 @@ def games(request):
     return render(request, target, context)
 
 def register_user(request):
+
+
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = RegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+
+            #adding user to specific group
+            role = request.POST.get('group')
+            g = Group.objects.get(name=role)
+            g.user_set.add(user)
+
+            #preparing activaion email
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            random_string = str(random.random()).encode('utf8')
+            salt = hashlib.sha1(random_string).hexdigest()[:5]
+            salted = (salt + email).encode('utf8')
+            activation_key = hashlib.sha1(salted).hexdigest()
+            key_expires = datetime.datetime.today() + datetime.timedelta(2)
+
+            #Get user by username
+            user=User.objects.get(username=username)
+
+            # Create and save user profile
+            new_profile = UserProfile(user=user, activation_key=activation_key,
+                key_expires=key_expires)
+            new_profile.save()
+
+            # Send email with activation key
+            email_subject = 'Account confirmation'
+            email_body = "Hey %s, thanks for signing up. To activate your account, click this link within \
+            48hours http://127.0.0.1:8000/accounts/confirm/%s" % (username, activation_key)
+
+            send_mail(email_subject, email_body, 'myemail@example.com',
+                [email], fail_silently=False)
+
             return HttpResponseRedirect("/accounts/register_success")
+
 
     args = {}
     args.update(csrf(request))
-
-    args['form'] = UserCreationForm()
+    #assigning custom form
+    args['form'] = RegistrationForm()
     print (args)
     return render_to_response('registration/register.html' , args)
 
 def register_success(request):
     return render_to_response('registration/register_success.html')
+
+def register_confirm(request, activation_key):
+    #check if user is already logged in and if he is redirect him to some other url, e.g. home
+    if request.user.is_authenticated():
+        HttpResponseRedirect('/home')
+
+    # check if there is UserProfile which matches the activation key (if not then display 404)
+    user_profile = get_object_or_404(UserProfile, activation_key=activation_key)
+
+    #check if the activation key has expired, if it hase then render confirm_expired.html
+    if user_profile.key_expires < timezone.now():
+        return render_to_response('registration/confirm_expired.html')
+    #if the key hasn't expired save user and set him as active and render some template to confirm activation
+    user = user_profile.user
+    user.is_active = True
+    user.save()
+    return render_to_response('registration/confirm.html')
+
 
 def buy(request, gameID=-1):
     # Returns 404 if Game is not found
