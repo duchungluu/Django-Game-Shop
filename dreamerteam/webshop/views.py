@@ -1,18 +1,17 @@
-from django.template.loader import render_to_string
+from django.http import *
 from django.shortcuts import render, render_to_response, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
+from django.core.context_processors import csrf
+from django.core.urlresolvers import reverse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User, Group
+from django.utils import timezone
+from django import forms
+import urllib, hashlib, datetime, random
 from webshop.models import *
 from webshop.forms import RegistrationForm
-from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from django.core.context_processors import csrf
-from django.contrib.auth.models import Group
-from hashlib import md5
-import urllib
-from django.contrib.auth.models import User
-from django.core.mail import send_mail
-import hashlib, datetime, random
-from django.utils import timezone
 
 def index(request):
 
@@ -114,6 +113,19 @@ def register_confirm(request, activation_key):
     user.save()
     return render_to_response('registration/confirm.html')
 
+def custom_login(request):
+    logout(request)
+    username = password = ''
+    if request.POST:
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect('/')
+    return HttpResponseRedirect(reverse('login'))
 
 def buy(request, gameID=-1):
     # Returns 404 if Game is not found
@@ -126,7 +138,7 @@ def buy(request, gameID=-1):
     # Form checksum
     checksumstr = "pid={}&sid={}&amount={}&token={}".format(
         pid, sid, game.price, secret_key)
-    checksum = md5(checksumstr.encode("ascii")).hexdigest()
+    checksum = hashlib.md5(checksumstr.encode("ascii")).hexdigest()
 
     # NOTE: ask about this in exercises!
     # Also, is reading & rendering the response the expected way (no css)?

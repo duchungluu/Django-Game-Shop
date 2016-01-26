@@ -18,33 +18,51 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
 		<li class="dropdown">
-			<a class="dropdown-toggle" href="#" data-toggle="dropdown">Login <strong class="caret"></strong></a>
-			<div class="dropdown-menu login-dropdown">
-				<form>
-				<div class="form-group">
-				    <label for="inputEmail">Email</label>
-				     <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-				  </div>
-				  <div class="form-group">
-				    <label for="inputPassword">Password</label>
-				    <input type="password" class="form-control" id="inputPassword" placeholder="Password">
-				  </div>
-				  <div class="form-group">
-				    
-				      <div class="checkbox">
-				        <label>
-				          <input type="checkbox"> Remember me
-				        </label>
-				      </div>
-				  </div>
-				  <div class="form-group">
-				      <button type="submit" class="btn btn-block btn-default">Login</button>
-				  </div>
-				</form>
-			</div>
+            <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                {% if user.is_authenticated %} Welcome, {{user.username}}
+                {% else %} Login
+                {% endif %}
+                <strong class="caret"></strong>
+            </a>
+            <div class="dropdown-menu login-dropdown">
+            {% if user.is_authenticated %}
+                <button onclick="location.href = '{% url 'logout' %}?next=/';"
+                class="btn btn-block btn-default">Log out</button>
+            {% else %}
+                <form action="{% url 'custom_login' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="inputUsername">Username</label>
+                        <input type="text" name="username"
+                            class="form-control" id="inputUsername"
+                            placeholder="Username">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">Password</label>
+                        <input type="password" name="password"
+                        class="form-control" id="inputPassword"
+                        placeholder="Password">
+
+                    </div>
+                    <!-- NOTE: Are we going to implement this feature? - Teemu
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox"> Remember me
+                            </label>
+                        </div>
+                    </div> -->
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-block btn-default">Login</button>
+                    </div>
+                </form>
+                <button onclick="location.href = '{% url 'register' %}';"
+                class="btn btn-block btn-default">Register</button>
+            {% endif %}
+            </div>
 		</li>
       </ul>
-   
+
       <!--<form class="navbar-form navbar-left" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search">

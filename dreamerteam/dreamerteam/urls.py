@@ -17,14 +17,14 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth.views import login, logout
 
-
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^accounts/login/$',  login),
-    url(r'^accounts/logout/$', logout),
-    url(r'^accounts/register/$', 'webshop.views.register_user'),
+    url(r'^accounts/login/$',  login, name='login'),
+    url(r'^accounts/logout/$', logout, name='logout'),
+    url(r'^accounts/register/$', 'webshop.views.register_user', name='register'),
     url(r'^accounts/register_success/$', 'webshop.views.register_success'),
-     url(r'^accounts/confirm/(?P<activation_key>\w+)/', ('webshop.views.register_confirm')),
+    url(r'^accounts/confirm/(?P<activation_key>\w+)/', ('webshop.views.register_confirm')),
+    url(r'^accounts/custom_login/$',  'webshop.views.custom_login', name='custom_login'),
     url(r'^', include('webshop.urls')),
 
 ]
