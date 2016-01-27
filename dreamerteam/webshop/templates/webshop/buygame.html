@@ -1,0 +1,51 @@
+{% load staticfiles %}
+<script type="text/javascript"
+    src="{% static 'webshop/jquery-1.11.1.min.js' %}"></script>
+
+<script type="text/javascript">
+$(document).ready(function()
+{
+    var pd = "{{post_data}}";
+    data = parseData(pd);
+
+    $('#inputPid').val(data['pid']);
+    $('#inputSid').val(data['sid']);
+    $('#inputSuccessUrl').val(data['success_url']);
+    $('#inputErrorUrl').val(data['error_url']);
+    $('#inputCancelUrl').val(data['cancel_url']);
+    $('#inputChecksum').val(data['checksum'])
+    $('#inputAmount').val(data['amount'])
+
+    $('#buyForm').submit();
+});
+function parseData(d)
+{
+    // Parse string into dictionary
+    var str = d.split('&amp;');
+    var dict = new Array();
+    for (var i = 0; i < str.length; i++)
+    {
+        // Split to key=value
+        sub = str[i].split('=');
+
+        if (sub[0].indexOf("_url") >= 0)
+            sub[1] = decodeURIComponent(sub[1]);
+
+        dict[sub[0]] = sub[1];
+    }
+    return dict
+}
+</script>
+
+<form id="buyForm" action="http://payments.webcourse.niksula.hut.fi/pay/" method="POST">
+    <input type="hidden" id="inputPid" name="pid" value="" />
+    <input type="hidden" id="inputSid" name="sid" value="" />
+    <input type="hidden" id="inputSuccessUrl" name="success_url" value="" />
+    <input type="hidden" id="inputCancelUrl" name="cancel_url" value="" />
+    <input type="hidden" id="inputErrorUrl" name="error_url" value="" />
+    <input type="hidden" id="inputChecksum" name="checksum" value="" />
+
+    <label hidden for="inputAmount">Amount</label>
+    <input hidden type="text" id="inputAmount" name="amount" value="5" />
+    <input hidden type="submit" value="Accept Payment"/>
+</form>

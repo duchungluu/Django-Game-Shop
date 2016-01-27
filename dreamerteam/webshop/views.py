@@ -140,12 +140,10 @@ def buy(request, gameID=-1):
         pid, sid, game.price, secret_key)
     checksum = hashlib.md5(checksumstr.encode("ascii")).hexdigest()
 
-    # NOTE: ask about this in exercises!
-    # Also, is reading & rendering the response the expected way (no css)?
-    # - Teemu
-    success_url = 'http://localhost:8000/this/does/not/seem/to/matter/success/'
-    cancel_url = 'http://localhost:8000/this/does/not/seem/to/matter/cancel/'
-    error_url = 'http://localhost:8000/this/does/not/seem/to/matter/error/'
+    domain = 'http://' + request.META['HTTP_HOST']
+    success_url = domain + '/buy/success/'
+    cancel_url = domain + '/buy/cancel/'
+    error_url = domain + '/buy/error/'
 
     post_data = [
         ('pid', pid),
@@ -157,21 +155,18 @@ def buy(request, gameID=-1):
         ('checksum', checksum),
     ]
 
-    # Encode data, execute POST, read response
+    # Send form from javascript
     data = urllib.parse.urlencode(post_data).encode('UTF-8')
-    url = urllib.request.Request('http://payments.webcourse.niksula.hut.fi/pay/', data)
-    response = urllib.request.urlopen(url).read()
-
-    return HttpResponse(response)
+    return render_to_response('webshop/buygame.html', {'post_data': data})
 
 def buy_success(request):
-    return render_to_response('registration/buy_success.html')
+    return render_to_response('webshop/buy_success.html')
 
 def buy_cancel(request):
-    return render_to_response('registration/buy_cancel.html')
+    return render_to_response('webshop/buy_cancel.html')
 
 def buy_error(request):
-    return render_to_response('registration/buy_error.html')
+    return render_to_response('webshop/buy_error.html')
 
 def game(request, gameID = None):
     context = {}
