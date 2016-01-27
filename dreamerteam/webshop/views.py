@@ -172,3 +172,10 @@ def buy_cancel(request):
 
 def buy_error(request):
     return render_to_response('registration/buy_error.html')
+
+def game(request, gameID = None):
+    context = {}
+    game = get_object_or_404(Game, pk=gameID)
+    if gameID:
+        context["game"] = game
+    return render(request, "webshop/game.html", context)
