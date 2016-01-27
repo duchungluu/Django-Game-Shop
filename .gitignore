@@ -1,2 +1,3 @@
 # Ignore pycache directories
 __pycache__/
+dreamerteam/db.sqlite3

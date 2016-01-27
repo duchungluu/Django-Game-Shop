@@ -20,7 +20,7 @@ nav.no-radius {
 	padding: 15px 15px 5px;
 	color: #FFF;
 }
-/* targeted for not mobile */ 
+/* targeted for not mobile */
 @media (min-width: 768px) {
 	.navbar-nav > li > .login-dropdown {
 		color: #2C3E50;
@@ -59,4 +59,9 @@ nav.no-radius {
     margin-top: 10px;
     margin-right: 10px;
 }
-	
+.game-iframe{
+		width: calc(100% - 2em);
+    height: auto;
+    margin: auto auto;
+    display: block;
+	}
