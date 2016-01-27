@@ -186,3 +186,14 @@ def game(request, gameID = None):
     if gameID:
         context["game"] = game
     return render(request, "webshop/game.html", context)
+
+def dev(request):
+    context = {}
+    return render(request, "webshop/dev.html", context)
+
+def edit_game(request, gameID = None):
+    context = {}
+    game = get_object_or_404(Game, pk=gameID)
+    if gameID:
+        context["game"] = game
+    return render(request, "webshop/game_edit.html", context)
