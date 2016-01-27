@@ -25,28 +25,35 @@ def index(request):
 
 def games(request):
     # iiro ajax call for search functionality - not very stylish here, but 1 version! :)
-    if request.is_ajax():
-        if request.method == 'GET':
-            search_term = request.GET['search_term']
-            searched_games = Game.objects.filter(name__icontains=search_term)
+    
+    if request.method == 'GET':
+        
+        searched_games = None
 
-            if request.GET['order']:
-                searched_games = searched_games.extra(order_by = [request.GET['order']])
+        if request.GET.get('search_term'):
+            searched_games = Game.objects.filter(name__icontains=request.GET.get('search_term'))
+        
+        if request.GET.get('order'):
+            searched_games = searched_games.extra(order_by = [request.GET.get('order')])
 
+        if request.is_ajax():
             html = render_to_string( 'webshop/gamelist.html', {'all_games': searched_games})
-
             return HttpResponse(html)
 
-    context = {
-        "all_games": Game.objects.all()
-    }
+        if searched_games is not None: 
+            context = {
+                "all_games": searched_games
+            }  
+        else: 
+            context = {
+                "all_games": Game.objects.all()
+            }
 
-    target = "webshop/games.html"
+        target = "webshop/games.html"
 
-    return render(request, target, context)
+        return render(request, target, context)
 
 def register_user(request):
-
 
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
