@@ -183,8 +183,14 @@ def game(request, gameID = None):
     return render(request, "webshop/game.html", context)
 
 def dev(request):
-    context = {}
-    return render(request, "webshop/dev.html", context)
+    user = request.user
+    if user.is_authenticated():
+        if(user_has_group(user, 'developer')):
+            context = {
+                "all_games": Game.objects.all()
+            }
+            return render(request, "webshop/dev.html", context)
+    return render(request, "webshop/home.html")
 
 def edit_game(request, gameID = None):
     context = {}
@@ -192,3 +198,9 @@ def edit_game(request, gameID = None):
     if gameID:
         context["game"] = game
     return render(request, "webshop/game_edit.html", context)
+
+def user_has_group(user,groupname):
+    for group in user.groups.all():
+        if group.name.lower() == groupname.lower(): # case insensitive
+            return True
+    return False
