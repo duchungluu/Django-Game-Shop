@@ -42,6 +42,7 @@ class GameForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'price': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
-            'published': forms.DateInput(attrs={'class': 'form-control'})
+            'published': forms.DateInput(attrs={'class': 'form-control'}),
+            'url': forms.TextInput(attrs={'class': 'form-control'})
         }
 
