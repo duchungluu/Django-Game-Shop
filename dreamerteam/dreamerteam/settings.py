@@ -23,6 +23,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'fw4)!ks6ueoz5b^@@co=+55uwfnn)k6^ngmu0oea3z#dk)*q2g'
 
+# Used with verifying payment transactions
+PAYMENT_KEY = '5102fe96cdd9e062cee5f035e7ec988b'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

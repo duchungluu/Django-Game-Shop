@@ -12,6 +12,7 @@ from django import forms
 import urllib, hashlib, datetime, random
 from webshop.models import *
 from webshop.forms import RegistrationForm, GameForm
+from django.conf import settings
 
 def index(request):
 
@@ -25,14 +26,14 @@ def index(request):
 
 def games(request):
     # iiro ajax call for search functionality - not very stylish here, but 1 version! :)
-    
+
     if request.method == 'GET':
-        
+
         searched_games = None
 
         if request.GET.get('search_term'):
             searched_games = Game.objects.filter(name__icontains=request.GET.get('search_term'))
-        
+
         if request.GET.get('order'):
             searched_games = searched_games.extra(order_by = [request.GET.get('order')])
 
@@ -40,11 +41,11 @@ def games(request):
             html = render_to_string( 'webshop/gamelist.html', {'all_games': searched_games})
             return HttpResponse(html)
 
-        if searched_games is not None: 
+        if searched_games is not None:
             context = {
                 "all_games": searched_games
-            }  
-        else: 
+            }
+        else:
             context = {
                 "all_games": Game.objects.all()
             }
@@ -138,13 +139,16 @@ def buy(request, gameID=-1):
     # Returns 404 if Game is not found
     game = get_object_or_404(Game, pk=gameID)
 
-    pid = 'payment_1'
-    sid = 'DreamerTeam'
-    secret_key = '5102fe96cdd9e062cee5f035e7ec988b'
+    # Create Transaction
+    t = Transaction(game=game, buyer=request.user)
+    t.save()
 
-    # Form checksum
+    pid = str(t.id)
+    sid = 'DreamerTeam'
+
+    # Form checksum and save to model
     checksumstr = "pid={}&sid={}&amount={}&token={}".format(
-        pid, sid, game.price, secret_key)
+        pid, sid, game.price, settings.PAYMENT_KEY)
     checksum = hashlib.md5(checksumstr.encode("ascii")).hexdigest()
 
     domain = 'http://' + request.META['HTTP_HOST']
@@ -167,12 +171,40 @@ def buy(request, gameID=-1):
     return render_to_response('webshop/buygame.html', {'post_data': data})
 
 def buy_success(request):
-    return render_to_response('webshop/buy_success.html')
+    pid = request.GET.get('pid')
+    ref = request.GET.get('ref')
+    result = request.GET.get('result')
+    receivedChecksum = request.GET.get('checksum')
+
+    ourChecksum = "pid={}&ref={}&result={}&token={}".format(
+        pid, ref, result, settings.PAYMENT_KEY)
+    ourChecksum = hashlib.md5(ourChecksum.encode("ascii")).hexdigest()
+
+    if (receivedChecksum == ourChecksum):
+
+        # Update database
+        t = Transaction.objects.get(pk=pid)
+        t.state = result
+        t.buy_completed = timezone.now()
+        t.save()
+        return render_to_response('webshop/buy_success.html')
+    else:
+        return HttpResponseRedirect("/")
 
 def buy_cancel(request):
+    pid = request.GET.get('pid')
+    result = request.GET.get('result')
+    t = Transaction.objects.get(pk=pid)
+    t.state = result
+    t.save()
     return render_to_response('webshop/buy_cancel.html')
 
 def buy_error(request):
+    pid = request.GET.get('pid')
+    result = request.GET.get('result')
+    t = Transaction.objects.get(pk=pid)
+    t.state = result
+    t.save()
     return render_to_response('webshop/buy_error.html')
 
 def game(request, gameID = None):

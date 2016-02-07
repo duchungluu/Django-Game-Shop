@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 import datetime
 
 class Game(models.Model):
@@ -16,6 +17,17 @@ class Game(models.Model):
 
     def __str__(self):
         return "{} ({})".format(self.name, self.price)
+
+class Transaction(models.Model):
+
+    game = models.ForeignKey(Game)
+    buyer = models.ForeignKey(User, related_name='bought_games')
+    state = models.CharField(blank=True, max_length=200)
+    buy_started = models.DateTimeField(default=datetime.datetime.now, blank=True)
+    buy_completed = models.DateTimeField(null=True)
+
+    def __str__(self):
+        return "{}: {}".format(self.buyer, self.game)
 
 class Developer(User):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
