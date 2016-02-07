@@ -11,7 +11,7 @@ from django.utils import timezone
 from django import forms
 import urllib, hashlib, datetime, random
 from webshop.models import *
-from webshop.forms import RegistrationForm
+from webshop.forms import RegistrationForm, GameForm
 
 def index(request):
 
@@ -187,17 +187,21 @@ def dev(request):
     if user.is_authenticated():
         if(user_has_group(user, 'developer')):
             context = {
-                "all_games": Game.objects.all()
+                "all_games": Game.objects.all() # should query all games where user is developer
             }
             return render(request, "webshop/dev.html", context)
     return render(request, "webshop/home.html")
 
 def edit_game(request, gameID = None):
-    context = {}
     game = get_object_or_404(Game, pk=gameID)
-    if gameID:
-        context["game"] = game
-    return render(request, "webshop/game_edit.html", context)
+    form = GameForm(request.POST or None, instance=game)
+
+    if request.method == 'POST':
+        
+        form.save()
+        return HttpResponseRedirect('/dev/')
+
+    return render(request, "webshop/game_edit.html", {'form': form})
 
 def user_has_group(user,groupname):
     for group in user.groups.all():

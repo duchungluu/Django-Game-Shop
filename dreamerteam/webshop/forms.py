@@ -1,4 +1,5 @@
 from django import forms
+from webshop.models import Game
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
@@ -32,3 +33,15 @@ class RegistrationForm(UserCreationForm):
             user.is_active = False # not active until he opens activation link
             user.save()
         return user
+
+class GameForm(forms.ModelForm):
+    class Meta:
+        model = Game
+        fields = ['name', 'price', 'url', 'published', 'description']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'price': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'published': forms.DateInput(attrs={'class': 'form-control'})
+        }
+
