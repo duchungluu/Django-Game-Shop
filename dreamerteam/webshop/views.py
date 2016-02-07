@@ -232,7 +232,18 @@ def edit_game(request, gameID = None):
         if form.is_valid():
             game = form.save()
             return HttpResponseRedirect('/dev/')
+
     return render(request, "webshop/game_edit.html", {'form': form})
+
+def add_game(request):
+    game = Game()
+    form = GameForm(request.POST or None, instance=game)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            game = form.save()
+            return HttpResponseRedirect('/dev/')
+    return render(request, "webshop/game_add.html", {'form':form})
 
 def user_has_group(user,groupname):
     for group in user.groups.all():

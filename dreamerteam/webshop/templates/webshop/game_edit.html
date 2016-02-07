@@ -4,62 +4,10 @@
 
 {% block content %}
 
-    <div id="tableContainer" class="container-fluid">
+    <div class="container-fluid">
     	<div class="row">
 	        <div class="col-xs-12 col-md-8">
-	        	<!-- move to template? -->
-	        	<div class="well">
-	        		<form class="form-horizontal" method="post" action="">
-	        		{% csrf_token %}
-					  <fieldset>
-					  <legend><strong>Edit Game: </strong> {{form.name.value}}</legend>
-					    <div class="form-group">
-					      <label for="inputName" class="col-lg-2 control-label">Game Name</label>
-					      <div class="col-lg-10">
-					        {{form.name}}
-					        <p class="text-danger">{{form.name.errors|striptags}}</p>
-					      </div>
-					    </div>
-					    <div class="form-group">
-					      <label for="descriptionInput" class="col-lg-2 control-label">Game Description</label>
-					      <div class="col-lg-10">
-					        {{form.description}}
-					        <p class="text-danger">{{form.description.errors|striptags}}</p>
-					        <span class="help-block">Describe your game and it's core elements.</span>
-					      </div>
-					    </div>
-					    <div class="form-group">
-					      <label for="inputUrl" class="col-lg-2 control-label">Game Url</label>
-					      <div class="col-lg-10">
-					        {{form.url}}
-					        <p class="text-danger">{{form.url.errors|striptags}}</p>
-					      </div>
-					    </div>
-					    <div class="form-group">
-					      <label for="inputPrice" class="col-lg-2 control-label">Price (€)</label>
-					      <div class="col-lg-10">
-					        <!--<input class="form-control" id="inputPrice" placeholder="Full price of the game" value="{{form.price.value}}" type="number"> -->
-					        {{form.price}}
-					        <p class="text-danger">{{form.price.errors|striptags}}</p>
-					      </div>
-					    </div>
-					    <div class="form-group">
-					      <label for="inputPublishdate" class="col-lg-2 control-label">Publish Date</label>
-					      <div class="col-lg-10">
-					        <!--<input class="form-control" id="inputPublishdate" placeholder="" value="{{form.published.value}}" type="date">-->
-					        {{form.published}}
-					        <p class="text-danger">{{form.published.errors|striptags}}</p> 
-					      </div>
-					    </div>
-					    <div class="form-group">
-					      <div class="col-lg-10 col-lg-offset-2">
-					        <button type="reset" class="btn btn-default">Cancel</button>
-					        <input type="submit" value="Submit" class="btn btn-primary" />
-					      </div>
-					    </div>
-					  </fieldset>
-					</form>
-				</div>
+	        	{% include "webshop/game_add_edit_form.html" %}
 	        </div>
 	    </div>
     </div>

@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^dev/$', views.dev),
     url(r'^dev/game/$', views.dev),
     url(r'^dev/game/?(?P<gameID>\d+)/$', views.edit_game),
+    url(r'^dev/game/add/', views.add_game),
     url(r'^buy/success/', views.buy_success),
     url(r'^buy/cancel/', views.buy_cancel),
     url(r'^buy/error/', views.buy_error),
