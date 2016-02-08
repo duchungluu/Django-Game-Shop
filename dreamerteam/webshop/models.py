@@ -33,8 +33,7 @@ class Game(models.Model):
     published = models.DateTimeField('date published')
     description = models.TextField()
     developer = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
-        related_name='developed_games', unique=False,
-        limit_choices_to= {'groups__pk': 1})
+        related_name='developed_games', unique=False)
 
     def __str__(self):
         return "{} ({})".format(self.name, self.price)

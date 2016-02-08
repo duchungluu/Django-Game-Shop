@@ -14,7 +14,8 @@
       <ul class="nav navbar-nav">
       	{% url 'games' as url %}
         <li {% if request.path == url %} class="active"{% endif %}><a href="{{ url }}">Browse Games</a></li>
-        <li><a href="#">Link</a></li>
+        {% url 'dev' as devUrl %}
+        <li {% if request.path == devUrl %} class="active" {% endif %}><a href="{{ devUrl }}">Developer</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
 		<li class="dropdown">

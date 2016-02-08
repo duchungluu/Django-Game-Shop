@@ -234,9 +234,10 @@ def game(request, gameID = None):
 def dev(request):
     user = request.user
     if user.is_authenticated():
-        if(user_has_group(user, 'developer')):
+        user_profile = get_userprofile(user)
+        if user_profile.isDeveloper:
             context = {
-                "all_games": Game.objects.all() # should query all games where user is developer
+                "games": Game.objects.filter(developer=user_profile) # query all games where user is developer
             }
             return render(request, "webshop/dev.html", context)
     return render(request, "webshop/home.html")
@@ -258,9 +259,14 @@ def add_game(request):
 
     if request.method == 'POST':
         if form.is_valid():
-            game = form.save()
+            game = form.save(commit = False)
+            game.developer = get_userprofile(request.user)
+            game.save()
             return HttpResponseRedirect('/dev/')
     return render(request, "webshop/game_add.html", {'form':form})
+
+def get_userprofile(user):
+    return UserProfile.objects.get(user=user)  
 
 def user_has_group(user,groupname):
     for group in user.groups.all():
