@@ -1,5 +1,5 @@
 from django import forms
-from webshop.models import Game
+from webshop.models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
@@ -28,7 +28,9 @@ class RegistrationForm(UserCreationForm):
 
     def save(self,commit = True):
         user = super(RegistrationForm, self).save(commit = False)
+        user.save()
         user.email = self.cleaned_data['email']
+        user.first_name = self.cleaned_data['email']
         if commit:
             user.is_active = False # not active until he opens activation link
             user.save()
@@ -45,4 +47,3 @@ class GameForm(forms.ModelForm):
             'published': forms.DateInput(attrs={'class': 'form-control'}),
             'url': forms.TextInput(attrs={'class': 'form-control'})
         }
-

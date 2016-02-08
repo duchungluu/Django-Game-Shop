@@ -60,15 +60,17 @@ def register_user(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
-
-            #adding user to specific group
-            role = request.POST.get('group')
-            g = Group.objects.get(name=role)
-            g.user_set.add(user)
-
-            #preparing activaion email
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            password1 = form.cleaned_data['password1']
+            user = User(first_name=first_name,
+            last_name = last_name,username=username,
+            password=password1, email=email)
+            role = request.POST.get('group')
+
+            #preparing activaion email
             random_string = str(random.random()).encode('utf8')
             salt = hashlib.sha1(random_string).hexdigest()[:5]
             salted = (salt + email).encode('utf8')
@@ -78,9 +80,18 @@ def register_user(request):
             #Get user by username
             user=User.objects.get(username=username)
 
+            #adding user to specific group
+            g = Group.objects.get(name=role)
+            g.user_set.add(user)
+
+            if (role == 'Developer'):
+                user.isDeveloper = True
+            else:
+                user.isDeveloper = False
+
             # Create and save user profile
             new_profile = UserProfile(user=user, activation_key=activation_key,
-                key_expires=key_expires)
+                key_expires=key_expires,isDeveloper = user.isDeveloper,username = username )
             new_profile.save()
 
             # Send email with activation key
@@ -91,6 +102,12 @@ def register_user(request):
             send_mail(email_subject, email_body, 'myemail@example.com',
                 [email], fail_silently=False)
 
+            #user_profile = get_object_or_404(UserProfile, username=username)
+            p = UserProfile.objects.get(username=username)
+            print("user_profile.isDeveloper")
+            print(p.isDeveloper)
+            #do something with user objects, such asL user.is_active = True
+            user.save()
             return HttpResponseRedirect("/accounts/register_success")
 
 
