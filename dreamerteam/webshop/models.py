@@ -9,11 +9,9 @@ class Game(models.Model):
     url = models.URLField()
     published = models.DateTimeField('date published')
     description = models.TextField()
-
-    class Meta:
-        permissions = (
-            ("buy_game", "Can buy games"),
-        )
+    developer = models.ForeignKey(User, on_delete=models.CASCADE,
+        related_name='developed_games', unique=False,
+        limit_choices_to= {'groups__pk': 1})
 
     def __str__(self):
         return "{} ({})".format(self.name, self.price)
