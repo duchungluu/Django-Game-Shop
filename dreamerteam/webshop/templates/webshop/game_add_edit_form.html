@@ -33,7 +33,6 @@
 	    <div class="form-group">
 	      <label for="inputPrice" class="col-lg-2 control-label">Price (€)</label>
 	      <div class="col-lg-10">
-	        <!--<input class="form-control" id="inputPrice" placeholder="Full price of the game" value="{{form.price.value}}" type="number"> -->
 	        {{form.price}}
 	        <p class="text-danger">{{form.price.errors|striptags}}</p>
 	      </div>
@@ -41,7 +40,6 @@
 	    <div class="form-group">
 	      <label for="inputPublishdate" class="col-lg-2 control-label">Publish Date</label>
 	      <div class="col-lg-10">
-	        <!--<input class="form-control" id="inputPublishdate" placeholder="" value="{{form.published.value}}" type="date">-->
 	        {{form.published}}
 	        <p class="text-danger">{{form.published.errors|striptags}}</p> 
 	      </div>
