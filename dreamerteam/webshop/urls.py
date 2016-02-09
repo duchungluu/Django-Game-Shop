@@ -4,6 +4,8 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+    url(r'^games/save/$', views.game_save, name='games'),
+    url(r'^games/load/$', views.game_load, name='games'),
     url(r'^games$', views.games, name='games'),
     url(r'^buy/?(?P<gameID>\d+)?/?$', views.buy, name='buy'),
     url(r'^game/?(?P<gameID>\d+)?/?$', views.game, name='game'),

@@ -227,8 +227,13 @@ def buy_error(request):
 def game(request, gameID = None):
     context = {}
     game = get_object_or_404(Game, pk=gameID)
+    user = request.user
+    if user.is_authenticated():
+        user_profile = get_userprofile(user)
+        context["user"] = user
     if gameID:
         context["game"] = game
+
     return render(request, "webshop/game.html", context)
 
 def dev(request):
@@ -266,10 +271,50 @@ def add_game(request):
     return render(request, "webshop/game_add.html", {'form':form})
 
 def get_userprofile(user):
-    return UserProfile.objects.get(user=user)  
+    return UserProfile.objects.get(user=user)
 
 def user_has_group(user,groupname):
     for group in user.groups.all():
         if group.name.lower() == groupname.lower(): # case insensitive
             return True
     return False
+
+def game_save(request):
+    if request.POST:
+        gameID = request.POST['gameID']
+        username = request.POST['username']
+        json_text = request.POST['json_text']
+        print(gameID)
+        print(username)
+        print(json_text)
+        print("gameID")
+        print("username")
+        print("json_text")
+        try:
+            gameData = GameData.objects.get(gameID = gameID,
+            username = username)
+            gameData.gameStatus = json_text;
+        except RealEstateListing.DoesNotExist:
+            gameData = GameData (gameID = gameID, username = username,
+            gameStatus = json_text)
+        gameData.save()
+
+
+
+
+    return HttpResponse("data saved!")
+
+def game_load(request):
+    if request.POST:
+        gameID = request.POST['gameID']
+        username = request.POST['username']
+        gameData = GameData.objects.get(username=username, gameID = gameID)
+        jsonString = gameData.gameStatus
+
+        print(gameID)
+        print(username)
+        print("gameID")
+        print("username")
+
+
+    return HttpResponse(jsonString)

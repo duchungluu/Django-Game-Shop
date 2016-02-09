@@ -49,3 +49,10 @@ class Transaction(models.Model):
 
     def __str__(self):
         return "{}: {}".format(self.buyer, self.game)
+
+class GameData(models.Model):
+    gameID = models.IntegerField()
+    username = models.CharField(max_length=100)
+    gameStatus = models.TextField()
+    class Meta:
+        unique_together = (("gameID", "username"),)

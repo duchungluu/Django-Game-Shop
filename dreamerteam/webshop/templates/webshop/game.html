@@ -1,7 +1,18 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+
 {% block content %}
+  <script type="text/javascript">
+    gameID = "{{game.pk}}";
+    username = "{{user.username}}";
+
+  </script>
+  <script src="{% static 'webshop/game.js' %}"></script>
+  {% csrf_token %}
   name: {{ game.name }}
   </br>
   </br>
-  <iframe class="game-iframe" src="{{game.url}}" allowfullscreen></iframe>
+
+  <iframe id = "targetFrame" class="game-iframe" src="{{game.url}}" allowfullscreen></iframe>
+
 {% endblock %}
