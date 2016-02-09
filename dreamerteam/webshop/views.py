@@ -13,6 +13,7 @@ import urllib, hashlib, datetime, random
 from webshop.models import *
 from webshop.forms import RegistrationForm, GameForm
 from django.conf import settings
+from django.db.models import Max
 
 def index(request):
 
@@ -231,6 +232,25 @@ def game(request, gameID = None):
     if user.is_authenticated():
         user_profile = get_userprofile(user)
         context["user"] = user
+
+        # get the highscore data for the user
+        username = user.username
+        try:
+            gameData = GameData.objects.get(username=username, gameID = gameID)
+            user_highscore = gameData.highScore
+            context["user_highscore"] = user_highscore
+        except:
+            pass
+
+        # get the global highscore
+        try:
+            gameDataMax = GameData.objects.all().filter(gameID = gameID).aggregate(Max('highScore'))
+            print("global_highscore:")
+            global_highscore = gameDataMax['highScore__max']
+            print(global_highscore)
+            context["global_highscore"] = global_highscore
+        except:
+            pass
     if gameID:
         context["game"] = game
 
@@ -284,24 +304,14 @@ def game_save(request):
         gameID = request.POST['gameID']
         username = request.POST['username']
         json_text = request.POST['json_text']
-        print(gameID)
-        print(username)
-        print(json_text)
-        print("gameID")
-        print("username")
-        print("json_text")
         try:
             gameData = GameData.objects.get(gameID = gameID,
             username = username)
             gameData.gameStatus = json_text;
-        except RealEstateListing.DoesNotExist:
+        except gameData.DoesNotExist:
             gameData = GameData (gameID = gameID, username = username,
             gameStatus = json_text)
         gameData.save()
-
-
-
-
     return HttpResponse("data saved!")
 
 def game_load(request):
@@ -310,11 +320,22 @@ def game_load(request):
         username = request.POST['username']
         gameData = GameData.objects.get(username=username, gameID = gameID)
         jsonString = gameData.gameStatus
-
-        print(gameID)
-        print(username)
-        print("gameID")
-        print("username")
-
-
     return HttpResponse(jsonString)
+
+def game_highscore(request):
+    if request.POST:
+        gameID = request.POST['gameID']
+        username = request.POST['username']
+        score = request.POST['score']
+        try:
+            gameData = GameData.objects.get(username=username, gameID = gameID)
+            highScore = gameData.highScore
+            if (int(score) > highScore):
+                gameData.highScore = int(score)
+                gameData.save()
+        except :
+            print('trying!')
+            gameData = GameData (gameID = gameID, username = username,
+            highScore = int(score))
+        gameData.save()
+    return HttpResponse("score entered to the system")

@@ -4,21 +4,48 @@ function getDomain(){
   var result = arr[0] + "//" + arr[2];
   return result;
 }
-function getCookie(name) {
-          var cookieValue = null;
-          if (document.cookie && document.cookie !== '') {
-                var cookies = document.cookie.split(';');
-          for (var i = 0; i < cookies.length; i++) {
-               var cookie = jQuery.trim(cookies[i]);
-          // Does this cookie string begin with the name we want?
-          if (cookie.substring(0, name.length + 1) == (name + '=')) {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-              break;
-             }
-          }
-      }
- return cookieValue;
+function displayScore(score){
+
 }
+function saveScore(score){
+  var destination = getDomain() + "/games/highscore/";
+  var csrftoken = getCookie('csrftoken');
+  $.ajax({
+    url : destination, // the endpoint,commonly same url
+    type : "POST", // http method
+    data : { gameID : gameID,
+    username : username,
+    score : score,
+    csrfmiddlewaretoken : csrftoken
+  }, // data sent with the post request
+     // handle a successful response
+     success : function(json) {
+     console.log(json); // another sanity check
+     //On success show the data posted to server as a message
+   },
+
+ // handle a non-successful response
+     error : function(xhr,errmsg,err) {
+     console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+   }
+ });
+}
+function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = jQuery.trim(cookies[i]);
+    // Does this cookie string begin with the name we want?
+      if (cookie.substring(0, name.length + 1) == (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
 function saveStates(json_text){
   //console.log(gameID + ", "+username +"," + json_text);
   //save to the database
@@ -86,10 +113,7 @@ function loadStates(){
 function listener(event){
   //if ( event.origin !== "http://javascript.info" )
     //return
-
-  //document.getElementById("test").innerHTML = "received: "+event.data;
   console.log(event.data);
-
   switch (event.data.messageType){
     case "SETTING":
       //setting height and weight
@@ -102,7 +126,6 @@ function listener(event){
     case "SAVE":
       //stringify the gmestats object
       var save_json_text = JSON.stringify(event.data.gameState);
-
       saveStates(save_json_text);
       break;
 
@@ -110,6 +133,16 @@ function listener(event){
       //load the data from the database
       loadStates();
       //send the data to the game
+      break;
+    case "SCORE":
+      console.log(event.data.score);
+      displayScore(event.data.score);
+      saveScore(event.data.score);
+      break;
+    case "ERROR":
+      $('.errorDiv').html(event.data.info);
+      $('.errorDiv').removeClass("invisible");
+      $('.game-iframe').addClass("invisible");
       break;
     default:
         return;

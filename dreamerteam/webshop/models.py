@@ -54,5 +54,6 @@ class GameData(models.Model):
     gameID = models.IntegerField()
     username = models.CharField(max_length=100)
     gameStatus = models.TextField()
+    highScore = models.IntegerField(default = 0)
     class Meta:
         unique_together = (("gameID", "username"),)

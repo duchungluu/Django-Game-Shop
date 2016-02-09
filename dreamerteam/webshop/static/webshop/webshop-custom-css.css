@@ -65,3 +65,6 @@ nav.no-radius {
     margin: auto auto;
     display: block;
 	}
+.invisible{
+	visibility: hidden;
+}
