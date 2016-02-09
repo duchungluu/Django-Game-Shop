@@ -207,7 +207,7 @@ def buy_success(request):
         t.save()
         return render_to_response('webshop/buy_success.html')
     else:
-        return HttpResponseRedirect("/")
+        return render_to_response('webshop/buy_error.html')
 
 def buy_cancel(request):
     pid = request.GET.get('pid')
