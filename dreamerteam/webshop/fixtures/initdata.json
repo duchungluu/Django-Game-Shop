@@ -1,0 +1,180 @@
+[
+{
+    "pk": 1,
+    "model": "auth.group",
+    "fields": {
+        "permissions": [
+            19,
+            20,
+            21
+        ],
+        "name": "Developer"
+    }
+},
+{
+    "pk": 2,
+    "model": "auth.group",
+    "fields": {
+        "name": "Customer"
+    }
+},
+
+
+{
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "date_joined": "2016-01-06T17:01:23Z",
+        "email": "teemu.huovinen@aalto.fi",
+        "first_name": "",
+        "last_login": "2016-02-09T13:07:06.495Z",
+        "user_permissions": [],
+        "username": "admin",
+        "last_name": "",
+        "password": "pbkdf2_sha256$20000$sz6RuZ154VwN$yCD0MSVL6BFJdXdkXDndERaBooECBbC4t5zYudCF6gs=",
+        "is_active": true,
+        "groups": [
+            1
+        ],
+        "is_staff": true,
+        "is_superuser": true
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+        "date_joined": "2016-02-09T13:05:46.862Z",
+        "email": "default.developer@email.com",
+        "first_name": "default.developer@email.com",
+        "last_login": "2016-02-09T13:06:16.682Z",
+        "user_permissions": [],
+        "username": "developer",
+        "last_name": "Developer",
+        "password": "pbkdf2_sha256$20000$TeHMDkbgi1SV$KtFstuWNLPEoU+DQE1HNw7IrINu2Qmy/3N02EjzJtzo=",
+        "is_active": true,
+        "groups": [
+            1
+        ],
+        "is_staff": false,
+        "is_superuser": false
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+        "date_joined": "2016-02-09T13:06:38.131Z",
+        "email": "default.customer@email.com",
+        "first_name": "default.customer@email.com",
+        "last_login": null,
+        "user_permissions": [],
+        "username": "customer",
+        "last_name": "Customer",
+        "password": "pbkdf2_sha256$20000$i1hAB2g5OSqw$98Oi1qJYygudI7gcg5aqij5Jsi2gLyDJKeAPGPgjST0=",
+        "is_active": true,
+        "groups": [
+            2
+        ],
+        "is_staff": false,
+        "is_superuser": false
+    }
+},
+
+
+{
+    "fields": {
+        "key_expires": "2016-02-11T13:05:47.212Z",
+        "user": 2,
+        "activation_key": "e8105e3bbfb1adba178d07d32e134875322f3c0b",
+        "username": "developer",
+        "isDeveloper": true
+    },
+    "model": "webshop.userprofile",
+    "pk": 1
+},
+{
+    "fields": {
+        "key_expires": "2016-02-11T13:06:38.426Z",
+        "user": 3,
+        "activation_key": "c1e017043e741a379b0fab0c4a6f569449656e7d",
+        "username": "customer",
+        "isDeveloper": false
+    },
+    "model": "webshop.userprofile",
+    "pk": 2
+},
+
+
+{
+    "fields": {
+        "name": "Backbag",
+        "description": "default description test",
+        "published": "2016-01-14T22:00:00Z",
+        "url": "http://webcourse.cs.hut.fi/example_game.html",
+        "price": 1.49,
+        "developer": 1
+    },
+    "pk": 1,
+    "model": "webshop.game"
+},
+{
+    "fields": {
+        "name": "Game of the year",
+        "description": "Testing description",
+        "published": "2016-02-01T15:25:10Z",
+        "url": "http://www.google.fi",
+        "price": 4.99,
+        "developer": 1
+    },
+    "pk": 2,
+    "model": "webshop.game"
+},
+
+
+{
+    "pk": 1,
+    "model": "webshop.transaction",
+    "fields": {
+        "buy_completed": null,
+        "state": "",
+        "buy_started": "2016-02-05T20:32:12.515Z",
+        "game": 1,
+        "buyer": 2
+    }
+},
+{
+    "pk": 2,
+    "model": "webshop.transaction",
+    "fields": {
+        "buy_completed": null,
+        "state": "cancel",
+        "buy_started": "2016-02-05T20:32:26.531Z",
+        "game": 2,
+        "buyer": 2
+    }
+},
+{
+    "pk": 3,
+    "model": "webshop.transaction",
+    "fields": {
+        "buy_completed": null,
+        "state": "error",
+        "buy_started": "2016-02-05T20:32:33.260Z",
+        "game": 2,
+        "buyer": 2
+    }
+},
+{
+    "pk": 4,
+    "model": "webshop.transaction",
+    "fields": {
+        "buy_completed": "2016-02-05T20:32:38.775Z",
+        "state": "success",
+        "buy_started": "2016-02-05T20:32:37.202Z",
+        "game": 1,
+        "buyer": 2
+    }
+}
+
+]
