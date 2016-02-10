@@ -1,9 +1,10 @@
+{% url 'add_game' as url %}
 <div class="well">
 	<form class="form-horizontal" method="post" action="">
 	{% csrf_token %}
 	  <fieldset>
 		<legend>
-		  	{% if form.name.value %}<strong>Edit Game: </strong> {{form.name.value}} 
+		  	{% if request.path != url %} <strong>Edit Game: </strong> {{form.name.value}} 
 		  	{% else %} <strong>Add new game </strong>
 		  	{% endif %}
 		</legend>
@@ -44,6 +45,14 @@
 	        <p class="text-danger">{{form.published.errors|striptags}}</p> 
 	      </div>
 	    </div>
+	    
+        {% if request.path != url %} 
+    	<div class="form-group">
+      		<div class="col-lg-10 col-lg-offset-2">
+      			 <button class="btn btn-danger pull-right" id="{{game.id}}" onclick="confirmMessage('Are you sure that you want to delete this game?')">Delete game</button>
+      		</div>
+      	</div>
+	    {% endif %}
 	    <div class="form-group">
 	      <div class="col-lg-10 col-lg-offset-2">
 	        <button type="reset" class="btn btn-default">Cancel</button>
@@ -53,3 +62,16 @@
 	  </fieldset>
 	</form>
 </div>
+<script type="text/javascript">
+var confirmMessage = function(message){
+ 	var confMessage = window.confirm(message);
+ 	if(confMessage){
+ 		deleteGame();
+ 	}
+} 
+var deleteGame = function (argument) {
+	
+}
+
+
+</script>

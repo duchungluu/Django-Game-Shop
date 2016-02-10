@@ -260,12 +260,13 @@ def dev(request):
     user = request.user
     if user.is_authenticated():
         user_profile = get_userprofile(user)
-        if user_profile.isDeveloper:
-            context = {
-                "games": Game.objects.filter(developer=user_profile) # query all games where user is developer
-            }
-            return render(request, "webshop/dev.html", context)
-    return render(request, "webshop/home.html")
+        if not user_profile is None:
+            if user_profile.isDeveloper:
+                context = {
+                    "games": Game.objects.filter(developer=user_profile) # query all games where user is developer
+                }
+                return render(request, "webshop/dev.html", context)
+    return render(request, "webshop/index.html")
 
 def edit_game(request, gameID = None):
     game = get_object_or_404(Game, pk=gameID)
@@ -291,7 +292,10 @@ def add_game(request):
     return render(request, "webshop/game_add.html", {'form':form})
 
 def get_userprofile(user):
-    return UserProfile.objects.get(user=user)
+    try:
+        return UserProfile.objects.get(user=user)
+    except:
+        return None
 
 def user_has_group(user,groupname):
     for group in user.groups.all():
