@@ -38,7 +38,11 @@ nav.no-radius {
 }
 .list-product-wrapper .product-icon {
     float: left;
-    max-height: 66px;
+    max-height: 65px;
+    background: antiquewhite;
+    font-size: 54px;
+    padding-left: 4px;
+    padding-right: 4px;
 }
 .list-product-wrapper .product-title-description{
     float:left;

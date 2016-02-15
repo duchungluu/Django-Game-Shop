@@ -1,4 +1,5 @@
 from django import forms
+from django.conf import settings
 from webshop.models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -37,13 +38,15 @@ class RegistrationForm(UserCreationForm):
         return user
 
 class GameForm(forms.ModelForm):
+    published = forms.DateField( widget=forms.DateInput(attrs={'class': 'form-control'}), localize=True) # should be formatted to finnish format?
+
     class Meta:
         model = Game
         fields = ['name', 'price', 'url', 'published', 'description']
+
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'price': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
-            'published': forms.DateInput(attrs={'class': 'form-control'}),
             'url': forms.TextInput(attrs={'class': 'form-control'})
         }

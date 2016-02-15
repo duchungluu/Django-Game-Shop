@@ -257,11 +257,12 @@ def game(request, gameID = None):
     return render(request, "webshop/game.html", context)
 
 def dev(request):
-    if not user_is_developer(request.user):
+    user = request.user
+    if not user_is_developer(user):
          raise PermissionDenied
    
     context = {
-        "games": Game.objects.filter(developer=user_profile) # query all games where user is developer
+        "games": Game.objects.filter(developer=get_userprofile(user)) # query all games where user is developer
     }
     return render(request, "webshop/dev.html", context)
 
@@ -285,6 +286,9 @@ def edit_game(request, gameID = None):
     return render(request, "webshop/game_edit.html", {'form': form})
 
 def add_game(request):
+    if not user_is_developer(request.user):
+         raise PermissionDenied
+
     game = Game()
     form = GameForm(request.POST or None, instance=game)
 
@@ -294,6 +298,7 @@ def add_game(request):
             game.developer = get_userprofile(request.user)
             game.save()
             return HttpResponseRedirect('/dev/')
+
     return render(request, "webshop/game_add.html", {'form':form})
 
 
