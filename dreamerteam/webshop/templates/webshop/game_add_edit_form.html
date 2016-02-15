@@ -49,7 +49,7 @@
         {% if request.path != url %} 
     	<div class="form-group">
       		<div class="col-lg-10 col-lg-offset-2">
-      			 <button class="btn btn-danger pull-right" id="{{game.id}}" onclick="confirmMessage('Are you sure that you want to delete this game?')">Delete game</button>
+      			<input type="submit" value="Delete" name="submit" class="btn btn-danger pull-right">
       		</div>
       	</div>
 	    {% endif %}
@@ -63,15 +63,27 @@
 	</form>
 </div>
 <script type="text/javascript">
-var confirmMessage = function(message){
- 	var confMessage = window.confirm(message);
- 	if(confMessage){
- 		deleteGame();
- 	}
-} 
-var deleteGame = function (argument) {
-	
-}
+$(document).ready(function(){
 
+	$('.delete-button').click(function(event) {
+	 	var confMessage = window.confirm('Are you sure that you want to delete this game?');
+	 	if(confMessage){
+	 		deleteGame($(this));
+	 	}
+	 	event.preventDefault(); // prevent form send
+	});
+
+	var deleteGame = function (gameId) {
+		console.log(gameId);
+		var url = '/dev/game/delete/' + gameId; 
+		$.ajax({
+	        type: "POST",
+	        url: url, 
+	        success : function(result) {
+	            console.log(result);
+	     	}
+		});
+	};
+});
 
 </script>

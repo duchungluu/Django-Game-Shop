@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, Group
+from django.core.exceptions import PermissionDenied
 from django.utils import timezone
 from django import forms
 import urllib, hashlib, datetime, random
@@ -26,7 +27,6 @@ def index(request):
     return render(request, target, context)
 
 def games(request):
-    # iiro ajax call for search functionality - not very stylish here, but 1 version! :)
 
     if request.method == 'GET':
 
@@ -257,24 +257,29 @@ def game(request, gameID = None):
     return render(request, "webshop/game.html", context)
 
 def dev(request):
-    user = request.user
-    if user.is_authenticated():
-        user_profile = get_userprofile(user)
-        if not user_profile is None:
-            if user_profile.isDeveloper:
-                context = {
-                    "games": Game.objects.filter(developer=user_profile) # query all games where user is developer
-                }
-                return render(request, "webshop/dev.html", context)
-    return render(request, "webshop/index.html")
+    if not user_is_developer(request.user):
+         raise PermissionDenied
+   
+    context = {
+        "games": Game.objects.filter(developer=user_profile) # query all games where user is developer
+    }
+    return render(request, "webshop/dev.html", context)
 
 def edit_game(request, gameID = None):
+    if not user_is_developer(request.user):
+         raise PermissionDenied
+
     game = get_object_or_404(Game, pk=gameID)
     form = GameForm(request.POST or None, instance=game)
 
     if request.method == 'POST':
-        if form.is_valid():
-            game = form.save()
+        if request.POST.get('submit') == 'Submit':
+            if form.is_valid():
+                game = form.save()
+                return HttpResponseRedirect('/dev/')
+
+        if request.POST.get('submit') == 'Delete':
+            game.delete()
             return HttpResponseRedirect('/dev/')
 
     return render(request, "webshop/game_edit.html", {'form': form})
@@ -291,6 +296,7 @@ def add_game(request):
             return HttpResponseRedirect('/dev/')
     return render(request, "webshop/game_add.html", {'form':form})
 
+
 def get_userprofile(user):
     try:
         return UserProfile.objects.get(user=user)
@@ -302,6 +308,15 @@ def user_has_group(user,groupname):
         if group.name.lower() == groupname.lower(): # case insensitive
             return True
     return False
+
+def user_is_developer(user):
+    if user.is_authenticated():
+        user_profile = get_userprofile(user)
+        if not user_profile is None:
+            return user_profile.isDeveloper
+
+    return False
+
 
 def game_save(request):
     if request.POST:
