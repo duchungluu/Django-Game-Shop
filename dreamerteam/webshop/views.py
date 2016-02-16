@@ -154,11 +154,12 @@ def custom_login(request):
     return HttpResponseRedirect(reverse('login'))
 
 def buy(request, gameID=-1):
-    # Returns 404 if Game is not found
+    # Returns 404 if objects are not found
     game = get_object_or_404(Game, pk=gameID)
+    userProfile = get_object_or_404(UserProfile, user=request.user)
 
     # Create Transaction
-    t = Transaction(game=game, buyer=request.user)
+    t = Transaction(game=game, buyer=userProfile)
     t.save()
 
     pid = str(t.id)
@@ -199,15 +200,14 @@ def buy_success(request):
     ourChecksum = hashlib.md5(ourChecksum.encode("ascii")).hexdigest()
 
     if (receivedChecksum == ourChecksum):
-
         # Update database
         t = Transaction.objects.get(pk=pid)
         t.state = result
         t.buy_completed = timezone.now()
         t.save()
-        return render_to_response('webshop/buy_success.html')
-    else:
-        return render_to_response('webshop/buy_error.html')
+
+    return render_to_response('webshop/buy_finished.html', {'state': result})
+
 
 def buy_cancel(request):
     pid = request.GET.get('pid')
@@ -215,7 +215,7 @@ def buy_cancel(request):
     t = Transaction.objects.get(pk=pid)
     t.state = result
     t.save()
-    return render_to_response('webshop/buy_cancel.html')
+    return render_to_response('webshop/buy_finished.html', {'state': result})
 
 def buy_error(request):
     pid = request.GET.get('pid')
@@ -223,15 +223,28 @@ def buy_error(request):
     t = Transaction.objects.get(pk=pid)
     t.state = result
     t.save()
-    return render_to_response('webshop/buy_error.html')
+    return render_to_response('webshop/buy_finished.html', {'state': result})
 
 def game(request, gameID = None):
     context = {}
-    game = get_object_or_404(Game, pk=gameID)
+    isBought = False;
+    try:
+        game = Game.objects.get(pk=gameID)
+    except:
+        return render(request, "webshop/game_wrongid.html")
     user = request.user
     if user.is_authenticated():
+
         user_profile = get_userprofile(user)
         context["user"] = user
+
+        #check if the user owns the game
+        try:
+            transactions = Transaction.objects.get(buyer = user_profile)
+            print(transactions)
+            isBought = True;
+        except:
+            print("*******************error")
 
         # get the highscore data for the user
         username = user.username
@@ -253,14 +266,14 @@ def game(request, gameID = None):
             pass
     if gameID:
         context["game"] = game
-
+    context["isBought"] = isBought;
     return render(request, "webshop/game.html", context)
 
 def dev(request):
     user = request.user
     if not user_is_developer(user):
          raise PermissionDenied
-   
+
     context = {
         "games": Game.objects.filter(developer=get_userprofile(user)) # query all games where user is developer
     }
