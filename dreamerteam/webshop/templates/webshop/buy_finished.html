@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% if state == 'success' %}
+        <h1>Buy successful!</h1>
+    {% elif state == 'cancel' %}
+        <h1>Buy cancelled</h1>
+    {% elif state == 'error' %}
+        <h1>Buy error</h1>
+    {% else %}
+        <h1>Something bad happened :(</h1>
+    {% endif %}
+
+{% endblock %}
