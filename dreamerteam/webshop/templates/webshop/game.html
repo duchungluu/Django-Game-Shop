@@ -2,6 +2,7 @@
 {% load staticfiles %}
 
 {% block content %}
+{% if isBought %}
   <script type="text/javascript">
     gameID = "{{game.pk}}";
     username = "{{user.username}}";
@@ -15,6 +16,8 @@
   </br>
   <div class="errorDiv invisible">error</div>
   <iframe id = "targetFrame" class="game-iframe" src="{{game.url}}" allowfullscreen></iframe>
-
+{% else %}
+  <p>buy the game </p>
+{% endif %}
 
 {% endblock %}
