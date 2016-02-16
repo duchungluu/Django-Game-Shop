@@ -229,23 +229,28 @@ def buy_error(request):
 def game(request, gameID = None):
     context = {}
     isBought = False;
+
+    #check if the id of the game is right  (id exists)
     try:
         game = Game.objects.get(pk=gameID)
     except:
         return render(request, "webshop/game_wrongid.html")
+
     user = request.user
     if user.is_authenticated():
-
         user_profile = get_userprofile(user)
         context["user"] = user
 
         #check if the user owns the game
+        #transactions = Transaction.objects.filter(buyer = user_profile)
+        #transactions = Transaction.objects.get(buyer = user_profile,
+        #state="success", game =game)
         try:
-            transactions = Transaction.objects.get(buyer = user_profile)
-            print(transactions)
+            transactions = Transaction.objects.get(buyer = user_profile,
+            state="success", game =game)
             isBought = True;
         except:
-            print("*******************error")
+            print("The user doesn't own the game")
 
         # get the highscore data for the user
         username = user.username
