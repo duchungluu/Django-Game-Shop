@@ -1,0 +1,1 @@
+web: gunicorn--pythonpath /dreamerteam/ dreamerteam.wsgi --log-file -
