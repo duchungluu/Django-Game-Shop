@@ -154,11 +154,12 @@ def custom_login(request):
     return HttpResponseRedirect(reverse('login'))
 
 def buy(request, gameID=-1):
-    # Returns 404 if Game is not found
+    # Returns 404 if objects are not found
     game = get_object_or_404(Game, pk=gameID)
+    userProfile = get_object_or_404(UserProfile, user=request.user)
 
     # Create Transaction
-    t = Transaction(game=game, buyer=request.user)
+    t = Transaction(game=game, buyer=userProfile)
     t.save()
 
     pid = str(t.id)
