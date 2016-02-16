@@ -16,5 +16,9 @@
     <input type="submit" value="login" />
     <input type="hidden" name="next" value="{{ next|escape }}" />
   </form>
-
+{% if not user.is_authenticated %}
+    <a href="{% url 'social:begin' 'facebook' %}?next={% url 'index' %}" class="btn btn-primary">
+        Login with  Facebook
+    </a>
+{% endif %}
 {% endblock %}

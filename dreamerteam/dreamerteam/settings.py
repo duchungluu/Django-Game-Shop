@@ -33,7 +33,8 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
+# social apps needs social auth: http://psa.matiasaguirre.net/docs/index.html
+# how to install: http://psa.matiasaguirre.net/docs/installing.html
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,6 +44,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'webshop',
     'registration',
+    'social.apps.django_app.default',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -69,6 +71,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social.apps.django_app.context_processors.backends',
+                'social.apps.django_app.context_processors.login_redirect',
             ],
         },
     },
@@ -103,6 +107,18 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
-
 STATIC_URL = '/static/'
 
+
+# social authenticaion
+# http://psa.matiasaguirre.net/docs/index.html
+AUTHENTICATION_BACKENDS = (
+    'social.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_FACEBOOK_KEY = '1005810502839407'
+SOCIAL_AUTH_FACEBOOK_SECRET = '256beb6f7c0a90738813864b04084383'
+# Define SOCIAL_AUTH_FACEBOOK_SCOPE to get extra permissions from facebook.
+# Email is not sent by deafault, to get it, you must request the email permission:
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'publish_actions']
