@@ -43,7 +43,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'webshop',
-    'registration',
     'social.apps.django_app.default',
 )
 
@@ -107,6 +106,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.9/howto/static-files/
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
 
 
@@ -122,3 +126,14 @@ SOCIAL_AUTH_FACEBOOK_SECRET = '256beb6f7c0a90738813864b04084383'
 # Define SOCIAL_AUTH_FACEBOOK_SCOPE to get extra permissions from facebook.
 # Email is not sent by deafault, to get it, you must request the email permission:
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'publish_actions']
+
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True # This is because heroku fails to pass the headers required to identify the app.
+
+# Only when running in Heroku
+if "DYNO" in os.environ:
+    STATIC_ROOT = 'staticfiles'
+    import dj_database_url
+    DATABASES['default'] =  dj_database_url.config()
+
+    DEBUG = True # False, once service is succesfully deployed
+    ALLOWED_HOSTS = ['*']

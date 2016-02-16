@@ -200,15 +200,14 @@ def buy_success(request):
     ourChecksum = hashlib.md5(ourChecksum.encode("ascii")).hexdigest()
 
     if (receivedChecksum == ourChecksum):
-
         # Update database
         t = Transaction.objects.get(pk=pid)
         t.state = result
         t.buy_completed = timezone.now()
         t.save()
-        return render_to_response('webshop/buy_success.html')
-    else:
-        return render_to_response('webshop/buy_error.html')
+
+    return render_to_response('webshop/buy_finished.html', {'state': result})
+
 
 def buy_cancel(request):
     pid = request.GET.get('pid')
@@ -216,7 +215,7 @@ def buy_cancel(request):
     t = Transaction.objects.get(pk=pid)
     t.state = result
     t.save()
-    return render_to_response('webshop/buy_cancel.html')
+    return render_to_response('webshop/buy_finished.html', {'state': result})
 
 def buy_error(request):
     pid = request.GET.get('pid')
@@ -224,7 +223,7 @@ def buy_error(request):
     t = Transaction.objects.get(pk=pid)
     t.state = result
     t.save()
-    return render_to_response('webshop/buy_error.html')
+    return render_to_response('webshop/buy_finished.html', {'state': result})
 
 def game(request, gameID = None):
     context = {}
