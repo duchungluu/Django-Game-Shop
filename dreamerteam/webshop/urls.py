@@ -20,7 +20,7 @@ urlpatterns = [
     url(r'^buy/success/', views.buy_success),
     url(r'^buy/cancel/', views.buy_cancel),
     url(r'^buy/error/', views.buy_error),
-    url(r'^profile/', views.profile),
+    url(r'^profile/', views.profile, name='profile'),
     url(
         r'^accounts/password_change/$',
         'django.contrib.auth.views.password_change',
