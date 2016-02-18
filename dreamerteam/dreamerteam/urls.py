@@ -19,12 +19,11 @@ from django.contrib.auth.views import login, logout
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^accounts/login/$', login, name='login'),
+    url(r'^accounts/login/$', 'webshop.views.custom_login', name='login'),
     url(r'^accounts/logout/$', logout, name='logout'),
     url(r'^accounts/register/$', 'webshop.views.register_user', name='register'),
     url(r'^accounts/register_success/$', 'webshop.views.register_success'),
     url(r'^accounts/confirm/(?P<activation_key>\w+)/', ('webshop.views.register_confirm')),
-    url(r'^accounts/custom_login/$',  'webshop.views.custom_login', name='custom_login'),
     url('', include('social.apps.django_app.urls', namespace='social')),
     url(r'^', include('webshop.urls')),
 
