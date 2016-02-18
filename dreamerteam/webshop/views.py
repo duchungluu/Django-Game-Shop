@@ -51,6 +51,8 @@ def games(request):
                 "all_games": Game.objects.all()
             }
 
+        #get the user games
+
         target = "webshop/games.html"
         return render(request, target, context)
 
@@ -190,7 +192,7 @@ def buy(request, gameID=-1):
 
     # Send form from javascript
     data = urllib.parse.urlencode(post_data).encode('UTF-8')
-    return render_to_response('webshop/buygame.html', {'post_data': data})
+    return render(request, 'webshop/buygame.html', {'post_data': data} )
 
 def buy_success(request):
     pid = request.GET.get('pid')
@@ -212,7 +214,7 @@ def buy_success(request):
         except:
             return render_to_response('webshop/buy_finished.html')
 
-    return render_to_response('webshop/buy_finished.html', {'state': result})
+    return render(request, 'webshop/buy_finished.html', {'state': result})
 
 def buy_error(request):
     try:
@@ -223,7 +225,7 @@ def buy_error(request):
         t.save()
         return render_to_response('webshop/buy_finished.html', {'state': result})
     except:
-        return render_to_response('webshop/buy_finished.html')
+        return render(request, 'webshop/buy_finished.html')
 
 def game(request, gameID = None):
     context = {}
@@ -241,9 +243,7 @@ def game(request, gameID = None):
         context["user"] = user
 
         #check if the user owns the game
-        #transactions = Transaction.objects.filter(buyer = user_profile)
-        #transactions = Transaction.objects.get(buyer = user_profile,
-        #state="success", game =game)
+
         try:
             transactions = Transaction.objects.get(buyer = user_profile,
             state="success", game =game)
