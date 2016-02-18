@@ -12,7 +12,11 @@ from django.utils import timezone
 from django import forms
 import urllib, hashlib, datetime, random
 from webshop.models import *
+<<<<<<< HEAD
 from webshop.forms import RegistrationForm, GameForm, LoginForm
+=======
+from webshop.forms import *
+>>>>>>> 854107d3ed189d71b3438f906efbbd4a27096ec3
 from django.conf import settings
 from django.db.models import Max
 
@@ -239,23 +243,28 @@ def buy_error(request):
 def game(request, gameID = None):
     context = {}
     isBought = False;
+
+    #check if the id of the game is right  (id exists)
     try:
         game = Game.objects.get(pk=gameID)
     except:
         return render(request, "webshop/game_wrongid.html")
+
     user = request.user
     if user.is_authenticated():
-
         user_profile = get_userprofile(user)
         context["user"] = user
 
         #check if the user owns the game
+        #transactions = Transaction.objects.filter(buyer = user_profile)
+        #transactions = Transaction.objects.get(buyer = user_profile,
+        #state="success", game =game)
         try:
-            transactions = Transaction.objects.get(buyer = user_profile)
-            print(transactions)
+            transactions = Transaction.objects.get(buyer = user_profile,
+            state="success", game =game)
             isBought = True;
         except:
-            print("*******************error")
+            print("The user doesn't own the game")
 
         # get the highscore data for the user
         username = user.username
@@ -382,8 +391,20 @@ def game_highscore(request):
                 gameData.highScore = int(score)
                 gameData.save()
         except :
-            print('trying!')
             gameData = GameData (gameID = gameID, username = username,
             highScore = int(score))
         gameData.save()
     return HttpResponse("score entered to the system")
+
+def profile(request):
+    print ("request.user")
+    if request.user.is_authenticated():
+        user = request.user
+        form = ProfileForm(instance = user)
+
+        #return render_to_response('webshop/profile.html')
+        args = {}
+        args['form'] = form
+        return render_to_response('webshop/profile.html' , args)
+    else:
+        return HttpResponse("You need to be logged in to access ths page.")

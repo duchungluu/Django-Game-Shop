@@ -37,7 +37,6 @@ class RegistrationForm(UserCreationForm):
 
     class Meta:
         model = User
-        #fields = ('username','email', 'password1', 'password2')
         fields = ('first_name', 'last_name', 'email', 'username', 'password1', 'password2')
 
     #clean email field
@@ -72,3 +71,8 @@ class GameForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'class': 'form-control'}),
             'url': forms.TextInput(attrs={'class': 'form-control'})
         }
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name']

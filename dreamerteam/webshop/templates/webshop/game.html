@@ -9,15 +9,34 @@
   </script>
   <script src="{% static 'webshop/game.js' %}"></script>
   {% csrf_token %}
-  name: {{ game.name }}
-  user_highscore: {{user_highscore}}
-  global_highscore: {{global_highscore}}
+  <b>{{ game.name }}</b>
+  {% if user_highscore %}
+    </br>
+    user_highscore: {{user_highscore}}
+  {% endif %}
+  {% if global_highscore  %}
+    </br>
+    global_highscore: {{global_highscore}}
+  {% endif %}
   </br>
   </br>
   <div class="errorDiv invisible">error</div>
-  <iframe id = "targetFrame" class="game-iframe" src="{{game.url}}" allowfullscreen></iframe>
+  <iframe width="100px" id = "targetFrame" class="game-iframe" src="{{game.url}}" allowfullscreen></iframe>
 {% else %}
-  <p>buy the game </p>
+  name: {{ game.name }}
+  </br>
+  global_highscore: {{global_highscore}}
+  </br>
+  price: {{ game.price }} €
+  </br>
+  published: {{ game.published }}
+  </br>
+  description: {{ game.description }}
+  </br>
+  {% if user.is_authenticated %}
+      <button onclick="location.href='{% url 'buy' game.id %}';"
+      class="btn btn-success">Buy</button>
+  {% endif %}
 {% endif %}
 
 {% endblock %}
