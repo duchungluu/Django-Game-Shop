@@ -23,10 +23,11 @@ def index(request):
     if not request.user.is_authenticated():
         return redirect('games')
 
-    games = Game.objects.all()
+    games = None
     owned_games = user_owned_games(request.user)
 
     if owned_games is not None:
+        games = Game.objects.all()
         for game in games:
             if game not in owned_games:
                 games = games.exclude(pk=game.id)
