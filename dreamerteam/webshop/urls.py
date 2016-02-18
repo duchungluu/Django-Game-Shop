@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.contrib.auth.forms import AdminPasswordChangeForm
 
 from . import views
 
@@ -19,4 +20,19 @@ urlpatterns = [
     url(r'^buy/success/', views.buy_success),
     url(r'^buy/cancel/', views.buy_cancel),
     url(r'^buy/error/', views.buy_error),
+    url(r'^profile/', views.profile),
+    url(
+        r'^accounts/password_change/$',
+        'django.contrib.auth.views.password_change',
+        name='password_change',
+        kwargs={
+               'template_name': 'registration/password_change_form.html'
+               }
+    ),
+    url(
+        r'^accounts/password_change_done/$',
+        'django.contrib.auth.views.password_change_done',
+        name='password_change_done',
+        kwargs={'template_name': 'registration/password_change_done.html'}
+    ),
 ]
