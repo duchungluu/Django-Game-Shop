@@ -3,11 +3,16 @@
 {% block title %}List of games{% endblock %}
 
 
-
 {% block content %}
+    <div class="container-fluid">
+	    <div class="row">
+	        <div class="col-xs-12" id="game-list">
+                {% if user.is_authenticated %}
+                    <h2> Your games: </h2>
+                {% endif %}
 
-    <div id="tableContainer">
-        {% include "webshop/gamelist.html" %}
+	        	{% include "webshop/gamelist.html" %}
+	        </div>
+	    </div>
     </div>
-
 {% endblock %}

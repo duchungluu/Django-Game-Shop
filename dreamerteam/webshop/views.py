@@ -19,13 +19,23 @@ from django.db.models import Max
 
 def index(request):
 
+    games = Game.objects.all()
+
+    # If logged in, show only own games
+    if request.user.is_authenticated():
+        owned_games = user_owned_games(request.user)
+        for game in games:
+            if game not in owned_games:
+                games = games.exclude(pk=game.id)
+
     context = {
-        "all_games": Game.objects.all()
+        "all_games": games
     }
 
     target = "webshop/index.html"
 
     return render(request, target, context)
+
 
 def games(request):
 
@@ -46,7 +56,8 @@ def games(request):
         # Filter out owned games
         if request.user.is_authenticated():
             owned_games = user_owned_games(request.user)
-            searched_games = searched_games.exclude(id__in=[g.id for g in owned_games])
+            searched_games = searched_games.exclude(
+                id__in=[g.id for g in owned_games])
 
         context = {
             "all_games": searched_games
