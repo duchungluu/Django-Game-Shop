@@ -35,6 +35,7 @@ nav.no-radius {
     border-radius: 3px;
     min-height: 66px;
     margin-bottom: 10px;
+    cursor: pointer;
 }
 .list-product-wrapper .product-icon {
     float: left;
