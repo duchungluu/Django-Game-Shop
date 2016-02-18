@@ -10,12 +10,20 @@
             <a class="navbar-brand" href="/">DreamGames</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                {% url 'games' as url %}
-                <li {% if request.path == url %} class="active"{% endif %}><a href="{{ url }}">Browse Games</a></li>
-                {% url 'dev' as devUrl %}
-                <li {% if request.path == devUrl %} class="active" {% endif %}><a href="{{ devUrl }}">Developer</a></li>
-            </ul>
+
+            {% if user.is_authenticated %}
+                <ul class="nav navbar-nav">
+                    {% url 'games' as url %}
+                    <li {% if request.path == url %} class="active"{% endif %}>
+                        <a href="{{ url }}">Browse Games</a>
+                    </li>
+                    {% url 'dev' as devUrl %}
+                    <li {% if request.path == devUrl %} class="active" {% endif %}>
+                        <a href="{{ devUrl }}">Developer</a>
+                    </li>
+                </ul>
+            {% endif %}
+
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" href="#" data-toggle="dropdown">
@@ -24,7 +32,6 @@
                       console.log("daumn");
                       </script>
                     {% if user.is_authenticated %} Welcome, {{user.username}}
-
                     {% else %} Login
                     {% endif %}
                     <strong class="caret"></strong>
@@ -32,7 +39,7 @@
                     <div class="dropdown-menu login-dropdown">
                         {% if user.is_authenticated %}
                         <button onclick="location.href = '{% url 'profile' %}';"
-                            class="btn btn-block btn-default">settings</button>
+                            class="btn btn-block btn-default">Settings</button>
                         <button onclick="location.href = '{% url 'logout' %}?next=/';"
                             class="btn btn-block btn-default">Log out</button>
                         {% else %}
