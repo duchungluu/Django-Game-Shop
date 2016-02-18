@@ -33,7 +33,8 @@ def index(request):
                 games = games.exclude(pk=game.id)
 
     context = {
-        "all_games": games
+        "all_games": games,
+        "games_are_owned": True
     }
 
     target = "webshop/index.html"
@@ -65,7 +66,8 @@ def games(request):
                     id__in=[g.id for g in owned_games])
 
         context = {
-            "all_games": searched_games
+            "all_games": searched_games,
+            "games_are_owned": False
         }
 
         #get the user games
