@@ -1,5 +1,5 @@
 from django.http import *
-from django.shortcuts import render, render_to_response, get_object_or_404
+from django.shortcuts import render, redirect, render_to_response, get_object_or_404
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.core.context_processors import csrf
@@ -52,7 +52,6 @@ def games(request):
             }
 
         target = "webshop/games.html"
-
         return render(request, target, context)
 
 def register_user(request):
@@ -158,6 +157,10 @@ def buy(request, gameID=-1):
     game = get_object_or_404(Game, pk=gameID)
     userProfile = get_object_or_404(UserProfile, user=request.user)
 
+    # If user already owns the game, redirect to game page as a failsafe
+    if Transaction.objects.filter(game=game, buyer=userProfile, state='success'):
+        return redirect('game', gameID=game.id)
+
     # Create Transaction
     t = Transaction(game=game, buyer=userProfile)
     t.save()
@@ -201,29 +204,26 @@ def buy_success(request):
 
     if (receivedChecksum == ourChecksum):
         # Update database
-        t = Transaction.objects.get(pk=pid)
-        t.state = result
-        t.buy_completed = timezone.now()
-        t.save()
+        try:
+            t = Transaction.objects.get(pk=pid)
+            t.state = result
+            t.buy_completed = timezone.now()
+            t.save()
+        except:
+            return render_to_response('webshop/buy_finished.html')
 
-    return render_to_response('webshop/buy_finished.html', {'state': result})
-
-
-def buy_cancel(request):
-    pid = request.GET.get('pid')
-    result = request.GET.get('result')
-    t = Transaction.objects.get(pk=pid)
-    t.state = result
-    t.save()
     return render_to_response('webshop/buy_finished.html', {'state': result})
 
 def buy_error(request):
-    pid = request.GET.get('pid')
-    result = request.GET.get('result')
-    t = Transaction.objects.get(pk=pid)
-    t.state = result
-    t.save()
-    return render_to_response('webshop/buy_finished.html', {'state': result})
+    try:
+        pid = request.GET.get('pid')
+        result = request.GET.get('result')
+        t = Transaction.objects.get(pk=pid)
+        t.state = result
+        t.save()
+        return render_to_response('webshop/buy_finished.html', {'state': result})
+    except:
+        return render_to_response('webshop/buy_finished.html')
 
 def game(request, gameID = None):
     context = {}

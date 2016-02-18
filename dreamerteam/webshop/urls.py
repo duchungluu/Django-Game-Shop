@@ -11,7 +11,7 @@ urlpatterns = [
     url(r'^buy/(?P<gameID>\d+)?/?$', views.buy, name='buy'),
     url(r'^game/(?P<gameID>\d+)?/?$', views.game, name='game'),
     url(r'^buy/success/(\d+)/$', views.buy_success),
-    url(r'^buy/cancel/(\d+)/$', views.buy_cancel),
+    url(r'^buy/cancel/(\d+)/$', views.buy_error),
     url(r'^buy/error/(\d+)/$', views.buy_error),
     url(r'^dev/$', views.dev, name='dev'),
     url(r'^dev/game/(?P<gameID>\d+)/$', views.edit_game, name='edit_game'),
