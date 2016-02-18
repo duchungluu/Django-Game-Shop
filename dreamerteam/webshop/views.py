@@ -4,19 +4,16 @@ from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.core.context_processors import csrf
 from django.core.urlresolvers import reverse
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User, Group
 from django.core.exceptions import PermissionDenied
 from django.utils import timezone
 from django import forms
 import urllib, hashlib, datetime, random
 from webshop.models import *
-<<<<<<< HEAD
-from webshop.forms import RegistrationForm, GameForm, LoginForm
-=======
-from webshop.forms import *
->>>>>>> 854107d3ed189d71b3438f906efbbd4a27096ec3
+from webshop.forms import RegistrationForm, GameForm
 from django.conf import settings
 from django.db.models import Max
 
@@ -143,30 +140,19 @@ def register_confirm(request, activation_key):
     user.save()
     return render_to_response('registration/confirm.html')
 
-def custom_login2(request):
-    form = LoginForm(request.POST or None)
-    if request.POST:
-        if form.is_valid():
-            user = form.login(request)
-            if user:
-                login(request, user)
-                return HttpResponseRedirect("/")
-    return render(request, 'registration/login.html', {'form': form })
-
-
 def custom_login(request):
-    logout(request)
+    form = AuthenticationForm(request.POST or None)
     if request.POST:
-        username = request.POST['username']
-        password = request.POST['password']
-
-        user = authenticate(username=username, password=password)
+        user = authenticate(username=request.POST['username'], password=request.POST['password'])
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect('/')
-
-    return render_to_response('registration/login.html', {'form':form})
+                return HttpResponseRedirect("/")
+            else:
+                messages.error(request, 'Your account is inactive')
+        else:
+            messages.error(request, 'Wrong username or password')
+    return render(request, 'registration/login.html', {'form': form })
 
 def buy(request, gameID=-1):
     # Returns 404 if objects are not found

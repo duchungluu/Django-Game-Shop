@@ -25,7 +25,6 @@ urlpatterns = [
     url(r'^accounts/register_success/$', 'webshop.views.register_success'),
     url(r'^accounts/confirm/(?P<activation_key>\w+)/', ('webshop.views.register_confirm')),
     url(r'^accounts/custom_login/$',  'webshop.views.custom_login', name='custom_login'),
-    url(r'^accounts/custom_login2/$',  'webshop.views.custom_login2', name='custom_login2'),
     url('', include('social.apps.django_app.urls', namespace='social')),
     url(r'^', include('webshop.urls')),
 
