@@ -9,6 +9,7 @@
   </script>
   <script src="{% static 'webshop/game.js' %}"></script>
   {% csrf_token %}
+
   <b>{{ game.name }}</b>
   {% if user_highscore %}
     </br>

@@ -13,7 +13,7 @@ from django.utils import timezone
 from django import forms
 import urllib, hashlib, datetime, random
 from webshop.models import *
-from webshop.forms import RegistrationForm, GameForm
+from webshop.forms import *
 from django.conf import settings
 from django.db.models import Max
 
@@ -115,15 +115,13 @@ def register_user(request):
             # Send email with activation key
             email_subject = 'Account confirmation'
             email_body = "Hey %s, thanks for signing up. To activate your account, click this link within \
-            48hours http://127.0.0.1:8000/accounts/confirm/%s" % (username, activation_key)
+            48hours http://dreamerteam.herokuapp.com/accounts/confirm/%s" % (username, activation_key)
 
             send_mail(email_subject, email_body, 'myemail@example.com',
                 [email], fail_silently=False)
 
             #user_profile = get_object_or_404(UserProfile, username=username)
             p = UserProfile.objects.get(username=username)
-            print("user_profile.isDeveloper")
-            print(p.isDeveloper)
             #do something with user objects, such asL user.is_active = True
             user.save()
             return HttpResponseRedirect("/accounts/register_success")
