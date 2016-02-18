@@ -420,3 +420,7 @@ def profile(request):
         return render_to_response('webshop/profile.html' , args)
     else:
         return HttpResponse("You need to be logged in to access ths page.")
+
+def facebook_complete(request):
+    print(request)
+    pass
