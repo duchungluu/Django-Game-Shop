@@ -9,10 +9,7 @@
         <div class="list-product-buy-wrapper">
             <div class="text-warning price">{{game.price}}</div>
             {% if user.is_authenticated %}
-                <button onclick="location.href='{% url 'buy' game.id %}';"
-                class="btn btn-success">Buy</button>
-            {% else %}
-                <button class="btn btn-success">View</button>
+                <button id="{{game.id}}" class="btn btn-success btn-buy">Buy</button>
             {% endif %}
         </div>
     </div>
@@ -21,3 +18,22 @@
     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
     <strong>No games found :/</strong>
 {% endif %}
+
+{# Button clicks #}
+<script type="text/javascript">
+
+    // Buy button clicked
+    $('.btn-buy').click(function()
+    {
+        location.href = "{% url 'buy' %}" + $(this).attr('id');
+        return false;
+    });
+
+    // Outer div clicked
+    $(".list-product-wrapper").click(function()
+    {
+        location.href = "{% url 'game' %}" + $(this).attr('id');
+        return false;
+    });
+
+</script>

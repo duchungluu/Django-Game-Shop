@@ -36,8 +36,6 @@
   {% if user.is_authenticated %}
       <button onclick="location.href='{% url 'buy' game.id %}';"
       class="btn btn-success">Buy</button>
-  {% else %}
-      <button class="btn btn-success">View</button>
   {% endif %}
 {% endif %}
 

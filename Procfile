@@ -1,1 +1,1 @@
-web: gunicorn dreamerteam.wsgi --log-file -
+web: gunicorn dreamerteam.wsgi --pythonpath ./dreamerteam --log-file -
