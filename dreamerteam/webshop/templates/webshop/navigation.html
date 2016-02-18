@@ -36,7 +36,7 @@
                         <button onclick="location.href = '{% url 'logout' %}?next=/';"
                             class="btn btn-block btn-default">Log out</button>
                         {% else %}
-                        <form action="{% url 'custom_login' %}" method="post">
+                        <form action="{% url 'login' %}" method="post">
                             {% csrf_token %}
                             <div class="form-group">
                                 <label for="inputUsername">Username</label>
