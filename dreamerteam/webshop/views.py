@@ -1,5 +1,5 @@
 from django.http import *
-from django.shortcuts import render, render_to_response, get_object_or_404
+from django.shortcuts import render, redirect, render_to_response, get_object_or_404
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.core.context_processors import csrf
@@ -31,7 +31,7 @@ def games(request):
 
     if request.method == 'GET':
 
-        searched_games = None
+        searched_games = Game.objects.all()
 
         if request.GET.get('search_term'):
             searched_games = Game.objects.filter(name__icontains=request.GET.get('search_term'))
@@ -43,17 +43,18 @@ def games(request):
             html = render_to_string( 'webshop/gamelist.html', {'all_games': searched_games})
             return HttpResponse(html)
 
-        if searched_games is not None:
-            context = {
-                "all_games": searched_games
-            }
-        else:
-            context = {
-                "all_games": Game.objects.all()
-            }
+        # Filter out owned games
+        if request.user.is_authenticated():
+            owned_games = user_owned_games(request.user)
+            searched_games = searched_games.exclude(id__in=[g.id for g in owned_games])
+
+        context = {
+            "all_games": searched_games
+        }
+
+        #get the user games
 
         target = "webshop/games.html"
-
         return render(request, target, context)
 
 def register_user(request):
@@ -159,6 +160,10 @@ def buy(request, gameID=-1):
     game = get_object_or_404(Game, pk=gameID)
     userProfile = get_object_or_404(UserProfile, user=request.user)
 
+    # If user already owns the game, redirect to game page as a failsafe
+    if Transaction.objects.filter(game=game, buyer=userProfile, state='success'):
+        return redirect('game', gameID=game.id)
+
     # Create Transaction
     t = Transaction(game=game, buyer=userProfile)
     t.save()
@@ -188,7 +193,7 @@ def buy(request, gameID=-1):
 
     # Send form from javascript
     data = urllib.parse.urlencode(post_data).encode('UTF-8')
-    return render_to_response('webshop/buygame.html', {'post_data': data})
+    return render(request, 'webshop/buygame.html', {'post_data': data} )
 
 def buy_success(request):
     pid = request.GET.get('pid')
@@ -202,29 +207,26 @@ def buy_success(request):
 
     if (receivedChecksum == ourChecksum):
         # Update database
-        t = Transaction.objects.get(pk=pid)
-        t.state = result
-        t.buy_completed = timezone.now()
-        t.save()
+        try:
+            t = Transaction.objects.get(pk=pid)
+            t.state = result
+            t.buy_completed = timezone.now()
+            t.save()
+        except:
+            return render_to_response('webshop/buy_finished.html')
 
-    return render_to_response('webshop/buy_finished.html', {'state': result})
-
-
-def buy_cancel(request):
-    pid = request.GET.get('pid')
-    result = request.GET.get('result')
-    t = Transaction.objects.get(pk=pid)
-    t.state = result
-    t.save()
-    return render_to_response('webshop/buy_finished.html', {'state': result})
+    return render(request, 'webshop/buy_finished.html', {'state': result})
 
 def buy_error(request):
-    pid = request.GET.get('pid')
-    result = request.GET.get('result')
-    t = Transaction.objects.get(pk=pid)
-    t.state = result
-    t.save()
-    return render_to_response('webshop/buy_finished.html', {'state': result})
+    try:
+        pid = request.GET.get('pid')
+        result = request.GET.get('result')
+        t = Transaction.objects.get(pk=pid)
+        t.state = result
+        t.save()
+        return render_to_response('webshop/buy_finished.html', {'state': result})
+    except:
+        return render(request, 'webshop/buy_finished.html')
 
 def game(request, gameID = None):
     context = {}
@@ -242,9 +244,7 @@ def game(request, gameID = None):
         context["user"] = user
 
         #check if the user owns the game
-        #transactions = Transaction.objects.filter(buyer = user_profile)
-        #transactions = Transaction.objects.get(buyer = user_profile,
-        #state="success", game =game)
+
         try:
             transactions = Transaction.objects.get(buyer = user_profile,
             state="success", game =game)
@@ -341,6 +341,16 @@ def user_is_developer(user):
 
     return False
 
+def user_owned_games(user):
+    userProfile = get_userprofile(user)
+    try:
+        transactions = userProfile.bought_games.filter(state='success')
+        games = []
+        for t in transactions:
+            games.append(t.game)
+        return games
+    except:
+        return None
 
 def game_save(request):
     if request.POST:
@@ -391,6 +401,7 @@ def profile(request):
         #return render_to_response('webshop/profile.html')
         args = {}
         args['form'] = form
+        args['user'] = user
         return render_to_response('webshop/profile.html' , args)
     else:
         return HttpResponse("You need to be logged in to access ths page.")

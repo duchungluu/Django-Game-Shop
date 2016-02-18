@@ -19,13 +19,20 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                      <script>console.log("{{ user}}");
+                      console.log("{{ user.is_authenticated }}");
+                      console.log("daumn");
+                      </script>
                     {% if user.is_authenticated %} Welcome, {{user.username}}
+
                     {% else %} Login
                     {% endif %}
                     <strong class="caret"></strong>
                     </a>
                     <div class="dropdown-menu login-dropdown">
                         {% if user.is_authenticated %}
+                        <button onclick="location.href = '{% url 'profile' %}';"
+                            class="btn btn-block btn-default">settings</button>
                         <button onclick="location.href = '{% url 'logout' %}?next=/';"
                             class="btn btn-block btn-default">Log out</button>
                         {% else %}
