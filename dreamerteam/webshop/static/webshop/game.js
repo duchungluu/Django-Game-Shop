@@ -120,7 +120,7 @@ function listener(event){
       var height = event.data.options.height + "px";
       $('.game-iframe').height(height);
       var width = event.data.options.width + "px";
-      $('.game-iframe').width(width);
+      $('.game-iframe').css("max-width",width);
       break;
 
     case "SAVE":

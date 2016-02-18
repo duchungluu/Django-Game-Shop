@@ -12,7 +12,7 @@ from django.utils import timezone
 from django import forms
 import urllib, hashlib, datetime, random
 from webshop.models import *
-from webshop.forms import RegistrationForm, GameForm
+from webshop.forms import *
 from django.conf import settings
 from django.db.models import Max
 
@@ -376,8 +376,20 @@ def game_highscore(request):
                 gameData.highScore = int(score)
                 gameData.save()
         except :
-            print('trying!')
             gameData = GameData (gameID = gameID, username = username,
             highScore = int(score))
         gameData.save()
     return HttpResponse("score entered to the system")
+
+def profile(request):
+    print ("request.user")
+    if request.user.is_authenticated():
+        user = request.user
+        form = ProfileForm(instance = user)
+
+        #return render_to_response('webshop/profile.html')
+        args = {}
+        args['form'] = form
+        return render_to_response('webshop/profile.html' , args)
+    else:
+        return HttpResponse("You need to be logged in to access ths page.")
