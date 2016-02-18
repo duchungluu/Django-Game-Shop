@@ -12,7 +12,7 @@ from django.utils import timezone
 from django import forms
 import urllib, hashlib, datetime, random
 from webshop.models import *
-from webshop.forms import RegistrationForm, GameForm
+from webshop.forms import RegistrationForm, GameForm, LoginForm
 from django.conf import settings
 from django.db.models import Max
 
@@ -139,9 +139,19 @@ def register_confirm(request, activation_key):
     user.save()
     return render_to_response('registration/confirm.html')
 
+def custom_login2(request):
+    form = LoginForm(request.POST or None)
+    if request.POST:
+        if form.is_valid():
+            user = form.login(request)
+            if user:
+                login(request, user)
+                return HttpResponseRedirect("/")
+    return render(request, 'registration/login.html', {'form': form })
+
+
 def custom_login(request):
     logout(request)
-    username = password = ''
     if request.POST:
         username = request.POST['username']
         password = request.POST['password']
@@ -151,7 +161,8 @@ def custom_login(request):
             if user.is_active:
                 login(request, user)
                 return HttpResponseRedirect('/')
-    return HttpResponseRedirect(reverse('login'))
+
+    return render_to_response('registration/login.html', {'form':form})
 
 def buy(request, gameID=-1):
     # Returns 404 if objects are not found
