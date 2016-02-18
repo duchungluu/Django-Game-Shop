@@ -23,16 +23,18 @@ def index(request):
     if not request.user.is_authenticated():
         return redirect('games')
 
-    games = Game.objects.all()
+    games = None
     owned_games = user_owned_games(request.user)
 
     if owned_games is not None:
+        games = Game.objects.all()
         for game in games:
             if game not in owned_games:
                 games = games.exclude(pk=game.id)
 
     context = {
-        "all_games": games
+        "all_games": games,
+        "games_are_owned": True
     }
 
     target = "webshop/index.html"
@@ -64,7 +66,8 @@ def games(request):
                     id__in=[g.id for g in owned_games])
 
         context = {
-            "all_games": searched_games
+            "all_games": searched_games,
+            "games_are_owned": False
         }
 
         #get the user games
