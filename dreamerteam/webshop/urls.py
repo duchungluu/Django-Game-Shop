@@ -32,4 +32,5 @@ urlpatterns = [
         name='password_change_done',
         kwargs={'template_name': 'registration/password_change_done.html'}
     ),
+    url(r'^facebook-complete/', views.facebook_complete, name='facebook_complete'),
 ]
