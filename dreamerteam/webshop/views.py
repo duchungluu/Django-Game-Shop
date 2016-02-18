@@ -30,7 +30,7 @@ def games(request):
 
     if request.method == 'GET':
 
-        searched_games = None
+        searched_games = Game.objects.all()
 
         if request.GET.get('search_term'):
             searched_games = Game.objects.filter(name__icontains=request.GET.get('search_term'))
@@ -42,14 +42,14 @@ def games(request):
             html = render_to_string( 'webshop/gamelist.html', {'all_games': searched_games})
             return HttpResponse(html)
 
-        if searched_games is not None:
-            context = {
-                "all_games": searched_games
-            }
-        else:
-            context = {
-                "all_games": Game.objects.all()
-            }
+        # Filter out owned games
+        if request.user.is_authenticated():
+            owned_games = user_owned_games(request.user)
+            searched_games = searched_games.exclude(id__in=[g.id for g in owned_games])
+
+        context = {
+            "all_games": searched_games
+        }
 
         #get the user games
 
@@ -340,6 +340,16 @@ def user_is_developer(user):
 
     return False
 
+def user_owned_games(user):
+    userProfile = get_userprofile(user)
+    try:
+        transactions = userProfile.bought_games.filter(state='success')
+        games = []
+        for t in transactions:
+            games.append(t.game)
+        return games
+    except:
+        return None
 
 def game_save(request):
     if request.POST:
