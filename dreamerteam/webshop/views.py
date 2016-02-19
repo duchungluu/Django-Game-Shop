@@ -40,14 +40,10 @@ def games(request):
         searched_games = Game.objects.all()
 
         if request.GET.get('search_term'):
-            searched_games = Game.objects.filter(name__icontains=request.GET.get('search_term'))
+            searched_games = searched_games.filter(name__icontains=request.GET.get('search_term'))
 
         if request.GET.get('order'):
             searched_games = searched_games.extra(order_by = [request.GET.get('order')])
-
-        if request.is_ajax():
-            html = render_to_string( 'webshop/gamelist.html', {'all_games': searched_games})
-            return HttpResponse(html)
 
         # Filter out owned games if user is logged in
         if request.user.is_authenticated():
@@ -55,6 +51,10 @@ def games(request):
             if owned_games is not None:
                 searched_games = searched_games.exclude(
                     id__in=[g.id for g in owned_games])
+
+        if request.is_ajax():
+            html = render_to_string( 'webshop/gamelist.html', {'all_games': searched_games})
+            return HttpResponse(html)
 
         context = {
             "all_games": searched_games,
