@@ -60,7 +60,7 @@
                             </div>
                         </form>
                         {% if not user.is_authenticated %}
-                            <a href="{% url 'social:begin' 'facebook' %}?next={% url 'index' %}" class="btn btn-block btn-primary">
+                            <a href="{% url 'social:begin' 'facebook' %}?next={% url 'facebook_complete' %}" class="btn btn-block btn-primary">
                                 Login with Facebook
                             </a>
                         {% endif %}

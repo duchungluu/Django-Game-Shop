@@ -125,7 +125,6 @@ def register_user(request):
     args.update(csrf(request))
     #assigning custom form
     args['form'] = RegistrationForm()
-    print (args)
     return render_to_response('registration/register.html' , args)
 
 def register_success(request):
@@ -386,7 +385,6 @@ def game_highscore(request):
     return HttpResponse("score entered to the system")
 
 def profile(request):
-    print ("request.user")
     if request.user.is_authenticated():
         user = request.user
         form = ProfileForm(instance = user)
@@ -404,24 +402,15 @@ def facebook_complete(request):
     if user.is_authenticated():
         if not user_has_group(user, 'Developer'):
             return render(request, "registration/facebook_register.html")            
-
-    return render(request, "registration/facebook_register.html")  
-    #return HttpResponseRedirect('/')
+    return HttpResponseRedirect('/')
 
 def register_user_group(request):
     if request.POST:
         user = request.user
         if user.is_authenticated():
-            if not user_has_group(user, 'Developer'):
+            if not user_has_group(user, 'Developer') and not user_has_group(user, 'Customer'):
                 role = request.POST.get('group')
 
-                email = user.email
-                #preparing activaion email
-                random_string = str(random.random()).encode('utf8')
-                salt = hashlib.sha1(random_string).hexdigest()[:5]
-                salted = (salt + email).encode('utf8')
-                activation_key = hashlib.sha1(salted).hexdigest()
-                key_expires = datetime.datetime.today() + datetime.timedelta(2)
                 #adding user to specific group
                 # for some reason some groups might not be found in my system (iiro)
                 # that is why it is try catch
@@ -430,17 +419,34 @@ def register_user_group(request):
                     group.user_set.add(user)
                 except:
                     pass
-
                 if (role == 'Developer'):
-                    user.isDeveloper = True
+                        user.isDeveloper = True
                 else:
                     user.isDeveloper = False
 
-                # Create and save user profile
-                new_profile = UserProfile(user=user, activation_key=activation_key,
-                    key_expires=key_expires, isDeveloper = user.isDeveloper, username = user.username)
-                new_profile.save()      
+                usr_profile = get_userprofile(user)
+                email = user.email
+                #preparing activaion email
+                random_string = str(random.random()).encode('utf8')
+                salt = hashlib.sha1(random_string).hexdigest()[:5]
+                salted = (salt + email).encode('utf8')
+                activation_key = hashlib.sha1(salted).hexdigest()
+                key_expires = datetime.datetime.today() + datetime.timedelta(2)
 
-                return HttpResponseRedirect( "/accounts/register_success")  
+                if usr_profile is None:
+                    # Create and save user profile
+                    new_profile = UserProfile(user=user, activation_key=activation_key,
+                    key_expires=key_expires, isDeveloper = user.isDeveloper, username = user.username)
+                    new_profile.save()      
+                else: 
+                    # update old profile
+                    usr_profile.isDeveloper = user.isDeveloper
+                    usr_profile.user = user
+                    usr_profile.key_expires = key_expires
+                    usr_profile.username = user.username
+                    usr_profile.activation_key=activation_key
+                    usr_profile.save()
+
+                return render(request, "registration/register_success.html")  
 
     return HttpResponseRedirect('/')
