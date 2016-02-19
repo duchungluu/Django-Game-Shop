@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-xs-12 col-md-6 col-md-offset-6">
+      	<div class="well">
+      		<form class="form" action="{% url '' %}" method="post">
+      		<h3>Please Select your account type to complete your registration</h3>	
+      		{% csrf_token %}
+			  	<div class="form-group">
+			    	<label for="inputName" class="control-label">User group</label>
+			      	
+			    </div>
+			  </div>
+      	</div>
+      </div>
+  </div>
+</div>
+{% endblock %}

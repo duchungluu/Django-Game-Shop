@@ -88,7 +88,7 @@ def register_user(request):
             password1 = form.cleaned_data['password1']
             user = User(first_name=first_name,
             last_name = last_name,username=username,
-            password=password1, email=email)
+            password = password1, email=email)
             role = request.POST.get('group')
 
             #preparing activaion email
@@ -425,5 +425,9 @@ def profile(request):
         return HttpResponse("You need to be logged in to access ths page.")
 
 def facebook_complete(request):
-    print(request)
-    pass
+    if user.is_authenticated():
+        user_profile = get_userprofile(user)
+        if user_profile is None:
+            render(request, "registration/facebook_register.html")            
+
+    return HttpResponseRedirect('/')
