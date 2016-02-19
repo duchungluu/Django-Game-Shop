@@ -1,3 +1,45 @@
+function updateScore(){
+  console.log("called");
+  var destination = getDomain() + "/games/highscore/"+gameID+"/";
+  var csrftoken = getCookie('csrftoken');
+
+  function getScores(){
+  $.ajax({
+    url : destination, // the endpoint,commonly same url
+    type : "POST", // http method
+    data : {
+    username : username,
+    csrfmiddlewaretoken : csrftoken
+  }, // data sent with the post request
+     // handle a successful response
+     success : function(json) {
+     console.log(json); // another sanity check
+     //On success show the data posted to server as a message
+     console.log(json.highscore);
+
+    if ( $( ".user_hs" ).length ) {
+      $('.user_hs').html(json.highscore);
+    }
+    else {
+      $('.user_hs_container').append("</br> user_highscore: <span class='user_hs'>"+json.highscore+"</span>");
+    }
+    if ( $( ".global_hs" ).length ) {
+      $('.global_hs').html(json.global_highscore);
+    }
+    else{
+      $('.global_hs_container').append("</br> global_highscore: <span class='global_hs'> "+json.global_highscore+"</span>");
+    }
+   },
+
+ // handle a non-successful response
+     error : function(xhr,errmsg,err) {
+     //console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+   }
+ });
+}
+  setTimeout(getScores, 1000);
+}
+
 function getDomain(){
   var url = window.location.href;
   var arr = url.split("/");
@@ -6,6 +48,9 @@ function getDomain(){
 }
 function displayScore(score){
 
+}
+function displayPopUp(message){
+  alert(message);
 }
 function saveScore(score){
   var destination = getDomain() + "/games/highscore/";
@@ -20,15 +65,17 @@ function saveScore(score){
   }, // data sent with the post request
      // handle a successful response
      success : function(json) {
-     console.log(json); // another sanity check
+     //console.log(json); // another sanity check
      //On success show the data posted to server as a message
+
    },
 
  // handle a non-successful response
      error : function(xhr,errmsg,err) {
-     console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+     //console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
    }
  });
+
 }
 function getCookie(name) {
   var cookieValue = null;
@@ -64,11 +111,12 @@ function saveStates(json_text){
      success : function(json) {
      //console.log(json); // another sanity check
      //On success show the data posted to server as a message
+     displayPopUp("Game saved!");
    },
 
  // handle a non-successful response
      error : function(xhr,errmsg,err) {
-     console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+     //console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
    }
  });
 }
@@ -99,12 +147,12 @@ function loadStates(){
       //iframContent.postMessage(message,"www.example.com");
       var targetFrame = document.getElementById("targetFrame");
       targetFrame.contentWindow.postMessage(message,"*");
-
+      displayPopUp("Game loaded!");
    },
 
  // handle a non-successful response
      error : function(xhr,errmsg,err) {
-     console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+     //console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
    }
  });
 }
@@ -113,7 +161,7 @@ function loadStates(){
 function listener(event){
   //if ( event.origin !== "http://javascript.info" )
     //return
-  console.log(event.data);
+  //console.log(event.data);
   switch (event.data.messageType){
     case "SETTING":
       //setting height and weight
@@ -135,9 +183,13 @@ function listener(event){
       //send the data to the game
       break;
     case "SCORE":
-      console.log(event.data.score);
+      //console.log(event.data.score);
+      updateScore();
+      displayPopUp("Score Submitted!");
       displayScore(event.data.score);
       saveScore(event.data.score);
+
+
       break;
     case "ERROR":
       $('.errorDiv').html(event.data.info);

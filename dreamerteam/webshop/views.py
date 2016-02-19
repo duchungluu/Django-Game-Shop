@@ -16,6 +16,7 @@ from webshop.models import *
 from webshop.forms import *
 from django.conf import settings
 from django.db.models import Max
+import json
 
 def index(request):
 
@@ -377,10 +378,12 @@ def game_save(request):
             gameData = GameData.objects.get(gameID = gameID,
             username = username)
             gameData.gameStatus = json_text;
-        except gameData.DoesNotExist:
+            gameData.save()
+        except :
             gameData = GameData (gameID = gameID, username = username,
             gameStatus = json_text)
-        gameData.save()
+            gameData.save()
+
     return HttpResponse("data saved!")
 
 def game_load(request):
@@ -391,7 +394,7 @@ def game_load(request):
         jsonString = gameData.gameStatus
     return HttpResponse(jsonString)
 
-def game_highscore(request):
+def game_highscore_set(request):
     if request.POST:
         gameID = request.POST['gameID']
         username = request.POST['username']
@@ -406,7 +409,29 @@ def game_highscore(request):
             gameData = GameData (gameID = gameID, username = username,
             highScore = int(score))
         gameData.save()
-    return HttpResponse("score entered to the system")
+        return HttpResponse("score entered to the system")
+
+
+def game_highscore_get(request,gameID = -1):
+    if request.POST:
+
+        username = request.POST['username']
+
+        result  = {}
+        try:
+            gameData = GameData.objects.get(username=username, gameID = gameID)
+            highScore = gameData.highScore
+            result['highscore'] = highScore
+        except:
+            pass
+        try :
+            gameDataMax = GameData.objects.all().filter(gameID = gameID).aggregate(Max('highScore'))
+            result['global_highscore'] = gameDataMax['highScore__max']
+        except:
+            pass
+
+        return HttpResponse(json.dumps(result), content_type="application/json")
+
 
 def profile(request):
     print ("request.user")

@@ -73,3 +73,6 @@ nav.no-radius {
 .invisible{
 	visibility: hidden;
 }
+.gameInfo{
+	margin-left:2em;
+}
