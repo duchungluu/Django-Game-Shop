@@ -1,3 +1,4 @@
+{% load webshop_extras %}
 <nav class="navbar navbar-default no-radius">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -17,13 +18,14 @@
                     <li {% if request.path == url %} class="active"{% endif %}>
                         <a href="{{ url }}">Browse Games</a>
                     </li>
-                    {% url 'dev' as devUrl %}
-                    <li {% if request.path == devUrl %} class="active" {% endif %}>
-                        <a href="{{ devUrl }}">Developer</a>
-                    </li>
+                    {% if user|is_developer %}
+                        {% url 'dev' as devUrl %}
+                        <li {% if request.path == devUrl %} class="active" {% endif %}>
+                            <a href="{{ devUrl }}">Developer</a>
+                        </li>
+                    {% endif %}
                 </ul>
             {% endif %}
-
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" href="#" data-toggle="dropdown">
