@@ -428,6 +428,8 @@ def register_user_group(request):
                 try:
                     group = Group.objects.get(name=role) 
                     group.user_set.add(user)
+                except:
+                    pass
 
                 if (role == 'Developer'):
                     user.isDeveloper = True
