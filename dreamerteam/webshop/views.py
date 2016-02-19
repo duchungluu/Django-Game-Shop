@@ -319,10 +319,11 @@ def get_userprofile(user):
     except:
         return None
 
-def user_has_group(user,groupname):
+def user_has_group(user, groupname):
     for group in user.groups.all():
         if group.name.lower() == groupname.lower(): # case insensitive
             return True
+
     return False
 
 def user_is_developer(user):
@@ -401,26 +402,32 @@ def profile(request):
 def facebook_complete(request):
     user = request.user
     if user.is_authenticated():
-        user_profile = get_userprofile(user)
-        if user_profile is None:
-            render(request, "registration/facebook_register.html")            
+        if not user_has_group(user, 'Developer'):
+            return render(request, "registration/facebook_register.html")            
 
-    return HttpResponseRedirect('/')
+    return render(request, "registration/facebook_register.html")  
+    #return HttpResponseRedirect('/')
 
-def register_user_profile(request):
+def register_user_group(request):
     if request.POST:
+        user = request.user
         if user.is_authenticated():
-            user_profile = get_userprofile(user)
-            if user_profile is None:
+            if not user_has_group(user, 'Developer'):
                 role = request.POST.get('group')
 
+                email = user.email
                 #preparing activaion email
+                random_string = str(random.random()).encode('utf8')
+                salt = hashlib.sha1(random_string).hexdigest()[:5]
+                salted = (salt + email).encode('utf8')
                 activation_key = hashlib.sha1(salted).hexdigest()
                 key_expires = datetime.datetime.today() + datetime.timedelta(2)
                 #adding user to specific group
-                group = Group.objects.get(name=role)
-                
-                group.user_set.add(user)
+                # for some reason some groups might not be found in my system (iiro)
+                # that is why it is try catch
+                try:
+                    group = Group.objects.get(name=role) 
+                    group.user_set.add(user)
 
                 if (role == 'Developer'):
                     user.isDeveloper = True
@@ -429,7 +436,9 @@ def register_user_profile(request):
 
                 # Create and save user profile
                 new_profile = UserProfile(user=user, activation_key=activation_key,
-                    key_expires=key_expires,isDeveloper = user.isDeveloper, username = user.username)
+                    key_expires=key_expires, isDeveloper = user.isDeveloper, username = user.username)
                 new_profile.save()      
+
+                return HttpResponseRedirect( "/accounts/register_success")  
 
     return HttpResponseRedirect('/')

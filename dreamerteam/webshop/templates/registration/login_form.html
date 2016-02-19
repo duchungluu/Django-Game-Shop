@@ -1,5 +1,8 @@
 <div class="row">
   <div class="col-xs-12 col-md-5 col-md-offset-1" >  
+    {% if user.is_authenticated %}
+    <h3>You are already logged in. <a href="{% url 'logout' %}?next={% url 'index' %}">Logout</a></h3>
+    {% else %}
     <div class="well">
       <h3>Login using your account </h3>
       <form class="form-horizontal" action="{% url 'login' %}" method="post">
@@ -37,13 +40,13 @@
     <div class="well">
       <h3>Login using social account</h3>
       <p>Sign in with facebook account</p>
-      {% if not user.is_authenticated %}
+      
       <a href="{% url 'social:begin' 'facebook' %}?next={% url 'facebook_complete' %}" class="btn btn-primary">
           Login with Facebook
       </a>
     </div>
-    {% endif %}
   </div>
+  {% endif %}
 </div>
 
 
