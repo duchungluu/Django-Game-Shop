@@ -13,7 +13,7 @@ from django.utils import timezone
 from django import forms
 import urllib, hashlib, datetime, random
 from webshop.models import *
-from webshop.forms import RegistrationForm, GameForm
+from webshop.forms import *
 from django.conf import settings
 from django.db.models import Max
 
@@ -23,17 +23,8 @@ def index(request):
     if not request.user.is_authenticated():
         return redirect('games')
 
-    games = None
-    owned_games = user_owned_games(request.user)
-
-    if owned_games is not None:
-        games = Game.objects.all()
-        for game in games:
-            if game not in owned_games:
-                games = games.exclude(pk=game.id)
-
     context = {
-        "all_games": games,
+        "all_games": user_owned_games(request.user),
         "games_are_owned": True
     }
 
@@ -118,15 +109,13 @@ def register_user(request):
             # Send email with activation key
             email_subject = 'Account confirmation'
             email_body = "Hey %s, thanks for signing up. To activate your account, click this link within \
-            48hours http://127.0.0.1:8000/accounts/confirm/%s" % (username, activation_key)
+            48hours http://dreamerteam.herokuapp.com/accounts/confirm/%s" % (username, activation_key)
 
             send_mail(email_subject, email_body, 'myemail@example.com',
                 [email], fail_silently=False)
 
             #user_profile = get_object_or_404(UserProfile, username=username)
             p = UserProfile.objects.get(username=username)
-            print("user_profile.isDeveloper")
-            print(p.isDeveloper)
             #do something with user objects, such asL user.is_active = True
             user.save()
             return HttpResponseRedirect("/accounts/register_success")
@@ -262,7 +251,6 @@ def game(request, gameID = None):
         context["user"] = user
 
         #check if the user owns the game
-
         try:
             transactions = Transaction.objects.get(buyer = user_profile,
             state="success", game =game)
@@ -270,24 +258,10 @@ def game(request, gameID = None):
         except:
             print("The user doesn't own the game")
 
-        # get the highscore data for the user
-        username = user.username
-        try:
-            gameData = GameData.objects.get(username=username, gameID = gameID)
-            user_highscore = gameData.highScore
-            context["user_highscore"] = user_highscore
-        except:
-            pass
+        # Get top-10 scores for the game
+        top10 = GameData.objects.filter(gameID=gameID).order_by('-highScore')[:10]
+        context["top_10"] = top10
 
-        # get the global highscore
-        try:
-            gameDataMax = GameData.objects.all().filter(gameID = gameID).aggregate(Max('highScore'))
-            print("global_highscore:")
-            global_highscore = gameDataMax['highScore__max']
-            print(global_highscore)
-            context["global_highscore"] = global_highscore
-        except:
-            pass
     if gameID:
         context["game"] = game
     context["isBought"] = isBought;

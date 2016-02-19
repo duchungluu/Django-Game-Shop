@@ -27,10 +27,6 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-                      <script>console.log("{{ user}}");
-                      console.log("{{ user.is_authenticated }}");
-                      console.log("daumn");
-                      </script>
                     {% if user.is_authenticated %} Welcome, {{user.username}}
                     {% else %} Login
                     {% endif %}

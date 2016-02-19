@@ -30,7 +30,7 @@ class RegistrationForm(UserCreationForm):
         user = super(RegistrationForm, self).save(commit = False)
         user.save()
         user.email = self.cleaned_data['email']
-        user.first_name = self.cleaned_data['email']
+        user.first_name = self.cleaned_data['first_name']
         if commit:
             user.is_active = False # not active until he opens activation link
             user.save()
