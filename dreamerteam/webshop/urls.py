@@ -33,4 +33,5 @@ urlpatterns = [
         kwargs={'template_name': 'registration/password_change_done.html'}
     ),
     url(r'^facebook-complete/', views.facebook_complete, name='facebook_complete'),
+    url(r'^profile/create', views.register_user_profile, name='create_profile'),
 ]

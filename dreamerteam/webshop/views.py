@@ -399,9 +399,37 @@ def profile(request):
         return HttpResponse("You need to be logged in to access ths page.")
 
 def facebook_complete(request):
+    user = request.user
     if user.is_authenticated():
         user_profile = get_userprofile(user)
         if user_profile is None:
             render(request, "registration/facebook_register.html")            
+
+    return HttpResponseRedirect('/')
+
+def register_user_profile(request):
+    if request.POST:
+        if user.is_authenticated():
+            user_profile = get_userprofile(user)
+            if user_profile is None:
+                role = request.POST.get('group')
+
+                #preparing activaion email
+                activation_key = hashlib.sha1(salted).hexdigest()
+                key_expires = datetime.datetime.today() + datetime.timedelta(2)
+                #adding user to specific group
+                group = Group.objects.get(name=role)
+                
+                group.user_set.add(user)
+
+                if (role == 'Developer'):
+                    user.isDeveloper = True
+                else:
+                    user.isDeveloper = False
+
+                # Create and save user profile
+                new_profile = UserProfile(user=user, activation_key=activation_key,
+                    key_expires=key_expires,isDeveloper = user.isDeveloper, username = user.username)
+                new_profile.save()      
 
     return HttpResponseRedirect('/')

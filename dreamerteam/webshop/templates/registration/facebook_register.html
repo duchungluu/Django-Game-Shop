@@ -5,14 +5,17 @@
   <div class="row">
       <div class="col-xs-12 col-md-6 col-md-offset-6">
       	<div class="well">
-      		<form class="form" action="{% url '' %}" method="post">
-      		<h3>Please Select your account type to complete your registration</h3>	
-      		{% csrf_token %}
+      		<form class="form" action="{% url 'create_profile' %}" method="post">
+      			{% csrf_token %}
+	      		<h3>Please Select your account type to complete your registration</h3>	
 			  	<div class="form-group">
-			    	<label for="inputName" class="control-label">User group</label>
-			      	
+			    	<label for="id_group" class="control-label">User group</label>
+			      	<select id="id_group" name="group" class="form-group">
+						<option value="Customer">Customer</option>
+						<option value="Developer">Developer</option>
+					</select>
 			    </div>
-			  </div>
+			</form>
       	</div>
       </div>
   </div>
