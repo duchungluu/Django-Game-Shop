@@ -14,22 +14,31 @@
   <div class="errorDiv invisible">error</div>
   <iframe width="100px" id = "targetFrame" class="game-iframe" src="{{game.url}}" allowfullscreen></iframe>
 
-  <b>Top-10:</b>
   <br>
-  {# List top-10 scores #}
-  {% for score in top_10 %}
-    {% if user.username == score.username %}
-      <b>{{score.username}} : {{score.highScore}}</b><br>
-    {% else %}
-      {{score.username}} : {{score.highScore}} <br>
-    {% endif %}
-  {% endfor %}
-
-  {# If the user's score is not in top-10 #}
-  {% if user_score %}
-    ------------------------------------<br>
-    <b>{{user_score.username}} : {{user_score.highScore}}<b>
-  {% endif %}
+  <div class="container-fluid" id ="top10container">
+    <div class="row">
+      {# <div class="col-xs-12 col-md-4"> #}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"> Top-10 </h3>
+          </div>
+          <div class="panel-body">
+            <ul class="list-group">
+              {% for score in top_10 %}
+                <li class="list-group-item">
+                  {% if user.username == score.username %}
+                    <b>{{score.username}} : {{score.highScore}}</b>
+                  {% else %}
+                    {{score.username}} : {{score.highScore}}
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      {# </div> #}
+    </div>
+  </div>
 
 {% else %}
   name: {{ game.name }}

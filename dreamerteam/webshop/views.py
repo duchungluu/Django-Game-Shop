@@ -271,18 +271,6 @@ def game(request, gameID = None):
         top10 = GameData.objects.filter(gameID=gameID).order_by('-highScore')[:10]
         context["top_10"] = top10
 
-        # If user's score is not in top-10, include it in a separate field
-        userInTop10 = False
-        for s in top10:
-            if s.username == user.username:
-                userInTop10 = True
-
-        if userInTop10 == False:
-            try:
-                context["user_score"] = gameData
-            except:
-                pass
-
     if gameID:
         context["game"] = game
     context["isBought"] = isBought;

@@ -64,12 +64,16 @@ nav.no-radius {
     margin-top: 10px;
     margin-right: 10px;
 }
-.game-iframe{
-		width: calc(100% - 2em);
+.game-iframe {
+	width: calc(100% - 2em);
     height: auto;
     margin: auto auto;
     display: block;
-	}
-.invisible{
+}
+.invisible {
 	visibility: hidden;
+}
+#top10container {
+	text-align: center;
+	width: 300px;
 }
