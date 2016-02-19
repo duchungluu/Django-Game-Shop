@@ -2,59 +2,94 @@
 {% load staticfiles %}
 
 {% block content %}
-{% if isBought %}
-  <script type="text/javascript">
-    gameID = "{{game.pk}}";
-    username = "{{user.username}}";
-  </script>
-  <script src="{% static 'webshop/game.js' %}"></script>
-  {% csrf_token %}
-
-  <b>{{ game.name }}</b>
-  <div class="errorDiv invisible">error</div>
-  <iframe width="100px" id = "targetFrame" class="game-iframe" src="{{game.url}}" allowfullscreen></iframe>
-
-  <br>
-  <div class="container-fluid" id ="top10container">
-    <div class="row">
-      {# <div class="col-xs-12 col-md-4"> #}
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title"> Top-10 </h3>
-          </div>
-          <div class="panel-body">
-            <ul class="list-group">
-              {% for score in top_10 %}
-                <li class="list-group-item">
-                  {% if user.username == score.username %}
-                    <b>{{score.username}} : {{score.highScore}}</b>
-                  {% else %}
-                    {{score.username}} : {{score.highScore}}
-                  {% endif %}
-                </li>
-              {% endfor %}
-            </ul>
+<div class="container-fluid">
+  {% if isBought %}
+    <script type="text/javascript">
+      gameID = "{{game.pk}}";
+      username = "{{user.username}}";
+    </script>
+    <script src="{% static 'webshop/game.js' %}"></script>
+    {% csrf_token %}
+   <div class="row">
+      <div class="col-xs-12">
+        <h3> {{ game.name }}</h3>
+        <div class="errorDiv invisible">error</div>
+        
+        <iframe width="100px" id = "targetFrame" class="game-iframe" src="{{game.url}}" allowfullscreen></iframe>
+      </div>
+    </div>
+    
+    <br>
+    <div id="top10container">
+      <div class="row">
+        <div class="col-xs-12 col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"> Game Description </h3>
+            </div>
+            <div class="panel-body">
+              <p>
+                {{ game.description }}
+              </p>
+              <p>
+                <span "text-muted">Game published:</span> <span class="text-info">{{ game.published }}</span>
+              </p>
+            </div>
           </div>
         </div>
-      {# </div> #}
+        <div class="col-xs-12 col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"> Top-10 </h3>
+            </div>
+            <div class="panel-body">
+              <ul class="list-group">
+                {% for score in top_10 %}
+                  <li class="list-group-item">
+                    {% if user.username == score.username %}
+                      <b>{{score.username}} : {{score.highScore}}</b>
+                    {% else %}
+                      {{score.username}} : {{score.highScore}}
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>    
+
+  {% else %}
+    <div class="row">
+      <div class="col-md-8 col-xs-12"> 
+        
+        <div>
+          {% if user.is_authenticated %}
+              <button onclick="location.href='{% url 'buy' game.id %}';"
+              class="btn btn-success pull-right">Buy</button>
+            {% endif %}
+          <h3>Game: {{ game.name }} </h3>
+          <p>Price: <span class="text-warning">{{ game.price }} €</span></p> 
+            
+        </div>
+        <br />
+        <div class="panel panel-default">
+          <div class="panel-heading">
+              <h3 class="panel-title"> Game details </h3>
+            </div>
+          <div class="panel-body">
+            <p>
+              {{ game.description }}
+            </p>
+            <p>
+              <span "text-muted">Game published:</span> <span class="text-info">{{ game.published }}</span>
+            </p>
+          </div>
+          
+        </div>    
     </div>
   </div>
-
-{% else %}
-  name: {{ game.name }}
-  </br>
-  global_highscore: {{global_highscore}}
-  </br>
-  price: {{ game.price }} €
-  </br>
-  published: {{ game.published }}
-  </br>
-  description: {{ game.description }}
-  </br>
-  {% if user.is_authenticated %}
-      <button onclick="location.href='{% url 'buy' game.id %}';"
-      class="btn btn-success">Buy</button>
   {% endif %}
-{% endif %}
-
+</div>
 {% endblock %}
