@@ -24,19 +24,19 @@
     "model": "auth.user",
     "pk": 1,
     "fields": {
-        "date_joined": "2016-01-06T17:01:23Z",
-        "email": "teemu.huovinen@aalto.fi",
-        "first_name": "",
-        "last_login": "2016-02-09T13:07:06.495Z",
-        "user_permissions": [],
         "username": "admin",
-        "last_name": "",
+        "is_staff": true,
+        "date_joined": "2016-01-06T17:01:23Z",
         "password": "pbkdf2_sha256$20000$sz6RuZ154VwN$yCD0MSVL6BFJdXdkXDndERaBooECBbC4t5zYudCF6gs=",
-        "is_active": true,
+        "first_name": "",
         "groups": [
             1
         ],
-        "is_staff": true,
+        "email": "teemu.huovinen@aalto.fi",
+        "is_active": true,
+        "last_login": "2016-02-19T13:33:40.953Z",
+        "last_name": "",
+        "user_permissions": [],
         "is_superuser": true
     }
 },
@@ -44,19 +44,19 @@
     "model": "auth.user",
     "pk": 2,
     "fields": {
-        "date_joined": "2016-02-09T13:05:46.862Z",
-        "email": "default.developer@email.com",
-        "first_name": "Default",
-        "last_login": "2016-02-09T13:06:16.682Z",
-        "user_permissions": [],
         "username": "developer",
-        "last_name": "Developer",
+        "is_staff": false,
+        "date_joined": "2016-02-09T13:05:46.862Z",
         "password": "pbkdf2_sha256$20000$TeHMDkbgi1SV$KtFstuWNLPEoU+DQE1HNw7IrINu2Qmy/3N02EjzJtzo=",
-        "is_active": true,
+        "first_name": "Default",
         "groups": [
             1
         ],
-        "is_staff": false,
+        "email": "default.developer@email.com",
+        "is_active": true,
+        "last_login": "2016-02-18T15:22:33.327Z",
+        "last_name": "Developer",
+        "user_permissions": [],
         "is_superuser": false
     }
 },
@@ -64,45 +64,324 @@
     "model": "auth.user",
     "pk": 3,
     "fields": {
-        "date_joined": "2016-02-09T13:06:38.131Z",
-        "email": "default.customer@email.com",
-        "first_name": "Default",
-        "last_login": null,
-        "user_permissions": [],
         "username": "customer",
-        "last_name": "Customer",
+        "is_staff": false,
+        "date_joined": "2016-02-09T13:06:38.131Z",
         "password": "pbkdf2_sha256$20000$i1hAB2g5OSqw$98Oi1qJYygudI7gcg5aqij5Jsi2gLyDJKeAPGPgjST0=",
-        "is_active": true,
+        "first_name": "Default",
         "groups": [
             2
         ],
+        "email": "default.customer@email.com",
+        "is_active": true,
+        "last_login": "2016-02-18T15:36:57.811Z",
+        "last_name": "Customer",
+        "user_permissions": [],
+        "is_superuser": false
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 4,
+    "fields": {
+        "username": "MickeyMouse",
         "is_staff": false,
+        "date_joined": "2016-02-19T13:11:20.092Z",
+        "password": "pbkdf2_sha256$20000$RpfKcRt0Z21X$dx7DA8wHnaUxgS6RYR7e+xE2WQDJc3HXsU8oo53hvdA=",
+        "first_name": "Mickey",
+        "groups": [
+            2
+        ],
+        "email": "mickey.mouse@email.com",
+        "is_active": true,
+        "last_login": "2016-02-19T13:22:05.299Z",
+        "last_name": "Mouse",
+        "user_permissions": [],
+        "is_superuser": false
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 5,
+    "fields": {
+        "username": "TestUser",
+        "is_staff": false,
+        "date_joined": "2016-02-19T13:23:39.007Z",
+        "password": "pbkdf2_sha256$20000$ycpgRPSRWHZ9$ZH6T2QnBZo9pfZT3VRyWBVRMvfnrwnZEyBqUXj5XbdM=",
+        "first_name": "Test",
+        "groups": [
+            2
+        ],
+        "email": "test.user@gmail.com",
+        "is_active": true,
+        "last_login": "2016-02-19T13:25:19.174Z",
+        "last_name": "User",
+        "user_permissions": [],
+        "is_superuser": false
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 6,
+    "fields": {
+        "username": "DonaldDuck",
+        "is_staff": false,
+        "date_joined": "2016-02-19T13:26:09.990Z",
+        "password": "pbkdf2_sha256$20000$JyY8FxcYWeJT$7VtKQVjFUzGZMRR4FxrmnMtlHqIhh/HHUoxA5rt4NzI=",
+        "first_name": "Donald",
+        "groups": [
+            2
+        ],
+        "email": "donald.duck@email.com",
+        "is_active": true,
+        "last_login": "2016-02-19T13:26:34.500Z",
+        "last_name": "Duck",
+        "user_permissions": [],
+        "is_superuser": false
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 7,
+    "fields": {
+        "username": "HessuHopo",
+        "is_staff": false,
+        "date_joined": "2016-02-19T13:27:17.584Z",
+        "password": "pbkdf2_sha256$20000$VFOHOjDNMYax$gEgZPxodFMj6/Kkx0Z9/wVtzFmY7WwTQuvM9uIszqiQ=",
+        "first_name": "Hessu",
+        "groups": [
+            2
+        ],
+        "email": "hessu.hopo@email.com",
+        "is_active": true,
+        "last_login": "2016-02-19T13:27:48.992Z",
+        "last_name": "Hopo",
+        "user_permissions": [],
+        "is_superuser": false
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 8,
+    "fields": {
+        "username": "AkuAnkka",
+        "is_staff": false,
+        "date_joined": "2016-02-19T13:29:26.203Z",
+        "password": "pbkdf2_sha256$20000$Ws2ZBTlLFcGt$ena+aZSEBWNMbbLLYwbd2Ku0W3A8JhRtJ7d425J6N+U=",
+        "first_name": "Aku",
+        "groups": [
+            2
+        ],
+        "email": "aku.ankka@email.com",
+        "is_active": true,
+        "last_login": "2016-02-19T13:29:41.319Z",
+        "last_name": "Ankka",
+        "user_permissions": [],
+        "is_superuser": false
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 9,
+    "fields": {
+        "username": "ScroogeMcDuck",
+        "is_staff": false,
+        "date_joined": "2016-02-19T13:31:43.607Z",
+        "password": "pbkdf2_sha256$20000$JddBzN3oR2EJ$ZcTMH6RruP5KGeRWVk8XJJwwc6YNskHInq0W2Dwnn/0=",
+        "first_name": "Scrooge",
+        "groups": [
+            2
+        ],
+        "email": "scrooge.mcduck@email.com",
+        "is_active": true,
+        "last_login": "2016-02-19T13:32:04.182Z",
+        "last_name": "McDuck",
+        "user_permissions": [],
+        "is_superuser": false
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 10,
+    "fields": {
+        "username": "DaisyDuck",
+        "is_staff": false,
+        "date_joined": "2016-02-19T13:33:04.242Z",
+        "password": "pbkdf2_sha256$20000$20nVF1jxyV1a$SyY6oDKR7+uRyDvtq/oaQxyBgjTJDJ+I1qYIDOwfl0g=",
+        "first_name": "Daisy",
+        "groups": [
+            2
+        ],
+        "email": "daisy.duck@email.com",
+        "is_active": true,
+        "last_login": "2016-02-19T13:33:20.063Z",
+        "last_name": "Duck",
+        "user_permissions": [],
+        "is_superuser": false
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 11,
+    "fields": {
+        "username": "MikkiHiiri",
+        "is_staff": false,
+        "date_joined": "2016-02-19T13:34:16.128Z",
+        "password": "pbkdf2_sha256$20000$WRgppRp5Df7c$15D8DeYQawhUiDtBWfvHAm5Hoc4zg3tVJHyHAPJNqPk=",
+        "first_name": "Mikki",
+        "groups": [
+            2
+        ],
+        "email": "mikki.hiiri@email.com",
+        "is_active": true,
+        "last_login": "2016-02-19T13:34:33.810Z",
+        "last_name": "Hiiri",
+        "user_permissions": [],
+        "is_superuser": false
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 12,
+    "fields": {
+        "username": "SantaClaus",
+        "is_staff": false,
+        "date_joined": "2016-02-19T13:46:07.142Z",
+        "password": "pbkdf2_sha256$20000$6ezk84Lr9GWX$PIXY5nV69FCPeu9HyCvr1/e+c8A92AfupqJYAd++MEw=",
+        "first_name": "Santa",
+        "groups": [
+            2
+        ],
+        "email": "santa.claus@email.com",
+        "is_active": true,
+        "last_login": "2016-02-19T13:46:26.510Z",
+        "last_name": "Claus",
+        "user_permissions": [],
         "is_superuser": false
     }
 },
 
 
 {
+    "model": "webshop.userprofile",
     "fields": {
+        "username": "developer",
+        "isDeveloper": true,
         "key_expires": "2016-02-11T13:05:47.212Z",
         "user": 2,
-        "activation_key": "e8105e3bbfb1adba178d07d32e134875322f3c0b",
-        "username": "developer",
-        "isDeveloper": true
+        "activation_key": "e8105e3bbfb1adba178d07d32e134875322f3c0b"
     },
-    "model": "webshop.userprofile",
     "pk": 1
 },
 {
+    "model": "webshop.userprofile",
     "fields": {
+        "username": "customer",
+        "isDeveloper": false,
         "key_expires": "2016-02-11T13:06:38.426Z",
         "user": 3,
-        "activation_key": "c1e017043e741a379b0fab0c4a6f569449656e7d",
-        "username": "customer",
-        "isDeveloper": false
+        "activation_key": "c1e017043e741a379b0fab0c4a6f569449656e7d"
     },
-    "model": "webshop.userprofile",
     "pk": 2
+},
+{
+    "model": "webshop.userprofile",
+    "fields": {
+        "username": "MickeyMouse",
+        "isDeveloper": false,
+        "key_expires": "2016-02-21T13:11:20.445Z",
+        "user": 4,
+        "activation_key": "b09e4e5c5e4a34216cb208c23495e559cebc71b3"
+    },
+    "pk": 3
+},
+{
+    "model": "webshop.userprofile",
+    "fields": {
+        "username": "TestUser",
+        "isDeveloper": false,
+        "key_expires": "2016-02-21T13:23:39.345Z",
+        "user": 5,
+        "activation_key": "f4777be8002cb6dbc8b71884f3d8180e4e6400cb"
+    },
+    "pk": 4
+},
+{
+    "model": "webshop.userprofile",
+    "fields": {
+        "username": "DonaldDuck",
+        "isDeveloper": false,
+        "key_expires": "2016-02-21T13:26:10.288Z",
+        "user": 6,
+        "activation_key": "8b4e85303982f54edfb2529e4fa0b99fa0993175"
+    },
+    "pk": 5
+},
+{
+    "model": "webshop.userprofile",
+    "fields": {
+        "username": "HessuHopo",
+        "isDeveloper": false,
+        "key_expires": "2016-02-21T13:27:17.825Z",
+        "user": 7,
+        "activation_key": "f1d5ce4de505e739456ce9343d8854681ae580f3"
+    },
+    "pk": 6
+},
+{
+    "model": "webshop.userprofile",
+    "fields": {
+        "username": "AkuAnkka",
+        "isDeveloper": false,
+        "key_expires": "2016-02-21T13:29:26.453Z",
+        "user": 8,
+        "activation_key": "7f450a2f53786258cd3b447538af20bc8e679494"
+    },
+    "pk": 7
+},
+{
+    "model": "webshop.userprofile",
+    "fields": {
+        "username": "ScroogeMcDuck",
+        "isDeveloper": false,
+        "key_expires": "2016-02-21T13:31:43.959Z",
+        "user": 9,
+        "activation_key": "1b82f7395124046f71da51b36c206104db096d5c"
+    },
+    "pk": 8
+},
+{
+    "model": "webshop.userprofile",
+    "fields": {
+        "username": "DaisyDuck",
+        "isDeveloper": false,
+        "key_expires": "2016-02-21T13:33:04.541Z",
+        "user": 10,
+        "activation_key": "d3623432d559536c42219e10af77a643ef582480"
+    },
+    "pk": 9
+},
+{
+    "model": "webshop.userprofile",
+    "fields": {
+        "username": "MikkiHiiri",
+        "isDeveloper": false,
+        "key_expires": "2016-02-21T13:34:16.466Z",
+        "user": 11,
+        "activation_key": "07f44b98b109cf893abe798503bf255cf6ec599c"
+    },
+    "pk": 10
+},
+{
+    "model": "webshop.userprofile",
+    "fields": {
+        "username": "SantaClaus",
+        "isDeveloper": false,
+        "key_expires": "2016-02-21T13:46:07.388Z",
+        "user": 12,
+        "activation_key": "d94ba08730b877e158aa364a530cfdc861bf41e8"
+    },
+    "pk": 11
 },
 
 
@@ -133,48 +412,271 @@
 
 
 {
-    "pk": 1,
     "model": "webshop.transaction",
+    "pk": 1,
     "fields": {
         "buy_completed": null,
+        "buyer": 2,
         "state": "",
         "buy_started": "2016-02-05T20:32:12.515Z",
-        "game": 1,
-        "buyer": 2
+        "game": 1
     }
 },
 {
-    "pk": 2,
     "model": "webshop.transaction",
+    "pk": 2,
     "fields": {
         "buy_completed": null,
+        "buyer": 2,
         "state": "cancel",
         "buy_started": "2016-02-05T20:32:26.531Z",
-        "game": 2,
-        "buyer": 2
+        "game": 2
     }
 },
 {
-    "pk": 3,
     "model": "webshop.transaction",
+    "pk": 3,
     "fields": {
         "buy_completed": null,
+        "buyer": 2,
         "state": "error",
         "buy_started": "2016-02-05T20:32:33.260Z",
-        "game": 2,
-        "buyer": 2
+        "game": 2
     }
 },
 {
-    "pk": 4,
     "model": "webshop.transaction",
+    "pk": 4,
     "fields": {
         "buy_completed": "2016-02-05T20:32:38.775Z",
+        "buyer": 2,
         "state": "success",
         "buy_started": "2016-02-05T20:32:37.202Z",
-        "game": 1,
-        "buyer": 2
+        "game": 1
     }
+},
+{
+    "model": "webshop.transaction",
+    "pk": 5,
+    "fields": {
+        "buy_completed": "2016-02-19T13:23:11.158Z",
+        "buyer": 3,
+        "state": "success",
+        "buy_started": "2016-02-19T13:23:09.118Z",
+        "game": 1
+    }
+},
+{
+    "model": "webshop.transaction",
+    "pk": 6,
+    "fields": {
+        "buy_completed": "2016-02-19T13:25:25.106Z",
+        "buyer": 4,
+        "state": "success",
+        "buy_started": "2016-02-19T13:25:23.204Z",
+        "game": 1
+    }
+},
+{
+    "model": "webshop.transaction",
+    "pk": 7,
+    "fields": {
+        "buy_completed": "2016-02-19T13:26:44.360Z",
+        "buyer": 5,
+        "state": "success",
+        "buy_started": "2016-02-19T13:26:38.664Z",
+        "game": 1
+    }
+},
+{
+    "model": "webshop.transaction",
+    "pk": 8,
+    "fields": {
+        "buy_completed": "2016-02-19T13:27:53.861Z",
+        "buyer": 6,
+        "state": "success",
+        "buy_started": "2016-02-19T13:27:52.025Z",
+        "game": 1
+    }
+},
+{
+    "model": "webshop.transaction",
+    "pk": 9,
+    "fields": {
+        "buy_completed": "2016-02-19T13:29:46.471Z",
+        "buyer": 7,
+        "state": "success",
+        "buy_started": "2016-02-19T13:29:44.948Z",
+        "game": 1
+    }
+},
+{
+    "model": "webshop.transaction",
+    "pk": 10,
+    "fields": {
+        "buy_completed": "2016-02-19T13:32:14.023Z",
+        "buyer": 8,
+        "state": "success",
+        "buy_started": "2016-02-19T13:32:07.146Z",
+        "game": 1
+    }
+},
+{
+    "model": "webshop.transaction",
+    "pk": 11,
+    "fields": {
+        "buy_completed": "2016-02-19T13:33:26.047Z",
+        "buyer": 9,
+        "state": "success",
+        "buy_started": "2016-02-19T13:33:23.748Z",
+        "game": 1
+    }
+},
+{
+    "model": "webshop.transaction",
+    "pk": 12,
+    "fields": {
+        "buy_completed": "2016-02-19T13:34:38.490Z",
+        "buyer": 10,
+        "state": "success",
+        "buy_started": "2016-02-19T13:34:37.188Z",
+        "game": 1
+    }
+},
+{
+    "model": "webshop.transaction",
+    "pk": 13,
+    "fields": {
+        "buy_completed": "2016-02-19T13:46:31.209Z",
+        "buyer": 11,
+        "state": "success",
+        "buy_started": "2016-02-19T13:46:29.287Z",
+        "game": 1
+    }
+},
+{
+    "model": "webshop.transaction",
+    "pk": 14,
+    "fields": {
+        "buy_completed": "2016-02-06T20:32:38.775Z",
+        "buyer": 1,
+        "state": "success",
+        "buy_started": "2016-02-06T20:32:37.202Z",
+        "game": 1
+    }
+},
+
+
+{
+    "fields": {
+        "username": "developer",
+        "gameID": 1,
+        "gameStatus": "{\"playerItems\":[\"A rock\",\"A rock\"],\"score\":10}",
+        "highScore": 10
+    },
+    "pk": 1,
+    "model": "webshop.gamedata"
+},
+{
+    "fields": {
+        "username": "customer",
+        "gameID": 1,
+        "gameStatus": "{\"playerItems\":[\"A rock\",\"A rock\"],\"score\":20}",
+        "highScore": 20
+    },
+    "pk": 2,
+    "model": "webshop.gamedata"
+},
+{
+    "fields": {
+        "username": "MickeyMouse",
+        "gameID": 1,
+        "gameStatus": "{\"playerItems\":[\"A rock\",\"A rock\"],\"score\":30}",
+        "highScore": 30
+    },
+    "pk": 3,
+    "model": "webshop.gamedata"
+},
+{
+    "fields": {
+        "username": "TestUser",
+        "gameID": 1,
+        "gameStatus": "{\"playerItems\":[\"A rock\",\"A rock\"],\"score\":40}",
+        "highScore": 40
+    },
+    "pk": 4,
+    "model": "webshop.gamedata"
+},
+{
+    "fields": {
+        "username": "DonaldDuck",
+        "gameID": 1,
+        "gameStatus": "{\"playerItems\":[\"A rock\",\"A rock\"],\"score\":50}",
+        "highScore": 50
+    },
+    "pk": 5,
+    "model": "webshop.gamedata"
+},
+{
+    "fields": {
+        "username": "HessuHopo",
+        "gameID": 1,
+        "gameStatus": "{\"playerItems\":[\"A rock\",\"A rock\"],\"score\":60}",
+        "highScore": 60
+    },
+    "pk": 6,
+    "model": "webshop.gamedata"
+},
+{
+    "fields": {
+        "username": "AkuAnkka",
+        "gameID": 1,
+        "gameStatus": "{\"playerItems\":[\"A rock\",\"A rock\"],\"score\":70}",
+        "highScore": 70
+    },
+    "pk": 7,
+    "model": "webshop.gamedata"
+},
+{
+    "fields": {
+        "username": "ScroogeMcDuck",
+        "gameID": 1,
+        "gameStatus": "{\"playerItems\":[\"A rock\",\"A rock\"],\"score\":80}",
+        "highScore": 80
+    },
+    "pk": 8,
+    "model": "webshop.gamedata"
+},
+{
+    "fields": {
+        "username": "DaisyDuck",
+        "gameID": 1,
+        "gameStatus": "{\"playerItems\":[\"A rock\",\"A rock\"],\"score\":90}",
+        "highScore": 90
+    },
+    "pk": 9,
+    "model": "webshop.gamedata"
+},
+{
+    "fields": {
+        "username": "MikkiHiiri",
+        "gameID": 1,
+        "gameStatus": "{\"playerItems\":[\"A rock\",\"A rock\"],\"score\":100}",
+        "highScore": 100
+    },
+    "pk": 10,
+    "model": "webshop.gamedata"
+},
+{
+    "fields": {
+        "username": "SantaClaus",
+        "gameID": 1,
+        "gameStatus": "{\"playerItems\":[\"A rock\",\"A rock\"],\"score\":110}",
+        "highScore": 110
+    },
+    "pk": 11,
+    "model": "webshop.gamedata"
 }
+
 
 ]

@@ -260,7 +260,6 @@ def game(request, gameID = None):
         context["user"] = user
 
         #check if the user owns the game
-
         try:
             transactions = Transaction.objects.get(buyer = user_profile,
             state="success", game =game)
@@ -268,24 +267,22 @@ def game(request, gameID = None):
         except:
             print("The user doesn't own the game")
 
-        # get the highscore data for the user
-        username = user.username
-        try:
-            gameData = GameData.objects.get(username=username, gameID = gameID)
-            user_highscore = gameData.highScore
-            context["user_highscore"] = user_highscore
-        except:
-            pass
+        # Get top-10 scores for the game
+        top10 = GameData.objects.filter(gameID=gameID).order_by('-highScore')[:10]
+        context["top_10"] = top10
 
-        # get the global highscore
-        try:
-            gameDataMax = GameData.objects.all().filter(gameID = gameID).aggregate(Max('highScore'))
-            print("global_highscore:")
-            global_highscore = gameDataMax['highScore__max']
-            print(global_highscore)
-            context["global_highscore"] = global_highscore
-        except:
-            pass
+        # If user's score is not in top-10, include it in a separate field
+        userInTop10 = False
+        for s in top10:
+            if s.username == user.username:
+                userInTop10 = True
+
+        if userInTop10 == False:
+            try:
+                context["user_score"] = gameData
+            except:
+                pass
+
     if gameID:
         context["game"] = game
     context["isBought"] = isBought;

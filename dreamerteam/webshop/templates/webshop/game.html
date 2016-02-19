@@ -11,18 +11,26 @@
   {% csrf_token %}
 
   <b>{{ game.name }}</b>
-  {% if user_highscore %}
-    </br>
-    user_highscore: {{user_highscore}}
-  {% endif %}
-  {% if global_highscore  %}
-    </br>
-    global_highscore: {{global_highscore}}
-  {% endif %}
-  </br>
-  </br>
   <div class="errorDiv invisible">error</div>
   <iframe width="100px" id = "targetFrame" class="game-iframe" src="{{game.url}}" allowfullscreen></iframe>
+
+  <b>Top-10:</b>
+  <br>
+  {# List top-10 scores #}
+  {% for score in top_10 %}
+    {% if user.username == score.username %}
+      <b>{{score.username}} : {{score.highScore}}</b><br>
+    {% else %}
+      {{score.username}} : {{score.highScore}} <br>
+    {% endif %}
+  {% endfor %}
+
+  {# If the user's score is not in top-10 #}
+  {% if user_score %}
+    ------------------------------------<br>
+    <b>{{user_score.username}} : {{user_score.highScore}}<b>
+  {% endif %}
+
 {% else %}
   name: {{ game.name }}
   </br>
