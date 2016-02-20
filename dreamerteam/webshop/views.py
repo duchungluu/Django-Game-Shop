@@ -15,7 +15,7 @@ import urllib, hashlib, datetime, random
 from webshop.models import *
 from webshop.forms import *
 from django.conf import settings
-from django.db.models import Max
+from django.db.models import Max, F
 import json
 from django.core import serializers
 
@@ -55,7 +55,7 @@ def games(request):
                 searched_games = searched_games.exclude(
                     id__in=[g.id for g in owned_games])
 
-        
+
         if request.is_ajax():
             html = render_to_string('webshop/gamelist.html', {'all_games': searched_games, 'games_are_owned': 'False'})
             return HttpResponse(html)
@@ -64,7 +64,7 @@ def games(request):
             "all_games": searched_games,
             "games_are_owned": False
         }
-        
+
         target = "webshop/games.html"
         return render(request, target, context)
 
@@ -214,12 +214,14 @@ def buy_success(request):
     ourChecksum = hashlib.md5(ourChecksum.encode("ascii")).hexdigest()
 
     if (receivedChecksum == ourChecksum):
-        # Update database
+        # Update Transaction and increment Game's total_bought
         try:
             t = Transaction.objects.get(pk=pid)
             t.state = result
             t.buy_completed = timezone.now()
             t.save()
+            Game.objects.filter(pk=t.game.id).update(total_bought=F("total_bought") + 1)
+
         except:
             return render_to_response('webshop/buy_finished.html')
 
@@ -273,8 +275,17 @@ def dev(request):
     if not user_is_developer(user):
          raise PermissionDenied
 
+    # All games where user is developer
+    userProfile = get_userprofile(user)
+    games = userProfile.developed_games.all()
+
+    # 10 most recent transactions related to developer's games
+    transactions = Transaction.objects.filter(game__in=games,
+    state='success').order_by('-buy_completed')[:10]
+
     context = {
-        "games": Game.objects.filter(developer=get_userprofile(user)) # query all games where user is developer
+        "games": games,
+        "transactions" : transactions
     }
     return render(request, "webshop/dev.html", context)
 
