@@ -486,7 +486,8 @@ def register_user_group(request):
                     usr_profile.username = user.username
                     usr_profile.activation_key=activation_key
                     usr_profile.save()
-
+                    
+                user.save()
                 return render(request, "registration/register_success.html")
 
     return HttpResponseRedirect('/')
