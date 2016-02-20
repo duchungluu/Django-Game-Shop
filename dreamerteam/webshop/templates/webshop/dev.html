@@ -21,14 +21,13 @@
 				    <div class="panel-body">
 				    	{% if games %}
     						{% for game in games %}
-						    	<div class="list-product-wrapper">
+						    	<div class="list-product-wrapper" id="{{game.id}}">
 							        <div class="product-title-description">
 							            <h3>{{game.name}}</h3>
 							            <div>{{game.description}}</div>
 							        </div>
 							        <div class="list-product-buy-wrapper">	
-							        	{% url 'dev' as url %} <!-- dont know why this has to be set before using -->
-							            <a class="btn btn-primary" href="{{url}}game/{{game.id}}">Edit</a>
+							            <a id="{{game.id}}" class="btn btn-primary btn-edit" href="#">Edit</a>
 							        </div>
 							    </div>
 							{% endfor %}
@@ -42,6 +41,25 @@
 	    </div>
 	    <br />
     </div>
+{# Button clicks #}
+<script type="text/javascript">
+
+    // edit button clicked
+    $('.btn-edit').click(function()
+    {	
+    	location.href = "/dev/game/" + $(this).attr('id');
+        return false;
+        
+    });
+
+    // Outer div clicked
+    $(".list-product-wrapper").click(function()
+    {
+        location.href = "{% url 'game' %}" + $(this).attr('id');
+        return false;
+    });
+
+</script>
 {% endblock %}
 
 
