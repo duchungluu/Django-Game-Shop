@@ -97,10 +97,9 @@ Acceptance testing will be performed in Heroku.
 * Teemu getting a job
     * Minor risk with a big impact to group member availability
 
-### 7. Implemented features
+### 7. Self Assessment
 
-<!-- What features you implemented and how much points you would like to give to yourself from those? -->
-
+## 7.1 Implemented features
 
 * Authentication (200 points)
     * Implemented with Django auth (with a confirmation e-mail)
@@ -116,7 +115,7 @@ Acceptance testing will be performed in Heroku.
     * See game sales statistics
     * Can play own games only if separately bought (-20)
 
-* Game/service interaction (100-200 points)
+* Game/service interaction (200 points)
     * Interactions include receiving messages from the games:
       * receiving messages from the game: LOAD_REQUEST, SAVE, SETTING, and SCORE
       * sending messages to the games: LOAD and ERROR
@@ -124,14 +123,14 @@ Acceptance testing will be performed in Heroku.
 * Quality of work (50 points)
     * Awesome UI and user experience
     * Reused utility functions
-    * Almost nonexistent testing
+    * Almost nonexistent testing (-50)
 
 * Non-functional requirements (190 points)
     * Project plan didn't include any diagrams (use case scenario etc.) (-10 points)
-    * Project management and team communication was golden
+    * Project management and team communication was awesome
         * Trello was used for task management, and Telegram was used for communication
 
-* Game state Save/load (0-100 points):
+* Game state Save/load (100 points):
     * Save/load functions are implemented, they show corresponsive temporary messages to let user know about them as well.
 
 * 3rd party login (100 points)
@@ -145,17 +144,21 @@ Acceptance testing will be performed in Heroku.
 * Social media sharing (50 points)
     * Games can be shared from the game's page with custom description
 
-<!-- Where do you feel that you were successful and where you had most problems.
-Give sufficient details, this will influence the non-functional points awarded. -->
+## 7.2 Successes and problems
+
+Successes:
+* Overall application look and feel
+* Teamwork, project management and communication
+* Considering the team's skill level with Django, we feel that our project can be considered a general success
 
 Problems:
+* Serving static files in production mode. We followed the lecture slides' instructions and tried various internet guides.
+* Registration was a pain and we ended up changing our extended user model scheme.
 * There were some problems with forms, understanding 'the Django way' was troublesome, minor problems.
-* The structure of the GameData model and how to connect it to other models
-* Back/frontend communication, JSON serialization
-* Registration was a pain and we ended up changing our extended user model scheme
+* The structure of the GameData model and how to connect it to other models was also a minor problem.
 
-<!-- How did you divide the work between the team members - who did what? -->
-We divided pretty well the project to individual tasks.
+## 7.3 Task division
+We divided the project to individual tasks pretty well.
 
 Iiro:
     - Navigation
@@ -163,7 +166,7 @@ Iiro:
     - Browse games page
     - Login finalization (page styling and error handling)
     - Social login and social sharing
-    - Styling, responsivenes, templates
+    - Styling, responsiveness, templates
 
 Mehrad:
     - Registration process, models and custom forms
@@ -171,8 +174,14 @@ Mehrad:
     - server/game interactions
     - GameData models
 
-<!-- Instructions how to use your application and link to Heroku where it is deployed. -->
-Heroku: http://dreamerteam.herokuapp.com/
+Teemu:
+    - Buying a Game
+    - Database management (initial data)
+    - Top-10 list
+    - Developer's statistics
+
+## 7.4 Usage instructions
+Heroku link: http://dreamerteam.herokuapp.com/
 
 Index page has the owned games for the user. If not logged in, will redirect to browse games (/games).
 
@@ -188,7 +197,6 @@ Login (accounts/login). User can either log from the navigation login or from th
 
 Register pages (accounts/register) allows user to create new account and select account type (dev or customer).
 
-<!-- If a specific account/password (e.g. game developer) is required to try out and test some aspects of the work, please provide the details. -->
 You can register yourself as a developer or customer. There is already developer and customer accounts:
     username: customer
     password: customer
