@@ -1,3 +1,14 @@
+
+function error(error_message){
+  console.log("CALLED");
+  var message={};
+  message.messageType ="ERROR";
+  message.info = error_message;
+
+  var targetFrame = document.getElementById("targetFrame");
+  targetFrame.contentWindow.postMessage(message,"*");
+}
+
 function updateScore(){
 
   var destination = getDomain() + "/games/highscore/"+gameID+"/";
@@ -27,6 +38,7 @@ function updateScore(){
      });
    },
      error : function(xhr,errmsg,err) {
+       error(xhr.responseText);
    }
  });
 }
@@ -65,6 +77,7 @@ function saveScore(score){
      success : function(json) {
    },
      error : function(xhr,errmsg,err) {
+       error(xhr.responseText);
    }
  });
 
@@ -101,6 +114,7 @@ function saveStates(json_text){
      displayPopUp("save");
    },
      error : function(xhr,errmsg,err) {
+       error(xhr.responseText);
    }
  });
 }
@@ -120,11 +134,14 @@ function loadStates(){
       var message={};
       message.messageType ="LOAD";
       message.gameState = JSON.parse(json);
+
       var targetFrame = document.getElementById("targetFrame");
       targetFrame.contentWindow.postMessage(message,"*");
       displayPopUp("load");
+
    },
      error : function(xhr,errmsg,err) {
+       error(xhr.responseText);
    }
  });
 }
@@ -159,18 +176,21 @@ function listener(event){
       break;
 
     case "ERROR":
-      $('.errorDiv').html(event.data.info);
-      $('.errorDiv').removeClass("invisible");
-      $('.game-iframe').addClass("invisible");
+      $(".message_error").fadeIn();
+      $(".message_error strong").html(event.data.info);
+      $('.game-iframe').addClass("nodisplay");
       break;
 
     default:
         return;
   }
 }
+$( document ).ready(function() {
+  // Handler for .ready() called.
+  if (window.addEventListener){
+    addEventListener("message", listener, false);
+  } else {
+    attachEvent("onmessage", listener);
+  }
 
-if (window.addEventListener){
-  addEventListener("message", listener, false);
-} else {
-  attachEvent("onmessage", listener);
-}
+});
