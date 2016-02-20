@@ -159,11 +159,12 @@ Iiro:
     - Browse games page
     - Login finalization (page styling and error handling)
     - Social login and social sharing
-    - Styling, responsivenes, templates
+    - Styling, responsivenes, templates 
 
 <!-- Instructions how to use your application and link to Heroku where it is deployed. -->
+Heroku: http://dreamerteam.herokuapp.com/
 
-Index page has the owned games for the user. If not logged in, will redirect to browse games. 
+Index page has the owned games for the user. If not logged in, will redirect to browse games (/games). 
 
 Game page (game/id) (access by pressing game div). Has the game name, price, description etc. Can be bought if user logged in and not already bought. Social sharing.
 If user logged in and user has bought the game, the game can be played here. Shows the top scores as well.
