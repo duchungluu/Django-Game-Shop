@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-xs-12 col-md-8 col-md-offset-2">
+      	<div class="well">
+      		<form class="form" action="{% url 'create_group' %}" method="post">
+      			{% csrf_token %}
+	      		<h3>Please Select your account type to complete your registration</h3>	
+	      		<br />
+			  	<div class="form-group">
+			    	<label for="id_group" class="control-label">User group</label>
+			      	<select id="id_group" name="group" class="form-group">
+						<option value="Customer">Customer</option>
+						<option value="Developer">Developer</option>
+					</select>
+			    </div>
+			    <div class="form-group clearfix">
+			    	<input type="submit" value="Submit" class="btn btn-primary pull-right" />
+			    </div>
+			</form>
+      	</div>
+      </div>
+  </div>
+</div>
+{% endblock %}

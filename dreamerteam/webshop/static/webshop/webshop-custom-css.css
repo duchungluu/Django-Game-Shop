@@ -13,6 +13,9 @@ nav.no-radius {
 .filter-control select {
 	width: 200px;
 }
+.filter-control {
+    margin-top: 15px;
+}
 
 
 /* Navigation login dropdown */
@@ -20,13 +23,22 @@ nav.no-radius {
 	padding: 15px 15px 5px;
 	color: #FFF;
 }
-/* targeted for not mobile */
+/* targeted for sm md and lg -devices */
 @media (min-width: 768px) {
 	.navbar-nav > li > .login-dropdown {
 		color: #2C3E50;
 		/* add more width in larger devices */
 	    min-width: 255px;
 	}
+    .list-product-wrapper .list-product-buy-wrapper > button.btn-buy {
+        display: inline-block;
+    }
+}
+/* targeted for md and lg -devices */
+@media (min-width: 992px){
+    .filter-control {
+        margin-top: 0px;
+    }
 }
 
 /* GAME LIST ELEMENT */
@@ -64,15 +76,28 @@ nav.no-radius {
     margin-top: 10px;
     margin-right: 10px;
 }
-.game-iframe{
-		width: calc(100% - 2em);
+
+.list-product-wrapper .list-product-buy-wrapper .btn-buy {
+    display: none;
+}
+.game-iframe {
+	width: calc(100% - 2em);
     height: auto;
     margin: auto auto;
     display: block;
-	}
-.invisible{
+}
+.invisible {
 	visibility: hidden;
 }
+
 .gameInfo{
 	margin-left:2em;
+}
+
+#top10container {
+	text-align: center;
+}
+
+.nodisplay{
+	display:none;
 }

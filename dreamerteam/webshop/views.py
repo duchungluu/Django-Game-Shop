@@ -17,6 +17,8 @@ from webshop.forms import *
 from django.conf import settings
 from django.db.models import Max
 import json
+from django.core import serializers
+
 
 def index(request):
 
@@ -24,17 +26,8 @@ def index(request):
     if not request.user.is_authenticated():
         return redirect('games')
 
-    games = None
-    owned_games = user_owned_games(request.user)
-
-    if owned_games is not None:
-        games = Game.objects.all()
-        for game in games:
-            if game not in owned_games:
-                games = games.exclude(pk=game.id)
-
     context = {
-        "all_games": games,
+        "all_games": user_owned_games(request.user),
         "games_are_owned": True
     }
 
@@ -50,14 +43,10 @@ def games(request):
         searched_games = Game.objects.all()
 
         if request.GET.get('search_term'):
-            searched_games = Game.objects.filter(name__icontains=request.GET.get('search_term'))
+            searched_games = searched_games.filter(name__icontains=request.GET.get('search_term'))
 
         if request.GET.get('order'):
             searched_games = searched_games.extra(order_by = [request.GET.get('order')])
-
-        if request.is_ajax():
-            html = render_to_string( 'webshop/gamelist.html', {'all_games': searched_games})
-            return HttpResponse(html)
 
         # Filter out owned games if user is logged in
         if request.user.is_authenticated():
@@ -65,6 +54,10 @@ def games(request):
             if owned_games is not None:
                 searched_games = searched_games.exclude(
                     id__in=[g.id for g in owned_games])
+
+        if request.is_ajax():
+            html = render_to_string( 'webshop/gamelist.html', {'all_games': searched_games})
+            return HttpResponse(html)
 
         context = {
             "all_games": searched_games,
@@ -89,7 +82,7 @@ def register_user(request):
             password1 = form.cleaned_data['password1']
             user = User(first_name=first_name,
             last_name = last_name,username=username,
-            password=password1, email=email)
+            password = password1, email=email)
             role = request.POST.get('group')
 
             #preparing activaion email
@@ -135,7 +128,6 @@ def register_user(request):
     args.update(csrf(request))
     #assigning custom form
     args['form'] = RegistrationForm()
-    print (args)
     return render_to_response('registration/register.html' , args)
 
 def register_success(request):
@@ -261,7 +253,6 @@ def game(request, gameID = None):
         context["user"] = user
 
         #check if the user owns the game
-
         try:
             transactions = Transaction.objects.get(buyer = user_profile,
             state="success", game =game)
@@ -269,24 +260,10 @@ def game(request, gameID = None):
         except:
             print("The user doesn't own the game")
 
-        # get the highscore data for the user
-        username = user.username
-        try:
-            gameData = GameData.objects.get(username=username, gameID = gameID)
-            user_highscore = gameData.highScore
-            context["user_highscore"] = user_highscore
-        except:
-            pass
+        # Get top-10 scores for the game
+        top10 = GameData.objects.filter(gameID=gameID).order_by('-highScore')[:10]
+        context["top_10"] = top10
 
-        # get the global highscore
-        try:
-            gameDataMax = GameData.objects.all().filter(gameID = gameID).aggregate(Max('highScore'))
-            print("global_highscore:")
-            global_highscore = gameDataMax['highScore__max']
-            print(global_highscore)
-            context["global_highscore"] = global_highscore
-        except:
-            pass
     if gameID:
         context["game"] = game
     context["isBought"] = isBought;
@@ -344,10 +321,11 @@ def get_userprofile(user):
     except:
         return None
 
-def user_has_group(user,groupname):
+def user_has_group(user, groupname):
     for group in user.groups.all():
         if group.name.lower() == groupname.lower(): # case insensitive
             return True
+
     return False
 
 def user_is_developer(user):
@@ -425,8 +403,11 @@ def game_highscore_get(request,gameID = -1):
         except:
             pass
         try :
-            gameDataMax = GameData.objects.all().filter(gameID = gameID).aggregate(Max('highScore'))
-            result['global_highscore'] = gameDataMax['highScore__max']
+            #gameDataMax = GameData.objects.all().filter(gameID = gameID).aggregate(Max('highScore'))
+            #result['global_highscore'] = gameDataMax['highScore__max']
+            data = GameData.objects.filter(gameID=gameID).order_by('-highScore')[:10]
+            top10 = serializers.serialize("json", data, fields  = ('username','highScore'))
+            result["top_10"] = (top10)
         except:
             pass
 
@@ -434,7 +415,6 @@ def game_highscore_get(request,gameID = -1):
 
 
 def profile(request):
-    print ("request.user")
     if request.user.is_authenticated():
         user = request.user
         form = ProfileForm(instance = user)
@@ -448,5 +428,55 @@ def profile(request):
         return HttpResponse("You need to be logged in to access ths page.")
 
 def facebook_complete(request):
-    print(request)
-    pass
+    user = request.user
+    if user.is_authenticated():
+        if not user_has_group(user, 'Developer'):
+            return render(request, "registration/facebook_register.html")
+    return HttpResponseRedirect('/')
+
+def register_user_group(request):
+    if request.POST:
+        user = request.user
+        if user.is_authenticated():
+            if not user_has_group(user, 'Developer') and not user_has_group(user, 'Customer'):
+                role = request.POST.get('group')
+
+                #adding user to specific group
+                # for some reason some groups might not be found in my system (iiro)
+                # that is why it is try catch
+                try:
+                    group = Group.objects.get(name=role)
+                    group.user_set.add(user)
+                except:
+                    pass
+                if (role == 'Developer'):
+                        user.isDeveloper = True
+                else:
+                    user.isDeveloper = False
+
+                usr_profile = get_userprofile(user)
+                email = user.email
+                #preparing activaion email
+                random_string = str(random.random()).encode('utf8')
+                salt = hashlib.sha1(random_string).hexdigest()[:5]
+                salted = (salt + email).encode('utf8')
+                activation_key = hashlib.sha1(salted).hexdigest()
+                key_expires = datetime.datetime.today() + datetime.timedelta(2)
+
+                if usr_profile is None:
+                    # Create and save user profile
+                    new_profile = UserProfile(user=user, activation_key=activation_key,
+                    key_expires=key_expires, isDeveloper = user.isDeveloper, username = user.username)
+                    new_profile.save()
+                else:
+                    # update old profile
+                    usr_profile.isDeveloper = user.isDeveloper
+                    usr_profile.user = user
+                    usr_profile.key_expires = key_expires
+                    usr_profile.username = user.username
+                    usr_profile.activation_key=activation_key
+                    usr_profile.save()
+
+                return render(request, "registration/register_success.html")
+
+    return HttpResponseRedirect('/')

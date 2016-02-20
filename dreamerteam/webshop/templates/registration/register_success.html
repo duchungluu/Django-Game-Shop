@@ -1,8 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-  <h1>You have registered! Please check your email to confirm your email address!</h1>
-  <p>click <a href="/accounts/login/">here </a> to login </p>
-
+	<div class="container-fluid">
+  		<div class="row">
+      		<div class="col-xs-12">
+				{% if not user.is_authenticated %}
+			  		<h1>You have registered! Please check your email to confirm your email address!</h1>
+			  		<p>click <a href="/accounts/login/">here </a> to login </p>
+			  	{% else %}
+			  		<h1>Registeration completed! Now you can continue using the site.</h1>
+			  	{% endif %}
+			</div>
+		</div>
+	</div>
 {% endblock %}

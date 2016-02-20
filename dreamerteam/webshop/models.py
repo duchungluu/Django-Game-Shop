@@ -3,28 +3,18 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 import datetime
 
-
-
-#class Developer(User):
-#    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-#    games = models.ManyToManyField(Game, related_name='developers')
-
-#class Customer(User):
-#    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-#    games = models.ManyToManyField(Game, related_name='customers')
-
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     activation_key = models.CharField(max_length=40, blank=True)
     key_expires = models.DateTimeField(default=timezone.now)
     isDeveloper = models.BooleanField(default = False)
     username = models.CharField(max_length=40)
+    class Meta:
+        verbose_name_plural='User profiles'
 
     def __str__(self):
         return self.user.username
 
-    class Meta:
-        verbose_name_plural='User profiles'
 
 class Game(models.Model):
     name = models.CharField(max_length=200)
@@ -40,7 +30,6 @@ class Game(models.Model):
 
 
 class Transaction(models.Model):
-
     game = models.ForeignKey(Game)
     buyer = models.ForeignKey(UserProfile, related_name='bought_games')
     state = models.CharField(blank=True, max_length=200)
@@ -49,6 +38,7 @@ class Transaction(models.Model):
 
     def __str__(self):
         return "{}: {}".format(self.buyer, self.game)
+
 
 class GameData(models.Model):
     gameID = models.IntegerField()
