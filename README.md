@@ -134,25 +134,49 @@ Acceptance testing will be performed in Heroku.
 
 * 3rd party login (100 points)
     * Facebook login is integrated to the system.
+    * After facebook login, the user chooses the user group (dev or customer)
 
 * Mobile friendly design (50 points)
     * Responsive design is taken into account from the ground up
     * Bootstrap flatly theme is used to give the page a personal(ish) look
 
 * Social media sharing (50 points)
-    * Games can be shared from the game's page
+    * Games can be shared from the game's page with custom description
 
 <!-- Where do you feel that you were successful and where you had most problems.
 Give sufficient details, this will influence the non-functional points awarded. -->
 
 Problems:
-* There were some problems with forms, understanding 'the Django way' was troublesome
+* There were some problems with forms, understanding 'the Django way' was troublesome, minor problems.
 * The structure of the GameData model and how to connect it to other models
 * Back/frontend communication, JSON serialization
 * Registration was a pain and we ended up changing our extended user model scheme
 
 <!-- How did you divide the work between the team members - who did what? -->
+We divided pretty well the project to individual tasks.
+Iiro: 
+    - Developer pages (add/edit/delete)
+    - Browse games page
+    - Login finalization (page styling and error handling)
+    - Social login and social sharing
+    - Styling, responsivenes, templates
 
 <!-- Instructions how to use your application and link to Heroku where it is deployed. -->
 
+Index page has the owned games for the user. If not logged in, will redirect to browse games. 
+
+Game page (game/id) (access by pressing game div). Has the game name, price, description etc. Can be bought if user logged in and not already bought. Social sharing.
+If user logged in and user has bought the game, the game can be played here. Shows the top scores as well.
+
+Browse games (/games), has search and sort functionality. If user is not logged in the, game buying is disabled. If user has logged in, the owned games are not visible here. Gamelist hides the buy button, if screen has no space for it. Then the game can be bought from the individual game page (game/id).
+
+Dev pages (/dev/). Developer can access the developer pages. From there user can create/edit/delete the games. Game statistics are also available there. 
+Deleting the game is in edit game form (delete button).
+
 <!-- If a specific account/password (e.g. game developer) is required to try out and test some aspects of the work, please provide the details. -->
+You can register yourself as a developer or customer. There is already developer and customer accounts:
+    username: customer
+    password: customer
+    username: developer
+    password: developer
+
