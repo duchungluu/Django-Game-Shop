@@ -155,6 +155,7 @@ Overall points = 1440
 
 ##### Problems:
 * Serving static files in production mode. We followed the lecture slides' instructions and tried various internet guides.
+    * Related discussion: https://piazza.com/class/ieaffxbk5du5gx?cid=121
 * Registration was a pain and we ended up changing our extended user model scheme.
 * There were some problems with forms, understanding 'the Django way' was troublesome, minor problems.
 * The structure of the GameData model and how to connect it to other models was also a minor problem.
