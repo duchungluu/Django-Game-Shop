@@ -96,3 +96,63 @@ Acceptance testing will be performed in Heroku.
 
 * Teemu getting a job
     * Minor risk with a big impact to group member availability
+
+### 7. Implemented features
+
+<!-- What features you implemented and how much points you would like to give to yourself from those? -->
+
+
+* Authentication (200 points)
+    * Implemented with Django auth (with a confirmation e-mail)
+    * Default user model is extended with UserProfile
+
+* Basic customer functionality (300 points)
+    * Buy a game, play bought games, record high scores
+    * Can play only bought games
+    * Cool search functionality
+
+* Basic developer functionality (180 points)
+    * Add, edit and delete a game
+    * See game sales statistics
+    * Can play own games only if separately bought (-20)
+
+* Game/service interaction (100-200 points)
+    * Mehrad writes about this
+
+* Quality of work (50 points)
+    * Awesome UI and user experience
+    * Reused utility functions
+    * Almost nonexistent testing
+
+* Non-functional requirements (190 points)
+    * Project plan didn't include any diagrams (use case scenario etc.) (-10 points)
+    * Project management and team communication was golden
+        * Trello was used for task management, and Telegram was used for communication
+
+* Game state Save/load (0-100 points):
+    * Mehrad writes about this too
+
+* 3rd party login (100 points)
+    * Facebook login is integrated to the system.
+
+* Mobile friendly design (50 points)
+    * Responsive design is taken into account from the ground up
+    * Bootstrap flatly theme is used to give the page a personal(ish) look
+
+* Social media sharing (50 points)
+    * Games can be shared from the game's page
+
+<!-- Where do you feel that you were successful and where you had most problems.
+Give sufficient details, this will influence the non-functional points awarded. -->
+
+Problems:
+* There were some problems with forms, understanding 'the Django way' was troublesome
+* The structure of the GameData model and how to connect it to other models
+* Back/frontend communication, JSON serialization
+* Registration was a pain and we ended up changing our extended user model scheme
+
+<!-- How did you divide the work between the team members - who did what? -->
+
+<!-- Instructions how to use your application and link to Heroku where it is deployed. -->
+
+<!-- If a specific account/password (e.g. game developer) is required to try out and test some aspects of the work, please provide the details. -->
