@@ -440,7 +440,7 @@ def profile(request):
 def facebook_complete(request):
     user = request.user
     if user.is_authenticated():
-        if not user_has_group(user, 'Developer'):
+        if not user_has_group(user, 'Developer') and not user_has_group(user, 'Customer'):
             return render(request, "registration/facebook_register.html")
     return HttpResponseRedirect('/')
 
@@ -486,7 +486,7 @@ def register_user_group(request):
                     usr_profile.username = user.username
                     usr_profile.activation_key=activation_key
                     usr_profile.save()
-                    
+
                 user.save()
                 return render(request, "registration/register_success.html")
 
