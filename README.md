@@ -156,7 +156,11 @@ Problems:
 
 <!-- How did you divide the work between the team members - who did what? -->
 We divided pretty well the project to individual tasks.
+<<<<<<< HEAD
 Iiro:
+=======
+Iiro:
+    - Navigation
     - Developer pages (add/edit/delete)
     - Browse games page
     - Login finalization (page styling and error handling)
@@ -175,6 +179,10 @@ Browse games (/games), has search and sort functionality. If user is not logged 
 
 Dev pages (/dev/). Developer can access the developer pages. From there user can create/edit/delete the games. Game statistics are also available there.
 Deleting the game is in edit game form (delete button).
+
+Login (accounts/login). User can either log from the navigation login or from the url (accounts/login). Facebook login will ask user to create userprofile after succesful facebook login.
+
+Register pages (accounts/register) allows user to create new account and select account type (dev or customer).
 
 <!-- If a specific account/password (e.g. game developer) is required to try out and test some aspects of the work, please provide the details. -->
 You can register yourself as a developer or customer. There is already developer and customer accounts:
