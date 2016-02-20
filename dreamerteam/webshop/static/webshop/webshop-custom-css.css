@@ -49,6 +49,9 @@ nav.no-radius {
     margin-bottom: 10px;
     cursor: pointer;
 }
+.list-product-wrapper.responsive-height {
+    height: auto;
+}
 .list-product-wrapper .product-icon {
     float: left;
     max-height: 65px;
