@@ -16,6 +16,7 @@
         <h3> {{ game.name }}</h3>
         <div class="errorDiv invisible">error</div>
 
+
         <iframe width="100px" id = "targetFrame" class="game-iframe" src="{{game.url}}" allowfullscreen></iframe>
       </div>
     </div>
@@ -32,6 +33,7 @@
 
         <strong>Score saved!</strong>
       </div>
+
     <br>
     <div id="top10container">
       <div class="row">
@@ -83,8 +85,12 @@
               class="btn btn-success pull-right">Buy</button>
             {% endif %}
           <h3>Game: {{ game.name }} </h3>
+<<<<<<< HEAD
           <p>Price: <span class="text-warning">{{ game.price }} €</span></p>
 
+=======
+          <p>Price: <span class="text-warning">{{ game.price }} €</span></p>
+>>>>>>> 0ef0ef85b628e210665d09bc398edef2703d8e35
         </div>
         <br />
         <div class="panel panel-default">
@@ -99,10 +105,27 @@
               <span>Game published:</span> <span class="text-info">{{ game.published }}</span>
             </p>
           </div>
+<<<<<<< HEAD
 
         </div>
+=======
+        </div>
+>>>>>>> 0ef0ef85b628e210665d09bc398edef2703d8e35
     </div>
   </div>
   {% endif %}
+  <!-- Your share button code -->
+  <div class="fb-share-button" data-href="{% url 'game' game.id %}" data-layout="button_count"></div>
 </div>
+<!-- Load Facebook SDK for JavaScript -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/fi_FI/sdk.js#xfbml=1&version=v2.5";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
 {% endblock %}

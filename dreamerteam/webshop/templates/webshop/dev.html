@@ -21,14 +21,14 @@
 				    <div class="panel-body">
 				    	{% if games %}
     						{% for game in games %}
-						    	<div class="list-product-wrapper">
+						    	<div class="list-product-wrapper clearfix" id="{{game.id}}">
 							        <div class="product-title-description">
 							            <h3>{{game.name}}</h3>
 							            <div>{{game.description}}</div>
+							            <div>Total Number of purchases: <!-- change this: --><span class="text-success">{{game.description}}</span></div>
 							        </div>
 							        <div class="list-product-buy-wrapper">	
-							        	{% url 'dev' as url %} <!-- dont know why this has to be set before using -->
-							            <a class="btn btn-primary" href="{{url}}game/{{game.id}}">Edit</a>
+							            <a id="{{game.id}}" class="btn btn-primary btn-edit" href="#">Edit</a>
 							        </div>
 							    </div>
 							{% endfor %}
@@ -39,9 +39,44 @@
 				    </div>
 			    </div>
 	        </div>
+	        <div class="col-xs-12 col-md-4">
+	        	<div class="panel panel-success">
+				    <div class="panel-heading">
+				      	<h3 class="panel-title">Game statistics</h3>
+				    </div>
+	        		<div class="panel-body">
+	        			<!-- loop here -->
+	        			<h4>Game Name</h4>
+        				<ul>
+        					<li><b>Purchased date:</b> 22.2.2</li>
+        					<li><b>Price:</b> 22</li>
+        					<li><b>Buyer:</b> iiro</li>
+        				</ul>
+	        		</div>
+	        	</div>
+	        </div>
 	    </div>
 	    <br />
     </div>
+{# Button clicks #}
+<script type="text/javascript">
+
+    // edit button clicked
+    $('.btn-edit').click(function()
+    {	
+    	location.href = "/dev/game/" + $(this).attr('id');
+        return false;
+        
+    });
+
+    // Outer div clicked
+    $(".list-product-wrapper").click(function()
+    {
+        location.href = "{% url 'game' %}" + $(this).attr('id');
+        return false;
+    });
+
+</script>
 {% endblock %}
 
 

@@ -1,6 +1,6 @@
 {% if all_games %}
     {% for game in all_games %}
-    <div class="list-product-wrapper" id="{{game.pk}}">
+    <div class="list-product-wrapper clearfix" id="{{game.id}}">
         <div class="product-icon"><i class="glyphicon glyphicon-tower"></i></div>
         <div class="product-title-description">
             <h3>{{game.name}}</h3>
@@ -8,7 +8,7 @@
         </div>
         <div class="list-product-buy-wrapper">
             <div class="text-warning price">{{game.price}}</div>
-            {% if user.is_authenticated and not games_are_owned %}
+            {% if user.is_authenticated and not games_are_owned or games_are_owned == 'False' %}
                 <button id="{{game.id}}" class="btn btn-success btn-buy">Buy</button>
             {% endif %}
         </div>

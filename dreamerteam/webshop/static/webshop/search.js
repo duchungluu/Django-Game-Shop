@@ -3,7 +3,6 @@ $(document).ready(function(){
 
 	$('#search-button').click(function() {
 		searchService.searchGames($("#search-input").val(), $("#order-by").val(), function(data){
-			console.log(data, 'data');
 			if(data){
 				$('#game-list').html(data); // put data retrieved from search service to html
 			} else {
