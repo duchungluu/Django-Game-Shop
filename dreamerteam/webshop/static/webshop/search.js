@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	var searchService = SearchService(); 
+	var searchService = SearchService();
 
 	$('#search-button').click(function() {
 		searchService.searchGames($("#search-input").val(), $("#order-by").val(), function(data){
@@ -18,15 +18,15 @@ $(document).ready(function(){
 			orderBy = orderBy ? orderBy : 'name'; /* order by name by default */
 			$.ajax({
 		        type: "GET",
-		        url: "/games", 
+		        url: "/games",
 		        data: {"search_term": input, order: orderBy},
 		        success : function(data) {
 		            callback(data);
 	         	}
 			});
-		}
+		};
 		return {
 			searchGames: searchGames
-		}
+		};
 	}
 });

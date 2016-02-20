@@ -1,6 +1,5 @@
 
 function error(error_message){
-  console.log("CALLED");
   var message={};
   message.messageType ="ERROR";
   message.info = error_message;
@@ -23,8 +22,6 @@ function updateScore(){
     csrfmiddlewaretoken : csrftoken
   },
      success : function(json) {
-     console.log(json);
-     console.log(jQuery.parseJSON(json.top_10));
      testData = jQuery.parseJSON(json.top_10);
      $(".top_10_list").remove();
 

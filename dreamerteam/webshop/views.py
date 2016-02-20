@@ -1,5 +1,5 @@
 from django.http import *
-from django.shortcuts import render, redirect, render_to_response, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.core.context_processors import csrf
@@ -54,7 +54,6 @@ def games(request):
             if owned_games is not None:
                 searched_games = searched_games.exclude(
                     id__in=[g.id for g in owned_games])
-
 
         if request.is_ajax():
             html = render_to_string('webshop/gamelist.html', {'all_games': searched_games, 'games_are_owned': 'False'})
@@ -116,7 +115,6 @@ def register_user(request):
             send_mail(email_subject, email_body, 'myemail@example.com',
                 [email], fail_silently=False)
 
-            #user_profile = get_object_or_404(UserProfile, username=username)
             p = UserProfile.objects.get(username=username)
             #do something with user objects, such asL user.is_active = True
             user.save()
@@ -127,10 +125,10 @@ def register_user(request):
     args.update(csrf(request))
     #assigning custom form
     args['form'] = RegistrationForm()
-    return render_to_response('registration/register.html' , args)
+    return render(request, 'registration/register.html' , args)
 
 def register_success(request):
-    return render_to_response('registration/register_success.html')
+    return render(request, 'registration/register_success.html')
 
 def register_confirm(request, activation_key):
     #check if user is already logged in and if he is redirect him to some other url, e.g. home
@@ -142,12 +140,12 @@ def register_confirm(request, activation_key):
 
     #check if the activation key has expired, if it hase then render confirm_expired.html
     if user_profile.key_expires < timezone.now():
-        return render_to_response('registration/confirm_expired.html')
+        return render(request, 'registration/confirm_expired.html')
     #if the key hasn't expired save user and set him as active and render some template to confirm activation
     user = user_profile.user
     user.is_active = True
     user.save()
-    return render_to_response('registration/confirm.html')
+    return render(request, 'registration/confirm.html')
 
 def custom_login(request):
     form = AuthenticationForm(request.POST or None)
@@ -221,9 +219,8 @@ def buy_success(request):
             t.buy_completed = timezone.now()
             t.save()
             Game.objects.filter(pk=t.game.id).update(total_bought=F("total_bought") + 1)
-
         except:
-            return render_to_response('webshop/buy_finished.html')
+            return render(request, 'webshop/buy_finished.html')
 
     return render(request, 'webshop/buy_finished.html', {'state': result})
 
@@ -234,7 +231,7 @@ def buy_error(request):
         t = Transaction.objects.get(pk=pid)
         t.state = result
         t.save()
-        return render_to_response('webshop/buy_finished.html', {'state': result})
+        return render(request, 'webshop/buy_finished.html', {'state': result})
     except:
         return render(request, 'webshop/buy_finished.html')
 
@@ -259,7 +256,7 @@ def game(request, gameID = None):
             state="success", game =game)
             isBought = True;
         except:
-            print("The user doesn't own the game")
+            pass
 
         # Get top-10 scores for the game
         top10 = GameData.objects.filter(gameID=gameID).order_by('-highScore')[:10]
@@ -413,8 +410,6 @@ def game_highscore_get(request,gameID = -1):
         except:
             pass
         try :
-            #gameDataMax = GameData.objects.all().filter(gameID = gameID).aggregate(Max('highScore'))
-            #result['global_highscore'] = gameDataMax['highScore__max']
             data = GameData.objects.filter(gameID=gameID).order_by('-highScore')[:10]
             top10 = serializers.serialize("json", data, fields  = ('username','highScore'))
             result["top_10"] = (top10)
@@ -429,11 +424,10 @@ def profile(request):
         user = request.user
         form = ProfileForm(instance = user)
 
-        #return render_to_response('webshop/profile.html')
         args = {}
         args['form'] = form
         args['user'] = user
-        return render_to_response('webshop/profile.html' , args)
+        return render(request, 'webshop/profile.html' , args)
     else:
         return HttpResponse("You need to be logged in to access ths page.")
 
@@ -452,13 +446,9 @@ def register_user_group(request):
                 role = request.POST.get('group')
 
                 #adding user to specific group
-                # for some reason some groups might not be found in my system (iiro)
-                # that is why it is try catch
-                try:
-                    group = Group.objects.get(name=role)
-                    group.user_set.add(user)
-                except:
-                    pass
+                group = Group.objects.get(name=role)
+                group.user_set.add(user)
+
                 if (role == 'Developer'):
                         user.isDeveloper = True
                 else:
@@ -466,7 +456,7 @@ def register_user_group(request):
 
                 usr_profile = get_userprofile(user)
                 email = user.email
-                #preparing activaion email
+                #preparing activation email
                 random_string = str(random.random()).encode('utf8')
                 salt = hashlib.sha1(random_string).hexdigest()[:5]
                 salted = (salt + email).encode('utf8')
