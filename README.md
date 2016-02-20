@@ -120,10 +120,10 @@ Acceptance testing will be performed in Heroku.
       * receiving messages from the game: LOAD_REQUEST, SAVE, SETTING, and SCORE
       * sending messages to the games: LOAD and ERROR
 
-* Quality of work (50 points)
+* Quality of work (70 points)
     * Awesome UI and user experience
     * Reused utility functions
-    * Almost nonexistent testing (-50)
+    * Almost nonexistent testing (-30)
 
 * Non-functional requirements (190 points)
     * Project plan didn't include any diagrams (use case scenario etc.) (-10 points)
@@ -144,14 +144,16 @@ Acceptance testing will be performed in Heroku.
 * Social media sharing (50 points)
     * Games can be shared from the game's page with custom description
 
+Overall points = 1440
+
 #### 7.2 Successes and problems
 
-Successes:
+##### Successes:
 * Overall application look and feel
 * Teamwork, project management and communication
 * Considering the team's skill level with Django, we feel that our project can be considered a general success
 
-Problems:
+##### Problems:
 * Serving static files in production mode. We followed the lecture slides' instructions and tried various internet guides.
 * Registration was a pain and we ended up changing our extended user model scheme.
 * There were some problems with forms, understanding 'the Django way' was troublesome, minor problems.
