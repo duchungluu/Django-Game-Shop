@@ -52,17 +52,16 @@ def games(request):
                 searched_games = searched_games.exclude(
                     id__in=[g.id for g in owned_games])
 
+        
         if request.is_ajax():
-            html = render_to_string( 'webshop/gamelist.html', {'all_games': searched_games})
+            html = render_to_string('webshop/gamelist.html', {'all_games': searched_games, 'games_are_owned': 'False'})
             return HttpResponse(html)
 
         context = {
             "all_games": searched_games,
             "games_are_owned": False
         }
-
-        #get the user games
-
+        
         target = "webshop/games.html"
         return render(request, target, context)
 

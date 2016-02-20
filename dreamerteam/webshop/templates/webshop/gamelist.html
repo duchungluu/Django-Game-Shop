@@ -8,7 +8,7 @@
         </div>
         <div class="list-product-buy-wrapper">
             <div class="text-warning price">{{game.price}}</div>
-            {% if user.is_authenticated and not games_are_owned %}
+            {% if user.is_authenticated and not games_are_owned or games_are_owned == 'False' %}
                 <button id="{{game.id}}" class="btn btn-success btn-buy">Buy</button>
             {% endif %}
         </div>
