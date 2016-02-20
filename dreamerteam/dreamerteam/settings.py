@@ -27,7 +27,7 @@ SECRET_KEY = 'fw4)!ks6ueoz5b^@@co=+55uwfnn)k6^ngmu0oea3z#dk)*q2g'
 PAYMENT_KEY = '5102fe96cdd9e062cee5f035e7ec988b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -135,7 +135,5 @@ if "DYNO" in os.environ:
     import dj_database_url
     DATABASES['default'] =  dj_database_url.config()
 
-    DEBUG = False # False, once service is succesfully deployed
-    ALLOWED_HOSTS = ['*']
-else:
+    DEBUG = True # False, once service is succesfully deployed
     ALLOWED_HOSTS = ['*']
