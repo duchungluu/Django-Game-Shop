@@ -99,7 +99,7 @@ Acceptance testing will be performed in Heroku.
 
 ### 7. Self Assessment
 
-## 7.1 Implemented features
+#### 7.1 Implemented features
 
 * Authentication (200 points)
     * Implemented with Django auth (with a confirmation e-mail)
@@ -144,7 +144,7 @@ Acceptance testing will be performed in Heroku.
 * Social media sharing (50 points)
     * Games can be shared from the game's page with custom description
 
-## 7.2 Successes and problems
+#### 7.2 Successes and problems
 
 Successes:
 * Overall application look and feel
@@ -157,7 +157,7 @@ Problems:
 * There were some problems with forms, understanding 'the Django way' was troublesome, minor problems.
 * The structure of the GameData model and how to connect it to other models was also a minor problem.
 
-## 7.3 Task division
+#### 7.3 Task division
 We divided the project to individual tasks pretty well.
 
 Iiro:
@@ -180,7 +180,7 @@ Teemu:
     - Top-10 list
     - Developer's statistics
 
-## 7.4 Usage instructions
+#### 7.4 Usage instructions
 Heroku link: http://dreamerteam.herokuapp.com/
 
 Index page has the owned games for the user. If not logged in, will redirect to browse games (/games).
