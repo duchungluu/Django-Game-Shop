@@ -1,1 +1,6 @@
-<p>Such a sad day. The requested game doesn't exist.</p>
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Wrong Game{% endblock %}
+{% block content %}
+  <p>The requested game doesn't exist</p>
+{% endblock %}
