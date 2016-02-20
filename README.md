@@ -117,7 +117,9 @@ Acceptance testing will be performed in Heroku.
     * Can play own games only if separately bought (-20)
 
 * Game/service interaction (100-200 points)
-    * Mehrad writes about this
+    * Interactions include receiving messages from the games:
+      * receiving messages from the game: LOAD_REQUEST, SAVE, SETTING, and SCORE
+      * sending messages to the games: LOAD and ERROR
 
 * Quality of work (50 points)
     * Awesome UI and user experience
