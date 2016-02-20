@@ -6,7 +6,13 @@
             <h3>{{game.name}}</h3>
             <div>{{game.description}}</div>
         </div>
-        {% if user.is_authenticated and not games_are_owned or games_are_owned == 'False' %}
+        {# Show price for non-logged in visitor #}
+        {% if not user.is_authenticated %}
+        <div class="list-product-buy-wrapper">
+            <div class="text-warning price">{{game.price}}</div>
+        </div>
+        {# Show price and buy-button for logged-in users who don't own the game #}
+        {% elif user.is_authenticated and not games_are_owned or games_are_owned == 'False' %}
             <div class="list-product-buy-wrapper">
                 <div class="text-warning price">{{game.price}}</div>
                     <button id="{{game.id}}" class="btn btn-success btn-buy">Buy</button>
