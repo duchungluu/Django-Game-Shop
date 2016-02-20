@@ -156,9 +156,7 @@ Problems:
 
 <!-- How did you divide the work between the team members - who did what? -->
 We divided pretty well the project to individual tasks.
-<<<<<<< HEAD
-Iiro:
-=======
+
 Iiro:
     - Navigation
     - Developer pages (add/edit/delete)
@@ -166,6 +164,12 @@ Iiro:
     - Login finalization (page styling and error handling)
     - Social login and social sharing
     - Styling, responsivenes, templates
+
+Mehrad:
+    - Registration process, models and custom forms
+    - Game page (notifications)
+    - server/game interactions
+    - GameData models
 
 <!-- Instructions how to use your application and link to Heroku where it is deployed. -->
 Heroku: http://dreamerteam.herokuapp.com/
