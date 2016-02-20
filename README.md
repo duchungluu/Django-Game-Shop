@@ -132,7 +132,7 @@ Acceptance testing will be performed in Heroku.
         * Trello was used for task management, and Telegram was used for communication
 
 * Game state Save/load (0-100 points):
-    * Mehrad writes about this too
+    * Save/load functions are implemented, they show corresponsive temporary messages to let user know about them as well.
 
 * 3rd party login (100 points)
     * Facebook login is integrated to the system.
@@ -156,24 +156,24 @@ Problems:
 
 <!-- How did you divide the work between the team members - who did what? -->
 We divided pretty well the project to individual tasks.
-Iiro: 
+Iiro:
     - Developer pages (add/edit/delete)
     - Browse games page
     - Login finalization (page styling and error handling)
     - Social login and social sharing
-    - Styling, responsivenes, templates 
+    - Styling, responsivenes, templates
 
 <!-- Instructions how to use your application and link to Heroku where it is deployed. -->
 Heroku: http://dreamerteam.herokuapp.com/
 
-Index page has the owned games for the user. If not logged in, will redirect to browse games (/games). 
+Index page has the owned games for the user. If not logged in, will redirect to browse games (/games).
 
 Game page (game/id) (access by pressing game div). Has the game name, price, description etc. Can be bought if user logged in and not already bought. Social sharing.
 If user logged in and user has bought the game, the game can be played here. Shows the top scores as well.
 
 Browse games (/games), has search and sort functionality. If user is not logged in the, game buying is disabled. If user has logged in, the owned games are not visible here. Gamelist hides the buy button, if screen has no space for it. Then the game can be bought from the individual game page (game/id).
 
-Dev pages (/dev/). Developer can access the developer pages. From there user can create/edit/delete the games. Game statistics are also available there. 
+Dev pages (/dev/). Developer can access the developer pages. From there user can create/edit/delete the games. Game statistics are also available there.
 Deleting the game is in edit game form (delete button).
 
 <!-- If a specific account/password (e.g. game developer) is required to try out and test some aspects of the work, please provide the details. -->
@@ -182,4 +182,3 @@ You can register yourself as a developer or customer. There is already developer
     password: customer
     username: developer
     password: developer
-
