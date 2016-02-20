@@ -22,6 +22,7 @@ class Game(models.Model):
     url = models.URLField()
     published = models.DateTimeField('date published')
     description = models.TextField()
+    total_bought = models.PositiveIntegerField(default=0)
     developer = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
         related_name='developed_games', unique=False)
 

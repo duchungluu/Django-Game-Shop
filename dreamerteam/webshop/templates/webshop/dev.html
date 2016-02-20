@@ -10,13 +10,12 @@
 	    </div>
     	<div class="row">
 	        <div class="col-xs-12 col-md-8">
-	        	<!-- move to template? -->
         		<div class="panel panel-default">
 				    <div class="panel-heading">
 				      <h3 class="panel-title">
 				      	{% url 'add_game' as url %}
 				      	Your games <a href="{{url}}" class="btn btn-success btn-xs pull-right" style="color:#fff;">Add new game</a>
-				      </h3>  
+				      </h3>
 				    </div>
 				    <div class="panel-body">
 				    	{% if games %}
@@ -25,14 +24,18 @@
 							        <div class="product-title-description">
 							            <h3>{{game.name}}</h3>
 							            <div>{{game.description}}</div>
-							            <div>Total Number of purchases: <!-- change this: --><span class="text-success">{{game.description}}</span></div>
+							            <div>Total Number of purchases:
+                                            <span class="text-success">
+                                                {{game.total_bought}}
+                                            </span>
+                                        </div>
 							        </div>
-							        <div class="list-product-buy-wrapper">	
+							        <div class="list-product-buy-wrapper">
 							            <a id="{{game.id}}" class="btn btn-primary btn-edit" href="#">Edit</a>
 							        </div>
 							    </div>
 							{% endfor %}
-						
+
 						{% else %}
 							No games found.
 						{% endif %}
@@ -42,16 +45,19 @@
 	        <div class="col-xs-12 col-md-4">
 	        	<div class="panel panel-success">
 				    <div class="panel-heading">
-				      	<h3 class="panel-title">Game statistics</h3>
+				      	<h3 class="panel-title">Recent purchases</h3>
 				    </div>
 	        		<div class="panel-body">
-	        			<!-- loop here -->
-	        			<h4>Game Name</h4>
-        				<ul>
-        					<li><b>Purchased date:</b> 22.2.2</li>
-        					<li><b>Price:</b> 22</li>
-        					<li><b>Buyer:</b> iiro</li>
-        				</ul>
+                        {% if transactions %}
+    						{% for t in transactions %}
+                                <h4>{{t.game.name}}</h4>
+                				<ul>
+                					<li><b>Purchased date:</b> {{t.buy_completed}}</li>
+                					<li><b>Price:</b> {{t.game.price}}</li>
+                					<li><b>Buyer:</b> {{t.buyer.username}}</li>
+                				</ul>
+                            {% endfor %}
+                        {% endif %}
 	        		</div>
 	        	</div>
 	        </div>
@@ -63,10 +69,10 @@
 
     // edit button clicked
     $('.btn-edit').click(function()
-    {	
+    {
     	location.href = "/dev/game/" + $(this).attr('id');
         return false;
-        
+
     });
 
     // Outer div clicked
@@ -78,5 +84,3 @@
 
 </script>
 {% endblock %}
-
-
